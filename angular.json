@@ -11,7 +11,7 @@
             "prefix": "app",
             "architect": {
                 "build": {
-                    "builder": "@angular-devkit/build-angular:browser",
+                    "builder": "@angular-devkit/build-angular:browser-esbuild",
                     "options": {
                         "outputPath": "dist/angular-learnjs-261023",
                         "index": "src/index.html",
@@ -101,6 +101,7 @@
         }
     },
     "cli": {
-        "schematicCollections": ["@angular-eslint/schematics"]
+        "schematicCollections": ["@angular-eslint/schematics"],
+        "analytics": "ca493ba5-c758-4f34-91b6-c8e33d4e540b"
     }
 }

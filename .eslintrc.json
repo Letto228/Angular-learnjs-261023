@@ -1,6 +1,8 @@
 {
     "root": true,
     "ignorePatterns": ["projects/**/*"],
+    "plugins": ["prettier"],
+    "extends": ["prettier", "plugin:prettier/recommended"],
     "overrides": [
         {
             "files": ["*.ts"],
@@ -11,6 +13,11 @@
                 "plugin:@angular-eslint/template/process-inline-templates"
             ],
             "rules": {
+                "curly": "error",
+                "no-unused-vars": "error",
+                "no-debugger": "error",
+                "no-console": ["error", { "allow": ["warm", "error"] }],
+                "no-implicit-coercion": "error",
                 "@angular-eslint/directive-selector": [
                     "error",
                     {
