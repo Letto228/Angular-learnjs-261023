@@ -1,4 +1,4 @@
 {
-    "*.{ts,js}": ["npm run prettier:fix", "npx eslint"],
-    "*.json": ["npm run prettier:fix"]
+    "*.{ts,js}": ["npm run prettier:fix", "npm run lint:fix"],
+    "*.(json, html)": ["npm run prettier:fix"]
 }
