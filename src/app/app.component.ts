@@ -7,4 +7,5 @@ import { Component } from "@angular/core";
 })
 export class AppComponent {
     title = "Angular-learnjs-261023";
+    dummyList = ["A", "B", "C"];
 }

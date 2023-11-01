@@ -1,7 +1,7 @@
 {
     "root": true,
     "ignorePatterns": ["projects/**/*"],
-    "plugins": ["unused-imports", "simple-import-sort"],
+    "plugins": ["unused-imports", "simple-import-sort", "prettier"],
     "parserOptions": {
         "project": "./tsconfig.json"
     },
@@ -13,7 +13,8 @@
                 "airbnb-typescript/base",
                 "plugin:@typescript-eslint/recommended",
                 "plugin:@angular-eslint/recommended",
-                "plugin:@angular-eslint/template/process-inline-templates"
+                "plugin:@angular-eslint/template/process-inline-templates",
+                "prettier"
             ],
             "rules": {
                 // ESLint rules
@@ -63,7 +64,7 @@
         },
         {
             "files": ["*.html"],
-            "extends": ["plugin:@angular-eslint/template/recommended"]
+            "extends": ["plugin:@angular-eslint/template/recommended", "prettier"]
         }
     ]
 }
