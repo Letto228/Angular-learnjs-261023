@@ -1,16 +1,48 @@
 {
     "root": true,
     "ignorePatterns": ["projects/**/*"],
+    "plugins": ["unused-imports", "simple-import-sort"],
+    "parserOptions": {
+        "project": "./tsconfig.json"
+    },
     "overrides": [
         {
             "files": ["*.ts"],
             "extends": [
-                "eslint:recommended",
+                "airbnb-base",
+                "airbnb-typescript/base",
                 "plugin:@typescript-eslint/recommended",
                 "plugin:@angular-eslint/recommended",
                 "plugin:@angular-eslint/template/process-inline-templates"
             ],
             "rules": {
+                // ESLint rules
+                "import/prefer-default-export": "off",
+                "import/first": "error",
+                "import/newline-after-import": "error",
+                "import/no-duplicates": "error",
+                "max-len": ["error", 120],
+                "simple-import-sort/imports": "error",
+                "simple-import-sort/exports": "error",
+                // eslint-plugin-unused-imports rules
+                "unused-imports/no-unused-imports": "error",
+                "unused-imports/no-unused-vars": [
+                    "warn",
+                    {
+                        "vars": "all",
+                        "varsIgnorePattern": "^_",
+                        "args": "after-used",
+                        "argsIgnorePattern": "^_"
+                    }
+                ],
+                // TypeScript Eslint rules
+                "@typescript-eslint/indent": ["error", 4],
+                "@typescript-eslint/comma-dangle": "off",
+                "@typescript-eslint/lines-between-class-members": "off",
+                "@typescript-eslint/quotes": ["error", "double"],
+                "@typescript-eslint/no-shadow": "error",
+                "@typescript-eslint/no-explicit-any": 0,
+                // Angular ESLint rules
                 "@angular-eslint/directive-selector": [
                     "error",
                     {
@@ -26,27 +58,12 @@
                         "prefix": "app",
                         "style": "kebab-case"
                     }
-                ],
-                "@typescript-eslint/naming-convention": [
-                    "error",
-                    {
-                        "selector": "interface",
-                        "format": ["PascalCase"],
-                        "custom": {
-                            "regex": "^I[A-Z]",
-                            "match": true
-                        }
-                    }
                 ]
             }
         },
         {
             "files": ["*.html"],
-            "extends": [
-                "plugin:@angular-eslint/template/recommended",
-                "plugin:@angular-eslint/template/accessibility"
-            ],
-            "rules": {}
+            "extends": ["plugin:@angular-eslint/template/recommended"]
         }
     ]
 }
