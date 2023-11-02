@@ -1,6 +1,6 @@
 {
     "*.ts": ["npm run typelint"],
-    "*.{ts,js}": ["npx eslint"],
+    "*.{ts,js}": ["npx eslint --fix"],
     "*.json": ["npm run prettier:fix"],
     "*.css": ["npm run stylelint:fix"]
 }
