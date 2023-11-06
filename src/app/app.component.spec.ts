@@ -13,19 +13,23 @@ describe('AppComponent', () => {
     it('should create the app', () => {
         const fixture = TestBed.createComponent(AppComponent);
         const app = fixture.componentInstance;
+
         expect(app).toBeTruthy();
     });
 
     it(`should have as title 'Angular-learnjs-261023'`, () => {
         const fixture = TestBed.createComponent(AppComponent);
         const app = fixture.componentInstance;
+
         expect(app.title).toEqual('Angular-learnjs-261023');
     });
 
     it('should render title', () => {
         const fixture = TestBed.createComponent(AppComponent);
+
         fixture.detectChanges();
         const compiled = fixture.nativeElement as HTMLElement;
+
         expect(compiled.querySelector('.content span')?.textContent).toContain(
             'Angular-learnjs-261023 app is running!',
         );
