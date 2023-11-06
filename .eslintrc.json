@@ -13,7 +13,8 @@
                 "plugin:@angular-eslint/recommended",
                 "plugin:@angular-eslint/template/process-inline-templates",
                 "airbnb-typescript/base",
-                "prettier"
+              "plugin:prettier/recommended",
+                  "prettier"
             ],
             "plugins": ["prettier"],
             "rules": {
@@ -47,7 +48,7 @@
                 "@typescript-eslint/no-unnecessary-condition": "error",
                 "import/extensions": "off",
                 "import/no-extraneous-dependencies": "off",
-                "prettier/prettier": "error"
+                  "prettier/prettier": "error"
             }
         },
         {
