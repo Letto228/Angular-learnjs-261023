@@ -39,6 +39,8 @@
         "@angular/compiler-cli": "^16.2.0",
         "@babel/eslint-parser": "^7.21.8",
         "@babel/eslint-plugin": "^7.19.1",
+        "@commitlint/cli": "^18.2.0",
+        "@commitlint/config-conventional": "^18.1.0",
         "@html-eslint/eslint-plugin": "^0.19.0",
         "@html-eslint/parser": "^0.19.0",
         "@types/jasmine": "~4.3.0",
