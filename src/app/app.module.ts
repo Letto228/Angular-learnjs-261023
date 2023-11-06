@@ -5,6 +5,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HeaderModule} from './components/header/header.module';
+import {ProductsListModule} from './pages/products-list/products-list.module';
 
 // View
 // -----------------------
@@ -18,7 +19,13 @@ import {HeaderModule} from './components/header/header.module';
 @NgModule({
     declarations: [AppComponent], // const
     exports: [], // module.exports = {}
-    imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule, HeaderModule], // import {...} from '...'
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        HeaderModule,
+        ProductsListModule,
+    ], // import {...} from '...'
     // providers: [],
     bootstrap: [AppComponent],
 })
