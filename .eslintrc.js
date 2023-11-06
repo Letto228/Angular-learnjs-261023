@@ -312,7 +312,7 @@ module.exports = {
                 '@html-eslint/no-non-scalable-viewport': 'error',
                 '@html-eslint/no-positive-tabindex': 'error',
                 '@html-eslint/require-frame-title': 'error',
-                '@html-eslint/require-img-alt': 'error',
+                '@html-eslint/require-img-alt': ['error', {substitute: ['[alt]', '[attr.alt]']}],
                 '@html-eslint/require-meta-viewport': 'error',
                 '@html-eslint/id-naming-convention': ['error', 'kebab-case'],
                 '@html-eslint/element-newline': 'error',
