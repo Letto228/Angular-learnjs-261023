@@ -1,4 +1,4 @@
 {
-    "*.{ts,js,html}": ["npx eslint"],
+    "*.{ts,js,html}": ["npx eslint --fix"],
     "*.json": ["npm run prettier:fix"]
 }
