@@ -1,0 +1,13 @@
+.card-container {
+    width: 200px;
+
+    .mat-mdc-card-content {
+        margin-top: 5px;
+    }
+}
+
+.card-container img {
+    width: 100%;
+    height: auto;
+    margin: 5px 0;
+}
