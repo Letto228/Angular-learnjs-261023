@@ -4,8 +4,8 @@ import {ProductsListComponent} from './products-list.component';
 import {CardComponent} from './card/card.component';
 
 @NgModule({
-    declarations: [ProductsListComponent, CardComponent],
-    imports: [CommonModule],
-    exports: [ProductsListComponent, CardComponent],
+    declarations: [ProductsListComponent],
+    imports: [CommonModule, CardComponent],
+    exports: [ProductsListComponent],
 })
 export class ProductsListModule {}

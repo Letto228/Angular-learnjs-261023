@@ -1,0 +1,24 @@
+.product-card__image-container {
+    height: 232px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 16px;
+}
+
+.product-card__rating {
+    font-size: large;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+}
+
+.product-card__price-container {
+    font-size: large;
+    margin: 16px;
+}
+
+.product-card__sup {
+    font-size: small;
+    margin: 0 8px;
+}
