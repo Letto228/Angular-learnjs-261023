@@ -1,0 +1,19 @@
+.example-card {
+    display: flex;
+    max-width: 90%;
+    min-width: 370px;
+    height: 100%;
+}
+
+.example-header-image {
+}
+
+mat-grid-list {
+    margin-top: 10px;
+}
+
+mat-grid-tile {
+    background: lightblue;
+    min-width: 455px;
+    /* min-height: 303px; */
+}
