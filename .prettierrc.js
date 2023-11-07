@@ -11,7 +11,7 @@ module.exports = {
     bracketSpacing: false,
     arrowParens: 'avoid',
     htmlWhitespaceSensitivity: 'ignore',
-    plugins: [require.resolve('prettier-plugin-organize-attributes')],
+    // plugins: [require.resolve('prettier-plugin-organize-attributes')],
     attributeGroups: [
         '$ANGULAR_STRUCTURAL_DIRECTIVE',
         '$ANGULAR_ELEMENT_REF',

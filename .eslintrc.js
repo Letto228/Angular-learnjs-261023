@@ -8,7 +8,7 @@ module.exports = {
         es6: true,
         node: true,
     },
-    extends: ['eslint-config-airbnb-base', 'plugin:prettier/recommended'],
+    // extends: ['plugin:prettier/recommended'],
     parser: '@babel/eslint-parser',
     parserOptions: {
         ecmaFeatures: {
@@ -99,7 +99,7 @@ module.exports = {
                 'plugin:@angular-eslint/recommended',
                 'plugin:@angular-eslint/template/process-inline-templates',
                 'plugin:rxjs/recommended',
-                'prettier',
+                // 'prettier',
             ],
             settings: {
                 'import/parsers': {'@typescript-eslint/parser': ['.ts']},
