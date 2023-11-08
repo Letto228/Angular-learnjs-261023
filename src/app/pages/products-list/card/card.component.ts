@@ -21,20 +21,12 @@ export class CardComponent {
         return `url(${this.productModel.images[0].url})`;
     }
 
-    cardClicked = false;
-
-    onCardClick() {
-        if (this.cardClicked) {
-            return;
-        }
-
-        this.cardClicked = true;
+    onCardClick(event: MouseEvent) {
+        event.preventDefault();
     }
 
     onBuyClick() {
-        if (this.cardClicked) {
-            // eslint-disable-next-line no-console
-            console.log(`Buy button click`);
-        }
+        // eslint-disable-next-line no-console
+        console.log(`Buy button click`);
     }
 }
