@@ -5,22 +5,17 @@
     </mat-card-header>
     <mat-divider></mat-divider>
     <div class="product-card__image-container" [style.background-image]="backgroundImage">
-        <mat-chip color="accent" selected>{{ productModel.feedbacksCount }} Reviews</mat-chip>
+        <mat-chip color="accent" selected>{{ productModel.feedbacksCount }} reviews</mat-chip>
     </div>
     <mat-divider></mat-divider>
     <mat-card-actions align="end" class="product-card__actions">
         <div class="product-card__rating">
-            <span>
-                <sup class="product-card__sup">Rating:</sup>
-                <b>{{ productModel.rating }}</b>
-                <sup class="product-card__sup">of 5</sup>
-            </span>
+            <span>Rating: {{ productModel.rating }} of 5</span>
         </div>
         <mat-divider></mat-divider>
         <div class="product-card__price-container">
             <span>
-                <b>{{ productModel.price }}</b>
-                <sup class="product-card__sup">USD</sup>
+                {{ productModel.price | currency }}
             </span>
         </div>
         <button mat-raised-button color="primary" (click)="onBuyClick()">BUY</button>

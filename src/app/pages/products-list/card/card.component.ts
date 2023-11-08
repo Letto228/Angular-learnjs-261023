@@ -5,13 +5,14 @@ import {IProduct} from 'src/app/shared/products/product.interface';
 import {productMock} from 'src/app/shared/products/product.mock';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatChipsModule} from '@angular/material/chips';
+import {CurrencyPipe} from '@angular/common';
 
 @Component({
     selector: 'app-card',
     templateUrl: './card.component.html',
     styleUrls: ['./card.component.css'],
     standalone: true,
-    imports: [MatCardModule, MatButtonModule, MatDividerModule, MatChipsModule],
+    imports: [MatCardModule, MatButtonModule, MatDividerModule, MatChipsModule, CurrencyPipe],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class CardComponent {
