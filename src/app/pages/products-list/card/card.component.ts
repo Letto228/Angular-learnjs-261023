@@ -33,10 +33,6 @@ export class CardComponent {
         return this.productModel.feedbacksCount > 0;
     }
 
-    onCardClick(event: MouseEvent) {
-        event.preventDefault();
-    }
-
     onBuyClick(event: MouseEvent) {
         event.stopPropagation();
         event.preventDefault();
