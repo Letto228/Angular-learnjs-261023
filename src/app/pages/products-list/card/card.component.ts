@@ -9,7 +9,7 @@ import {productMock} from 'src/app/shared/products/product.mock';
 export class CardComponent {
     product = productMock;
 
-    onBuyClick(event: Event) {
+    onBuyClick(event: MouseEvent) {
         event.stopPropagation();
     }
 }
