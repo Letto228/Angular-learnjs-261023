@@ -22,7 +22,7 @@ export class ProductCardComponent {
         this.product = productMock;
     }
 
-    getFirstProductImageUrl(): IProductImage['url'] {
+    get getFirstProductImageUrl(): IProductImage['url'] {
         const [firstProductImage] = this.product.images;
 
         return firstProductImage.url;
