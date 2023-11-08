@@ -5,14 +5,21 @@ import {IProduct} from 'src/app/shared/products/product.interface';
 import {productMock} from 'src/app/shared/products/product.mock';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatChipsModule} from '@angular/material/chips';
-import {CurrencyPipe} from '@angular/common';
+import {CommonModule, CurrencyPipe} from '@angular/common';
 
 @Component({
     selector: 'app-card',
     templateUrl: './card.component.html',
     styleUrls: ['./card.component.css'],
     standalone: true,
-    imports: [MatCardModule, MatButtonModule, MatDividerModule, MatChipsModule, CurrencyPipe],
+    imports: [
+        MatCardModule,
+        MatButtonModule,
+        MatDividerModule,
+        MatChipsModule,
+        CurrencyPipe,
+        CommonModule,
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class CardComponent {
@@ -20,6 +27,10 @@ export class CardComponent {
 
     get backgroundImage() {
         return `url(${this.productModel.images[0].url})`;
+    }
+
+    get hasReviews() {
+        return this.productModel.feedbacksCount > 0;
     }
 
     onCardClick(event: MouseEvent) {

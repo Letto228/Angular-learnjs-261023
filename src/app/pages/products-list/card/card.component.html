@@ -5,7 +5,9 @@
     </mat-card-header>
     <mat-divider></mat-divider>
     <div class="product-card__image-container" [style.background-image]="backgroundImage">
-        <mat-chip color="accent" selected>{{ productModel.feedbacksCount }} reviews</mat-chip>
+        <mat-chip *ngIf="hasReviews" color="accent" selected>
+            {{ productModel.feedbacksCount }} reviews
+        </mat-chip>
     </div>
     <mat-divider></mat-divider>
     <mat-card-actions align="end" class="product-card__actions">
