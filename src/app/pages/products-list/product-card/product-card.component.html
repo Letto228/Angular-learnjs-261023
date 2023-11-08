@@ -1,0 +1,17 @@
+<mat-card class="productCard" (click)="onClickProductCard($event)">
+    <mat-card-header>
+        <mat-card-title>{{ product.name }}</mat-card-title>
+        <mat-card-subtitle>{{ getProductPrice(product.price) }}</mat-card-subtitle>
+    </mat-card-header>
+    <img alt="{{ product.name }}" [src]="getFirstProductImageUrl()" />
+    <mat-card-actions>
+        <button
+            mat-raised-button
+            color="primary"
+            [attr.data-product-id]="product._id"
+            (click)="onClickBuyButton($event)"
+        >
+            Buy
+        </button>
+    </mat-card-actions>
+</mat-card>
