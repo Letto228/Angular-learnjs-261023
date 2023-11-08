@@ -1,0 +1,25 @@
+.product-card {
+    max-width: 400px;
+}
+
+.product-info {
+    padding: 1rem 0;
+}
+
+.product-title {
+    font-size: 1.25rem;
+    line-height: 120%;
+    font-weight: 400;
+}
+
+.product-price {
+    font-size: 2rem;
+    line-height: 150%;
+    font-weight: 500;
+    color: #1aaf4c;
+}
+
+.btn-action {
+    text-transform: uppercase;
+    width: 100%;
+}

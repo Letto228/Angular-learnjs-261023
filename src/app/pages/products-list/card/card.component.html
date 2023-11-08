@@ -1,0 +1,14 @@
+<mat-card class="product-card">
+    <img mat-card-image alt="Product Photo" [src]="product?.images?.at(0)?.url" />
+    <mat-card-content>
+        <div class="product-info">
+            <div class="product-price">{{ product?.price }} &#8381;</div>
+            <div class="product-title">{{ product?.name }}</div>
+        </div>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-flat-button color="primary" class="btn-action" (click)="addToCart($event)">
+            В корзину
+        </button>
+    </mat-card-actions>
+</mat-card>
