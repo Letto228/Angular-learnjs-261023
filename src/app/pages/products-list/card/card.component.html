@@ -20,6 +20,6 @@
                 {{ productModel.price | currency }}
             </span>
         </div>
-        <button mat-raised-button color="primary" (click)="onBuyClick()">BUY</button>
+        <button mat-raised-button color="primary" (click)="onBuyClick($event)">BUY</button>
     </mat-card-actions>
 </mat-card>

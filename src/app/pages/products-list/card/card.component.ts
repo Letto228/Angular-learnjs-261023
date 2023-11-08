@@ -37,7 +37,8 @@ export class CardComponent {
         event.preventDefault();
     }
 
-    onBuyClick() {
+    onBuyClick(event: MouseEvent) {
+        event.preventDefault();
         // eslint-disable-next-line no-console
         console.log(`Buy button click`);
     }
