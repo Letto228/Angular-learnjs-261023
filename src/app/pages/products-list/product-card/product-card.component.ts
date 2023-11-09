@@ -4,6 +4,12 @@ import {productMock} from '../../../shared/products/product.mock';
 import {type IProduct} from '../../../shared/products/product.interface';
 import {type IProductImage} from '../../../shared/products/product-image.interface';
 
+const productPriceFormatter = Intl.NumberFormat('ru', {
+    currency: 'USD',
+    style: 'currency',
+    minimumFractionDigits: 2,
+});
+
 @Component({
     selector: 'app-product-card',
     templateUrl: './product-card.component.html',
@@ -11,12 +17,6 @@ import {type IProductImage} from '../../../shared/products/product-image.interfa
 })
 export class ProductCardComponent {
     readonly product: IProduct;
-
-    private readonly productPriceFormatter = Intl.NumberFormat('ru', {
-        currency: 'USD',
-        style: 'currency',
-        minimumFractionDigits: 2,
-    });
 
     constructor() {
         this.product = productMock;
@@ -29,7 +29,7 @@ export class ProductCardComponent {
     }
 
     getProductPrice(price: number): string {
-        const formattedPrice = this.productPriceFormatter.format(price);
+        const formattedPrice = productPriceFormatter.format(price);
 
         return `Price: ${formattedPrice}`;
     }
