@@ -7,19 +7,17 @@ import { productMock } from 'src/app/shared/products/product.mock';
   styleUrls: ['./card.component.css']
 })
 export class CardComponent {
-  cardTitle = productMock.name;
-  cardPrice = productMock.price;
-  imgSrc = productMock.images[0].url;
+  productMock = productMock;
 
   showDescription = false;
 
-  onDescriptionClick(e: MouseEvent) {
+  onDescriptionClick(event: MouseEvent) {
     this.showDescription = !this.showDescription;
-    e.stopPropagation();
+    event.stopPropagation();
   }
 
-  onBuyClick(e: MouseEvent) {
+  onBuyClick(event: MouseEvent) {
     console.log('Купить товар');
-    e.stopPropagation();
+    event.stopPropagation();
   }
 }
