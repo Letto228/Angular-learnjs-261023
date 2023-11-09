@@ -1,0 +1,21 @@
+<mat-card data-id="{{ productMock._id }}" class="example-card">
+    <mat-card-header>
+        <mat-card-title-group>
+            <mat-card-title>{{ productMock.name }}</mat-card-title>
+            <mat-card-subtitle>{{ productMock.price }} ₽</mat-card-subtitle>
+            <img
+                mat-card-sm-image
+                src="{{ productMock.images[0].url }}"
+                alt="Изображение продукта"
+            />
+        </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-content>
+        <div>
+            <div>{{ productMock.name }}</div>
+        </div>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button (click)="btnClickHandler($event)">Купить</button>
+    </mat-card-actions>
+</mat-card>
