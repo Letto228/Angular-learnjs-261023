@@ -1,8 +1,29 @@
-<app-header (click)="onHeaderClick()"></app-header>
-<app-products-list></app-products-list>
+<!-- <app-header [applicationConfig]="applicationConfig" (menuClick)="sidenav.toggleSidenavOpened()"></app-header> -->
+<app-header [applicationConfig]="applicationConfig" (menuClick)="onMenuClick($event)"></app-header>
+<!--
+    (menuClick)="onMenuClick()"
+            |
+            V
+    HeaderComponent.menuClick.subscribe($event => {
+        onMenuClick($event)
+    })
+ -->
 
-<!-- <h1>{{this.title}}</h1> -->
-<!-- <h1>{{ title }}</h1> -->
-<!-- <h2>{{ getUserName() }}</h2> -->
-<!-- <h1>{{window.Promise}}</h1> -->
-<!-- <input (keydown.enter)="onKeyDown($event)" /> -->
+<!-- <app-header applicationConfig="{{applicationConfig}}"></app-header> -->
+<!-- <app-products-list></app-products-list> -->
+<p>TEST</p>
+<app-sidenav #sidenav></app-sidenav>
+<!-- <app-sidenav #sidenav [(isSidenavOpened)]="needShowSidenav"></app-sidenav> -->
+<!-- <app-sidenav
+    [isSidenavOpened]="needShowSidenav"
+    (isSidenavOpenedChange)="needShowSidenav = $event"
+></app-sidenav> -->
+
+<!--
+    (isSidenavOpenedChange)="needShowSidenav = $event"
+            |
+            V
+    SidenavComponent.isSidenavOpenedChange.subscribe($event => {
+        needShowSidenav = $event
+    })
+ -->

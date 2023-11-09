@@ -1,4 +1,5 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {ApplicationConfig} from '../../shared/application-config/application-config.interface';
 
 @Component({
     selector: 'app-header',
@@ -6,12 +7,16 @@ import {Component} from '@angular/core';
     styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent {
-    imgSrc = '../../../favicon.ico';
+    @Input() applicationConfig: ApplicationConfig | null = null;
 
-    onMenuClick(event: MouseEvent) {
+    @Output() readonly menuClick = new EventEmitter<string>();
+
+    onMenuClick(_event: MouseEvent) {
         // eslint-disable-next-line no-console
-        console.log('Menu click', event.clientX, event.clientY);
-        event.stopPropagation();
+        // console.log('Menu click', event.clientX, event.clientY);
+        // event.stopPropagation();
+
+        this.menuClick.emit('event');
     }
 
     onContextmenu(_event: Event) {

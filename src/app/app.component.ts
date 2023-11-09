@@ -1,38 +1,28 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
+import {applicationConfigMock} from './shared/application-config/application-config.mock';
+import {SidenavComponent} from './components/sidenav/sidenav.component';
 
 @Component({
-    selector: 'app-root', // любой css селектор ('div#root')
+    selector: 'app-root',
     templateUrl: './app.component.html',
-    // template: `
-    //     <h1>Hello</h1>
-    // `,
     styleUrls: ['./app.component.css'],
-    // styles: ['h1 {color: red}'],
-    interpolation: ['{{', '}}'],
+    // encapsulation: ViewEncapsulation.None
 })
 export class AppComponent {
-    title = 'Angular-learnjs-261023';
-    userName = 'Egor';
-    window = window;
+    readonly applicationConfig = applicationConfigMock;
 
-    getUserName() {
-        return this.userName;
-    }
+    // needShowSidenav = false;
 
-    onHeaderClick() {
+    // @ViewChild(SidenavComponent)
+    // private readonly sidenavComponent?: SidenavComponent;
+    @ViewChild('sidenav')
+    private readonly sidenavComponent?: SidenavComponent;
+
+    onMenuClick(event: string) {
         // eslint-disable-next-line no-console
-        console.log('Header click');
-    }
+        console.log('Menu clicked', event);
+        // this.needShowSidenav = !this.needShowSidenav;
 
-    onKeyDown(event: Event) {
-        if ((event as any).code === 'Enter') {
-            // eslint-disable-next-line no-console
-            console.log('Enter', event);
-
-            return;
-        }
-
-        // eslint-disable-next-line no-console
-        console.log('Another', event);
+        this.sidenavComponent?.toggleSidenavOpened();
     }
 }

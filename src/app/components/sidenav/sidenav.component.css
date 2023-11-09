@@ -1,0 +1,29 @@
+/* [_ng-host-ng-c12344324] */
+
+:host {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.example-container {
+    width: 100%;
+    height: 100%;
+}
+
+.example-sidenav-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.example-sidenav {
+    padding: 20px;
+}
+
+:host ::ng-deep p {
+    color: brown;
+}
