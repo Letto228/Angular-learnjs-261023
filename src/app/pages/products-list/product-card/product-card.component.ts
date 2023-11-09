@@ -41,10 +41,6 @@ export class ProductCardComponent {
     onClickBuyButton(event: MouseEvent): void {
         event.stopPropagation();
 
-        if (event.currentTarget instanceof HTMLElement) {
-            const {productId} = event.currentTarget.dataset;
-
-            productId && console.log(productId);
-        }
+        console.log(this.product._id);
     }
 }
