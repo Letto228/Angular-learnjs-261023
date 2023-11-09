@@ -3,7 +3,7 @@
         <mat-card-title>{{ product.name }}</mat-card-title>
         <mat-card-subtitle>{{ getProductPrice(product.price) }}</mat-card-subtitle>
     </mat-card-header>
-    <img alt="{{ product.name }}" [src]="getFirstProductImageUrl" />
+    <img [alt]="product.name" [src]="getFirstProductImageUrl" />
     <mat-card-actions>
         <button
             mat-raised-button
