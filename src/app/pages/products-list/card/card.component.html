@@ -1,0 +1,9 @@
+<mat-card (click)="cardClick($event)">
+    <mat-card-header>Планшет</mat-card-header>
+    <img mat-card-sm-image [src]="mockImg" [alt]="altImg" />
+    <mat-card-content>
+        {{ mockName }}
+    </mat-card-content>
+    <mat-card-footer>Цена: {{ mockPrice }} USD.</mat-card-footer>
+    <button mat-raised-button color="primary" (click)="buttonClick($event)">Купить</button>
+</mat-card>
