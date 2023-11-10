@@ -10,5 +10,7 @@
     <mat-card-content class="cost">
         <p>Цена: {{ product.price }} руб.</p>
     </mat-card-content>
-    <button mat-raised-button color="primary" class="buy-button">В корзину</button>
+    <button mat-raised-button color="primary" class="buy-button" (click)="onBuyClick($event)">
+        В корзину
+    </button>
 </mat-card>

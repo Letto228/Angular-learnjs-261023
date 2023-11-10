@@ -8,4 +8,10 @@ import {productMock} from 'src/app/shared/products/product.mock';
 })
 export class CardComponent {
     product = productMock;
+
+    onBuyClick(event: MouseEvent) {
+        // eslint-disable-next-line no-console
+        console.log('onBuyClick');
+        event.stopPropagation();
+    }
 }
