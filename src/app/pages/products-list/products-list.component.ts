@@ -8,7 +8,7 @@ import {productsMock} from 'src/app/shared/products/products.mock';
     styleUrls: ['./products-list.component.css'],
 })
 export class ProductsListComponent {
-    productList = productsMock;
+    productsList = productsMock;
 
     onProductBuy(productInfo: IProductBuyInfo) {
         // eslint-disable-next-line no-console
