@@ -1,1 +1,9 @@
-<app-card (click)="onCardClick()"></app-card>
+<ul class="products-list">
+    <li *ngFor="let product of products; trackBy: trackByFn">
+        <app-card
+            [product]="product"
+            (buyClick)="addToCart($event)"
+            (click)="onCardClick()"
+        ></app-card>
+    </li>
+</ul>
