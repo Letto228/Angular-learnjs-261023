@@ -1,1 +1,5 @@
-<app-card (click)="onCardClick()"></app-card>
+<app-card
+    *ngFor="let product of productList"
+    [product]="product"
+    (productBuy)="onProductBuy($event)"
+></app-card>
