@@ -1,4 +1,4 @@
-import {CUSTOM_ELEMENTS_SCHEMA, Component, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {IProduct} from 'src/app/shared/products/product.interface';
@@ -20,7 +20,6 @@ import {CommonModule, CurrencyPipe} from '@angular/common';
         CurrencyPipe,
         CommonModule,
     ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class CardComponent {
     @Input() productModel: IProduct = productMock;
@@ -35,7 +34,6 @@ export class CardComponent {
 
     onBuyClick(event: MouseEvent) {
         event.stopPropagation();
-        event.preventDefault();
         // eslint-disable-next-line no-console
         console.log(`Buy button click`);
     }
