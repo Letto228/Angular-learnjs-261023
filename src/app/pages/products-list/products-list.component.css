@@ -1,12 +1,11 @@
 .products-list {
-    padding: 32px 0 0 32px;
+    padding: 16px;
     display: flex;
     flex-wrap: wrap;
 }
 
 .products-list * {
-    margin-bottom: 32px;
-    margin-right: 32px;
+    margin: 16px;
     flex: 0 1 calc(33.333% - 32px);
     min-width: 300px;
 }
