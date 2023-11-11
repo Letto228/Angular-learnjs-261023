@@ -11,10 +11,10 @@ export class CardComponent {
 
     @Output() buyClick: EventEmitter<string> = new EventEmitter();
 
-    onProductBuy(event: MouseEvent, id: string) {
+    onProductBuy(event: MouseEvent) {
         event.stopPropagation();
 
-        this.buyClick.emit(id);
+        this.buyClick.emit(this.product._id);
     }
 
     isStarActive(starIndex: number): boolean {
