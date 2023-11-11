@@ -73,6 +73,7 @@ module.exports = {
         'no-bitwise': 'warn',
         'no-useless-escape': 'warn',
         'file-progress/activate': 1,
+        'prettier/prettier': ['error', {endOfLine: 'auto'}],
     },
     settings: {
         progress: {
