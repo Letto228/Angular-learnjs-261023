@@ -1,1 +1,3 @@
-<app-card (click)="onCardClick()"></app-card>
+<div *ngFor="let product of productsMock; index as i; first as isFirst">
+    <app-card [product]="product" (productBuy)="onCardClick(product)"></app-card>
+</div>
