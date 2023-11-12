@@ -18,11 +18,16 @@ export class AppComponent {
     @ViewChild('sidenav')
     private readonly sidenavComponent?: SidenavComponent;
 
-    onMenuClick(event: string) {
+    onMenuClick(_event: MouseEvent) {
         // eslint-disable-next-line no-console
-        console.log('Menu clicked', event);
-        // this.needShowSidenav = !this.needShowSidenav;
-
-        this.sidenavComponent?.toggleSidenavOpened();
+        console.log('Menu clicked');
     }
+
+    // onMenuClick(event: string) {
+    //     // eslint-disable-next-line no-console
+    //     console.log('Menu clicked', event);
+    //     // this.needShowSidenav = !this.needShowSidenav;
+
+    //     this.sidenavComponent?.toggleSidenavOpened();
+    // }
 }

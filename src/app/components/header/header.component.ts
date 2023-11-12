@@ -9,14 +9,10 @@ import {ApplicationConfig} from '../../shared/application-config/application-con
 export class HeaderComponent {
     @Input() applicationConfig: ApplicationConfig | null = null;
 
-    @Output() readonly menuClick = new EventEmitter<string>();
+    @Output() menuClick = new EventEmitter<MouseEvent>();
 
     onMenuClick(_event: MouseEvent) {
-        // eslint-disable-next-line no-console
-        // console.log('Menu click', event.clientX, event.clientY);
-        // event.stopPropagation();
-
-        this.menuClick.emit('event');
+        this.menuClick.emit(_event);
     }
 
     onContextmenu(_event: Event) {

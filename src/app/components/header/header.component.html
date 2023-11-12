@@ -3,8 +3,8 @@
         mat-icon-button
         aria-label="Example icon-button with menu icon"
         class="example-icon"
-        (click)="onMenuClick($event)"
         (contextmenu)="onContextmenu($event); $event.preventDefault()"
+        (click)="onMenuClick($event)"
     >
         <!--
         buttonElement.addEventListener('click', $event => {
