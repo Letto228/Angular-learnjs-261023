@@ -18,9 +18,9 @@ export class AppComponent {
     @ViewChild('sidenav')
     private readonly sidenavComponent?: SidenavComponent;
 
-    onMenuClick(_event: MouseEvent) {
+    onMenuClick(event: MouseEvent) {
         // eslint-disable-next-line no-console
-        console.log('Menu clicked');
+        console.log('Menu clicked', event);
     }
 
     // onMenuClick(event: string) {

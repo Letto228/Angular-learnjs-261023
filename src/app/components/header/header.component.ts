@@ -11,8 +11,8 @@ export class HeaderComponent {
 
     @Output() menuClick = new EventEmitter<MouseEvent>();
 
-    onMenuClick(_event: MouseEvent) {
-        this.menuClick.emit(_event);
+    onMenuClick(event: MouseEvent) {
+        this.menuClick.emit(event);
     }
 
     onContextmenu(_event: Event) {
