@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {productsMock} from '../../../shared/products/products.mock';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {IProduct} from 'src/app/shared/products/product.interface';
 
 @Component({
     selector: 'app-card',
@@ -7,16 +7,24 @@ import {productsMock} from '../../../shared/products/products.mock';
     styleUrls: ['./card.component.css'],
 })
 export class CardComponent {
-    readonly product = productsMock[0];
+    @Input() product: IProduct | undefined;
 
-    onProductBuy(event: Event) {
+    @Output() readonly buyClick: EventEmitter<string> = new EventEmitter<string>();
+
+    onProductBuy(event: MouseEvent) {
         event.stopPropagation();
 
         // eslint-disable-next-line no-console
-        console.log('Buy product');
+        console.log('Btn buy click');
+
+        if (this.product) {
+            const {_id: id} = this.product;
+
+            this.buyClick.emit(id);
+        }
     }
 
     isStarActive(starIndex: number): boolean {
-        return this.product.rating >= starIndex;
+        return this.product ? this.product.rating >= starIndex : false;
     }
 }
