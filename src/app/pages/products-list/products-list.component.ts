@@ -7,6 +7,7 @@ import {Component} from '@angular/core';
 })
 export class ProductsListComponent {
     cardClick() {
+        /* eslint no-console: 0 */
         console.log('event_card');
     }
 }
