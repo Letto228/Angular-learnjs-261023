@@ -4,16 +4,9 @@
         aria-label="Example icon-button with menu icon"
         class="example-icon"
         (click)="onMenuClick($event)"
-        (contextmenu)="onContextmenu($event); $event.preventDefault()"
     >
-        <!--
-        buttonElement.addEventListener('click', $event => {
-            onMenuClick($event)
-        })
-     -->
         <mat-icon>menu</mat-icon>
     </button>
-    <!-- <img class="shop-icon" src="{{imgSrc}}"> -->
     <img alt="Shop icon" class="shop-icon" [src]="applicationConfig?.shopIconSrc" />
     <span>{{ applicationConfig?.title }}</span>
     <span class="example-spacer"></span>

@@ -8,18 +8,9 @@ import {HeaderModule} from './components/header/header.module';
 import {ProductsListModule} from './pages/products-list/products-list.module';
 import {SidenavModule} from './components/sidenav/sidenav.module';
 
-// View
-// -----------------------
-// Components / Directives
-// Pipe
-
-// Logic
-// --------
-// Services
-
 @NgModule({
-    declarations: [AppComponent], // const
-    exports: [], // module.exports = {}
+    declarations: [AppComponent],
+    exports: [],
     imports: [
         BrowserModule,
         AppRoutingModule,
@@ -27,14 +18,7 @@ import {SidenavModule} from './components/sidenav/sidenav.module';
         HeaderModule,
         ProductsListModule,
         SidenavModule,
-    ], // import {...} from '...'
-    // providers: [],
+    ],
     bootstrap: [AppComponent],
 })
 export class AppModule {}
-
-// HeaderComponent
-// Declaration: HeaderModule,
-// HeaderModule(exports): [HeaderComponent]
-
-// AppModule(imports): [HeaderModule],
