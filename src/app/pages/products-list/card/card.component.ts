@@ -7,7 +7,7 @@ import {IProduct} from '../../../shared/products/product.interface';
     styleUrls: ['./card.component.css'],
 })
 export class CardComponent {
-    @Input() product?: IProduct = undefined;
+    @Input() product: IProduct | undefined = undefined;
 
     @Output() readonly productBuyClick = new EventEmitter<string>();
 
@@ -20,10 +20,6 @@ export class CardComponent {
     }
 
     isStarActive(starIndex: number): boolean {
-        if (this.product) {
-            return this.product.rating >= starIndex;
-        }
-
-        return false;
+        return !!(this.product && this.product.rating >= starIndex);
     }
 }
