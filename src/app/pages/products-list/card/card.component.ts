@@ -7,15 +7,14 @@ import {IProduct} from '../../../shared/products/product.interface';
     styleUrls: ['./card.component.css'],
 })
 export class CardComponent {
-    @Input() product?: IProduct;
-    @Output() readonly productBuy: EventEmitter<string> = new EventEmitter();
+    @Input() product: IProduct | null = null;
+    @Output() readonly productBuy = new EventEmitter<IProduct['_id']>();
 
     onProductBuy(event: Event) {
         event.stopPropagation();
 
-        // eslint-disable-next-line no-console
-        // console.log('Buy product from card');
-        this.productBuy.emit(this.product?._id);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        this.productBuy.emit(this.product!._id);
     }
 
     isStarActive(starIndex: number): boolean {
