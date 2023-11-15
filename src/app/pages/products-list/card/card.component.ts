@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import { IProduct } from 'src/app/shared/products/product.interface';
+// import { IProduct } from 'src/app/shared/products/product.interface';
+import { IProduct } from '../../../shared/products/product.interface';
 
 @Component({
     selector: 'app-card',
@@ -14,7 +15,9 @@ export class CardComponent {
     onProductBuy(event: Event) {
         event.stopPropagation();
 
-        this.buyClick.emit(this.product?._id);
+        if(this.product) {            
+            this.buyClick.emit(this.product?._id);
+        }
     }
 
     isStarActive(starIndex: number): boolean {
