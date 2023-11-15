@@ -44,6 +44,6 @@ export const productMock: IProduct = {
         },
     ],
     name: '9.6" Планшет Dexp Ursus S290 32 ГБ 3G черный',
-    price: 8600,
+    price: 7826,
     rating: 5,
 };
