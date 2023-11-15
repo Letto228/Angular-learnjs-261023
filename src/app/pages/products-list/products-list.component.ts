@@ -8,7 +8,7 @@ import {type IProduct} from 'src/app/shared/products/product.interface';
     styleUrls: ['./products-list.component.css'],
 })
 export class ProductsListComponent {
-    readonly products: IProduct[] = productsMock;
+    readonly products = productsMock;
 
     onCardClick(productId: IProduct['_id']) {
         // eslint-disable-next-line no-console
