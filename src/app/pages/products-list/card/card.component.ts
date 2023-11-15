@@ -1,5 +1,5 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
-import {IProduct} from 'src/app/shared/products/product.interface';
+import {IProduct} from '../../../shared/products/product.interface';
 
 @Component({
     selector: 'app-card',
@@ -7,9 +7,9 @@ import {IProduct} from 'src/app/shared/products/product.interface';
     styleUrls: ['./card.component.css'],
 })
 export class CardComponent {
-    @Input() product?: IProduct = undefined;
+    @Input() product: IProduct | undefined;
 
-    @Output() readonly buyClick: EventEmitter<string> = new EventEmitter();
+    @Output() readonly buyClick = new EventEmitter<string | undefined>();
 
     onProductBuy(event: Event) {
         event.stopPropagation();

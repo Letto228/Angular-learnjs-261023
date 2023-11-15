@@ -9,7 +9,7 @@ import {ApplicationConfig} from '../../shared/application-config/application-con
 export class HeaderComponent {
     @Input() applicationConfig: ApplicationConfig | null = null;
 
-    @Output() menuClick = new EventEmitter<MouseEvent>();
+    @Output() readonly menuClick = new EventEmitter<MouseEvent>();
 
     onMenuClick(event: MouseEvent) {
         this.menuClick.emit(event);
