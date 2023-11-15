@@ -1,0 +1,14 @@
+dialog {
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 0 8px lightgrey;
+    min-width: 50vw;
+}
+
+:host ::ng-deep h2 {
+    color: red;
+}
+
+:host ::ng-deep p {
+    color: teal;
+}
