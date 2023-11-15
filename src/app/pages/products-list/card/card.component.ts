@@ -7,7 +7,7 @@ import {productMock} from 'src/app/shared/products/product.mock';
     styleUrls: ['./card.component.css'],
 })
 export class CardComponent {
-    product = productMock;
+    readonly product = productMock;
 
     onBuyClick(event: MouseEvent) {
         // eslint-disable-next-line no-console
