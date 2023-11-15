@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {IProductBuyInfo} from 'src/app/shared/products/product-buy-info.interface';
 import {IProduct} from 'src/app/shared/products/product.interface';
 
 @Component({
@@ -10,7 +9,7 @@ import {IProduct} from 'src/app/shared/products/product.interface';
 export class CardComponent {
     @Input() product: IProduct | undefined;
 
-    @Output() readonly productBuy = new EventEmitter<IProductBuyInfo>();
+    @Output() readonly productBuy = new EventEmitter<IProduct['_id']>();
 
     get productImage(): string | undefined {
         return this.product?.images[0].url;
@@ -25,7 +24,7 @@ export class CardComponent {
             return;
         }
 
-        this.productBuy.emit({id: this.product._id});
+        this.productBuy.emit(this.product._id);
     }
 
     isStarActive(starIndex: number): boolean {

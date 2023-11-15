@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IProductBuyInfo} from 'src/app/shared/products/product-buy-info.interface';
+import {IProduct} from 'src/app/shared/products/product.interface';
 import {productsMock} from 'src/app/shared/products/products.mock';
 
 @Component({
@@ -10,8 +10,8 @@ import {productsMock} from 'src/app/shared/products/products.mock';
 export class ProductsListComponent {
     productsList = productsMock;
 
-    onProductBuy(productInfo: IProductBuyInfo) {
+    onProductBuy(id: IProduct['_id']) {
         // eslint-disable-next-line no-console
-        console.log(`Buy product with id: ${productInfo.id}`);
+        console.log(`Buy product with id: ${id}`);
     }
 }
