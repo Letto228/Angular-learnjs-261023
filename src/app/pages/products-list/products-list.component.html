@@ -1,1 +1,6 @@
-<app-card (click)="onCardClick()"></app-card>
+<app-card
+    class="card-flex"
+    [productList]="products"
+    (productId)="onClickCurrentProduct($event)"
+    (click)="onCardClick()"
+></app-card>
