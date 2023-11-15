@@ -12,7 +12,7 @@ export class CardComponent {
 
     @Output() readonly productBuy = new EventEmitter<IProductBuyInfo>();
 
-    get productImage() {
+    get productImage(): string | undefined {
         return this.product?.images[0].url;
     }
 
