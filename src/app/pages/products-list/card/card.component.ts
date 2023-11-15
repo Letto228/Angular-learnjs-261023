@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {productMock} from "../../../shared/products/product.mock";
 
 @Component({
     selector: 'app-card',
@@ -6,7 +7,8 @@ import {Component} from '@angular/core';
     styleUrls: ['./card.component.css'],
 })
 export class CardComponent {
-    rating = 5;
+    readonly product = productMock;
+    rating = this.product.rating;
     ratingArray = Array(this.rating).fill(0);
 
     onClickBuyProduct() {

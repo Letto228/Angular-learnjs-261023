@@ -2,20 +2,20 @@
     <mat-card-header>
         <img
             mat-card-image
-            alt="no img"
-            src="https://c.dns-shop.ru/thumb/st1/fit/0/0/dff090e667cd39dd397678905df52de5/6c3e7aab802deb19513c7cf55dd7c527efb9127d8aba2ed90f3d224577137fe2.jpg"
+            [alt]="product.images[0].source"
+            [src]="product.images[0].url"
         />
     </mat-card-header>
     <mat-card-content>
-        <p [style.font-size.px]="20">9.6" Планшет Dexp Ursus S290 32 ГБ 3G черный</p>
+        <p [style.font-size.px]="20">{{product.name}}</p>
         <p>Чудесный планшет, качественный, для всех видов программистов, тянет даже игрушки!</p>
     </mat-card-content>
     <mat-card-actions>
         <div style="display: flex; gap: 1rem">
-            <p style="padding-top: 4px">86 $</p>
+            <p style="padding-top: 4px">{{product.price}} $</p>
             <div style="display: flex">
                 <mat-icon *ngFor="let star of ratingArray" class="star">star</mat-icon>
-                <p style="padding-top: -3px; font-size: 0.8rem">2</p>
+                <p style="padding-top: -3px; font-size: 0.8rem">{{product.feedbacksCount}}</p>
             </div>
         </div>
         <button
