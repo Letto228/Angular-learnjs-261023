@@ -8,10 +8,10 @@ import {type IProduct} from 'src/app/shared/products/product.interface';
 })
 export class CardComponent {
     @Input()
-    product: IProduct | null = null;
+    readonly product: IProduct | null = null;
 
     @Output()
-    buyProduct = new EventEmitter<IProduct['_id']>();
+    readonly buyProduct = new EventEmitter<IProduct['_id']>();
 
     onProductBuy(event: Event) {
         event.stopPropagation();
