@@ -8,7 +8,7 @@ import {type IProduct} from 'src/app/shared/products/product.interface';
 })
 export class CardComponent {
     @Input()
-    readonly product: IProduct | null = null;
+    product: IProduct | null = null;
 
     @Output()
     readonly buyProduct = new EventEmitter<IProduct['_id']>();
