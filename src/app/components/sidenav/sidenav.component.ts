@@ -1,4 +1,4 @@
-import {Component, ContentChild, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, ContentChild, ViewChild, ViewEncapsulation} from '@angular/core';
 import {MatList} from '@angular/material/list';
 import {MatDrawer} from '@angular/material/sidenav';
 
@@ -8,7 +8,7 @@ import {MatDrawer} from '@angular/material/sidenav';
     styleUrls: ['./sidenav.component.css'],
     encapsulation: ViewEncapsulation.Emulated,
 })
-export class SidenavComponent implements OnInit {
+export class SidenavComponent {
     // @Input() navigationTemplate: TemplateRef<unknown> | null = null;
     // @Input() title: string | null = null;
 
@@ -50,17 +50,17 @@ export class SidenavComponent implements OnInit {
     //     }
     // }
 
-    ngOnInit(): void {
-        // console.log('ngOnInit', this.drawerElement);
-        // console.log(this.navigationTemplate);
+    // ngOnInit(): void {
+    // console.log('ngOnInit', this.drawerElement);
+    // console.log(this.navigationTemplate);
 
-        // if (this.navigationTemplate) {
-        //     this.viewPort?.createEmbeddedView(this.navigationTemplate);
-        // }
+    // if (this.navigationTemplate) {
+    //     this.viewPort?.createEmbeddedView(this.navigationTemplate);
+    // }
 
-        // eslint-disable-next-line no-console
-        console.log(this.matListComponent);
-    }
+    // eslint-disable-next-line no-console
+    // console.log(this.matListComponent);
+    // }
 
     // ngDoCheck(): void {
     // console.log('ngDoCheck');
