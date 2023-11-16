@@ -2,55 +2,13 @@
     [applicationConfig]="applicationConfig"
     (menuClick)="sidenav.toggleSidenavOpened()"
 ></app-header>
-<!-- <app-sidenav #sidenav [navigationTemplate]="navigationTemplate"> -->
 <app-sidenav #sidenav>
-    <!-- Content Sidenav Component -->
-    <p>Hello</p>
-    <p>My name Egor</p>
-
-    <!-- <ng-template #navigationTemplate>
-        {{applicationConfig.title}}
-        <mat-list role="list">
-            <mat-list-item role="listitem">Item 1</mat-list-item>
-            <mat-list-item role="listitem">Item 2</mat-list-item>
-            <mat-list-item role="listitem">Item 3</mat-list-item>
-        </mat-list>
-    </ng-template> -->
-    <div ngProjectAs="list">
+    <ng-container ngProjectAs="list">
         {{ applicationConfig.title }}
         <mat-list role="list">
             <mat-list-item role="listitem">Item 1</mat-list-item>
             <mat-list-item role="listitem">Item 2</mat-list-item>
             <mat-list-item role="listitem">Item 3</mat-list-item>
         </mat-list>
-    </div>
-    <!-- <ng-container ngProjectAs="list">
-        {{applicationConfig.title}}
-        <mat-list role="list">
-            <mat-list-item role="listitem">Item 1</mat-list-item>
-            <mat-list-item role="listitem">Item 2</mat-list-item>
-            <mat-list-item role="listitem">Item 3</mat-list-item>
-        </mat-list>
-    </ng-container> -->
+    </ng-container>
 </app-sidenav>
-
-<!-- Homework stand -->
-
-<!-- Switch template -->
-
-<!-- <app-popup-host [template]="switchTemplate ? first : second"></app-popup-host> -->
-
-<!-- or -->
-
-<!-- Close template -->
-
-<app-popup-host [template]="!closeTemplate ? first : null"></app-popup-host>
-
-<ng-template #first>
-    <h2>First</h2>
-    <p>Is first template</p>
-</ng-template>
-<ng-template #second>
-    <h2>Second</h2>
-    <p>Is second template</p>
-</ng-template>

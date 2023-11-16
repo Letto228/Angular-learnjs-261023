@@ -8,7 +8,6 @@ import {AppComponent} from './app.component';
 import {HeaderModule} from './components/header/header.module';
 import {ProductsListModule} from './pages/products-list/products-list.module';
 import {SidenavModule} from './components/sidenav/sidenav.module';
-import {PopupHostModule} from './components/popup-host/popup-host.module';
 
 @NgModule({
     declarations: [AppComponent],
@@ -21,7 +20,6 @@ import {PopupHostModule} from './components/popup-host/popup-host.module';
         ProductsListModule,
         SidenavModule,
         MatListModule,
-        PopupHostModule,
     ],
     bootstrap: [AppComponent],
 })
