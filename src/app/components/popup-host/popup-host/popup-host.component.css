@@ -1,0 +1,16 @@
+:host {
+    position: absolute;
+    z-index: 100;
+
+    --dialog-width: 300px;
+    --dialog-margin-left: calc(100vw / 2 - var(--dialog-width) / 2);
+}
+
+dialog {
+    width: var(--dialog-width);
+    min-height: 100px;
+    height: auto;
+
+    margin-top: 200px;
+    margin-left: var(--dialog-margin-left);
+}
