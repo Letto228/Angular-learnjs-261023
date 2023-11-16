@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {IProduct} from 'src/app/shared/products/product.interface';
+import {IProduct} from '../../../shared/products/product.interface';
 
 @Component({
     selector: 'app-card',
@@ -19,10 +19,6 @@ export class CardComponent {
     }
 
     isStarActive(starIndex: number): boolean {
-        if (this.product) {
-            return this.product.rating >= starIndex;
-        }
-
-        return false;
+        return !!this.product && this.product.rating >= starIndex;
     }
 }
