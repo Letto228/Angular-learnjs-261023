@@ -1,29 +1,23 @@
-/* [_ng-host-ng-c12344324] */
-
 :host {
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 100%;
+    min-height: 0;
 }
 
-.example-container {
+.container {
     width: 100%;
     height: 100%;
 }
 
-.example-sidenav-content {
+.sidenav-content {
     display: flex;
-    flex-direction: column;
     height: 100%;
     align-items: center;
     justify-content: center;
 }
 
-.example-sidenav {
+.sidenav {
     padding: 20px;
-}
-
-:host ::ng-deep p {
-    color: brown;
 }

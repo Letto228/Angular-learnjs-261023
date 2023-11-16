@@ -12,7 +12,7 @@ export class ProductsListComponent implements OnInit {
 
     get products(): IProduct[] | null {
         // eslint-disable-next-line no-console
-        console.log('products getter');
+        // console.log('products getter');
 
         return this.productsStore;
     }
