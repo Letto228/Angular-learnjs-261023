@@ -1,5 +1,28 @@
-<app-card class="card" [product]="products[0]"></app-card>
-<app-card class="card" [product]="products[1]"></app-card>
-<app-card class="card" [product]="products[2]"></app-card>
-<app-card class="card" [product]="products[3]"></app-card>
-<app-card class="card" [product]="products[4]"></app-card>
+<!-- <ng-template [ngIf]="products"> -->
+<!-- <ng-template [appIf]="products" let-value="appIf" let-defaultValueFromContext="$implicit">
+    {{value || 'empty'}}
+    {{defaultValueFromContext || 'empty'}}
+    <app-card class="card" [product]="value[0] || null"></app-card>
+    <app-card class="card" [product]="value[1] || null"></app-card>
+    <app-card class="card" [product]="value[2] || null"></app-card>
+    <app-card class="card" [product]="value[3] || null"></app-card>
+    <app-card class="card" [product]="value[4] || null"></app-card>
+
+    <app-card class="card" [product]="products?.[0] || null"></app-card>
+    <app-card class="card" [product]="products?.[1] || null"></app-card>
+    <app-card class="card" [product]="products?.[2] || null"></app-card>
+    <app-card class="card" [product]="products?.[3] || null"></app-card>
+    <app-card class="card" [product]="products?.[4] || null"></app-card>
+</ng-template> -->
+
+<ng-template let-value [ngIf]="products" [ngIfElse]="loaderTemplate">
+    <app-card class="card" [product]="value[0] || null"></app-card>
+    <app-card class="card" [product]="value[1] || null"></app-card>
+    <app-card class="card" [product]="value[2] || null"></app-card>
+    <app-card class="card" [product]="value[3] || null"></app-card>
+    <app-card class="card" [product]="value[4] || null"></app-card>
+</ng-template>
+
+<ng-template #loaderTemplate>
+    <mat-spinner></mat-spinner>
+</ng-template>
