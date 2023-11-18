@@ -5,7 +5,6 @@ import {
     ViewChild,
     ViewContainerRef,
     OnChanges,
-    OnInit,
 } from '@angular/core';
 
 @Component({
@@ -13,7 +12,7 @@ import {
     templateUrl: './popup-host.component.html',
     styleUrls: ['./popup-host.component.css'],
 })
-export class PopupHostComponent implements OnChanges, OnInit {
+export class PopupHostComponent implements OnChanges{
     @Input() template: TemplateRef<unknown> | null = null;
 
     @ViewChild('viewPort', {static: true, read: ViewContainerRef})
