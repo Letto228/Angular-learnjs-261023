@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {IProduct} from 'src/app/shared/products/product.interface';
-import {IPurchasedProduct} from 'src/app/shared/products/purchased-product.interface';
+import {IPurchasedProduct} from '../../../shared/products/purchased-product.interface';
 
 @Component({
     selector: 'app-card',
@@ -8,12 +8,16 @@ import {IPurchasedProduct} from 'src/app/shared/products/purchased-product.inter
     styleUrls: ['./card.component.css'],
 })
 export class CardComponent {
-    @Input() product: IProduct | undefined = undefined;
+    @Input() product: IProduct | undefined;
 
     @Output() readonly productBuyClick = new EventEmitter<IPurchasedProduct>();
 
     onProductBuy(event: Event) {
         event.stopPropagation();
+
+        if (!this.product) {
+            return;
+        }
 
         const purchasedProductObj: IPurchasedProduct = {
             // eslint-disable-next-line @typescript-eslint/naming-convention
