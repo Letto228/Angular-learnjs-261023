@@ -19,7 +19,7 @@ export class PopupHostComponent implements OnChanges, OnInit {
     @ViewChild('viewPort', {static: true, read: ViewContainerRef})
     private readonly viewPort?: ViewContainerRef | null = null;
 
-    ngOnChanges() {
+    ngOnChanges({template}: SimpleChanges) {
         this.viewPort?.clear();
 
         if (this.template) {
