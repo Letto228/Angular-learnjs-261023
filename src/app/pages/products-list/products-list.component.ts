@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {productsMock} from '../../shared/products/products.mock';
 import {IProduct} from '../../shared/products/product.interface';
+import {LoadDirection} from '../../shared/scroll-with-loading/load-direction';
 
 @Component({
     selector: 'app-products-list',
@@ -9,6 +10,7 @@ import {IProduct} from '../../shared/products/product.interface';
 })
 export class ProductsListComponent implements OnInit {
     private productsStore: IProduct[] | null = null;
+    loadBorderOffset = 100;
 
     get products(): IProduct[] | null {
         // eslint-disable-next-line no-console
@@ -21,5 +23,10 @@ export class ProductsListComponent implements OnInit {
         setTimeout(() => {
             this.productsStore = productsMock;
         }, 4000);
+    }
+
+    onLoad(loadDirection: LoadDirection) {
+        // eslint-disable-next-line no-console
+        console.log(loadDirection);
     }
 }
