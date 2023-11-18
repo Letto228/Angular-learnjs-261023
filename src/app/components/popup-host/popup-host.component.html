@@ -1,1 +1,5 @@
-<p>popup-host works!</p>
+<div class="popup-host__wrapper" [class.popup-host__wrapper_hidden]="isViewPortEmpty">
+    <div class="popup-host__content">
+        <ng-container #viewPort></ng-container>
+    </div>
+</div>
