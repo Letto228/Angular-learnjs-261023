@@ -19,13 +19,16 @@ export class PopupHostComponent implements OnChanges {
     private readonly viewPort?: ViewContainerRef;
 
     ngOnChanges({template}: SimpleChanges): void {
-        if (this.template === null) {
-            this.viewPort?.clear();
+        if (template) {
+            this.changePopupContent(this.template);
         }
+    }
 
-        if (template && this.template) {
-            this.viewPort?.clear();
-            this.viewPort?.createEmbeddedView(this.template);
+    private changePopupContent(template: TemplateRef<unknown> | null) {
+        this.viewPort?.clear();
+
+        if (template) {
+            this.viewPort?.createEmbeddedView(template);
         }
     }
 }
