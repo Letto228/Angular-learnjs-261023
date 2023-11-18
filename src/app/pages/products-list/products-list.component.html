@@ -2,7 +2,7 @@
     <li *ngFor="let product of products; trackBy: trackByFn">
         <app-card
             [product]="product"
-            (buyClick)="addToCart($event)"
+            (productBuy)="addToCart($event)"
             (click)="onCardClick()"
         ></app-card>
     </li>

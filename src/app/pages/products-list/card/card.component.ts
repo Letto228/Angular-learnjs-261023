@@ -7,17 +7,17 @@ import type {IProduct} from 'src/app/shared/products/product.interface';
     styleUrls: ['./card.component.css'],
 })
 export class CardComponent {
-    @Input() product!: IProduct;
+    @Input() product: IProduct | null = null;
 
-    @Output() buyClick: EventEmitter<string> = new EventEmitter();
+    @Output() readonly productBuy = new EventEmitter<string>();
 
     onProductBuy(event: MouseEvent) {
         event.stopPropagation();
 
-        this.buyClick.emit(this.product._id);
+        this.productBuy.emit(this.product?._id);
     }
 
     isStarActive(starIndex: number): boolean {
-        return this.product.rating >= starIndex;
+        return this.product?.rating ? this.product.rating >= starIndex : false;
     }
 }
