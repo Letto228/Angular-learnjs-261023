@@ -17,9 +17,27 @@ export class ProductsListComponent implements OnInit {
         return this.productsStore;
     }
 
+    set product(data: {value: IProduct; direction: string}) {
+        const {value, direction} = data;
+
+        if (value && this.productsStore) {
+            if (direction === 'addTop') {
+                this.productsStore = [value, ...this.productsStore];
+            } else if (direction === 'addBottom') {
+                this.productsStore = [...this.productsStore, value];
+            }
+        }
+    }
+
     ngOnInit(): void {
         setTimeout(() => {
             this.productsStore = productsMock;
         }, 4000);
+    }
+
+    onLoad(event: string): void {
+        if (event) {
+            this.product = {value: productsMock[0], direction: event};
+        }
     }
 }
