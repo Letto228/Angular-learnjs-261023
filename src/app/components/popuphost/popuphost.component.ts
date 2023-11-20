@@ -1,5 +1,7 @@
 import {
     Component,
+    HostBinding,
+    HostListener,
     Input,
     OnChanges,
     SimpleChanges,
@@ -17,16 +19,35 @@ export class PopuphostComponent implements OnChanges {
     @Input()
     template: TemplateRef<unknown> | null = null;
 
-    @ViewChild('container', {read: ViewContainerRef})
+    @ViewChild('container', {read: ViewContainerRef, static: true})
     private readonly container?: ViewContainerRef;
 
+    @HostBinding('class')
+    private borderStyle?: string = '';
+
+    @HostListener('document:click', ['$event'])
+    onClick(event: Event) {
+        if (!this.template?.elementRef.nativeElement.contains(event.target)) {
+            this.template = null;
+            this.updateView();
+        }
+    }
+
     ngOnChanges({template}: SimpleChanges): void {
-        if (template && this.template) {
+        if (template) {
+            this.updateView();
+        }
+    }
+
+    private updateView() {
+        if (this.template) {
+            this.borderStyle = 'b-popup';
             this.container?.clear();
             this.container?.createEmbeddedView(this.template);
         }
 
         if (!this.template) {
+            this.borderStyle = '';
             this.container?.clear();
         }
     }
