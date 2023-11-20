@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {LoadDirection} from 'src/app/shared/app-scroll-with-loading/app-scroll-with-loading.directive';
 import {productsMock} from '../../shared/products/products.mock';
 import {IProduct} from '../../shared/products/product.interface';
 
@@ -15,6 +16,11 @@ export class ProductsListComponent implements OnInit {
         // console.log('products getter');
 
         return this.productsStore;
+    }
+
+    onLoad(event: LoadDirection) {
+        // eslint-disable-next-line no-console
+        console.log('debug: event', event);
     }
 
     ngOnInit(): void {
