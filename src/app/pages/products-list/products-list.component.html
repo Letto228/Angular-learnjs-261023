@@ -14,13 +14,31 @@
     *ngIf="products; else loaderTemplate; ngIf as valueProp; $implicit as value"
     class="scroll-container"
 > -->
-{{ data }}
+<!-- {{ data }} -->
 <div *ngIf="products as valueProp; else loaderTemplate; let value" class="scroll-container">
-    <app-card
-        *ngFor="let product of products; trackBy: trackById"
-        class="card"
-        [product]="product"
-    ></app-card>
+    <!-- Раскомментрировать для ДЗ -->
+    <!-- <ng-container
+        *appPagination="
+            let productsGroup of products;
+            chankSize: 4;
+            let pageIndexes = pageIndexes;
+            let activeIndex = index;
+            let next = next;
+            let back = back;
+            let selectIndex = selectIndex
+        "
+    > -->
+    <div class="cards">
+        <app-card
+            *ngFor="let product of products; trackBy: trackById"
+            class="card"
+            [product]="product"
+        ></app-card>
+    </div>
+    <div class="pagination">
+        <!-- Add pagination control -->
+    </div>
+    <!-- </ng-container> -->
     <!-- <app-card class="card" [product]="value[1]"></app-card>
     <app-card class="card" [product]="value[2]"></app-card>
     <app-card class="card" [product]="value[3]"></app-card>
