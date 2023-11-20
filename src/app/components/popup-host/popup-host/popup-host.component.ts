@@ -29,14 +29,16 @@ export class PopupHostComponent implements OnChanges {
     }
 
     private updateViewByTemplateRef(): void {
-        if (!this.template) {
-            this.isOpenPopup = false;
-            this.viewContainer?.clear();
+        if (!this.viewContainer) {
+            return;
         }
 
-        if (this.template && this.viewContainer) {
-            this.viewContainer.clear();
+        this.viewContainer.clear();
+
+        if (this.template) {
             this.viewContainer.createEmbeddedView(this.template);
         }
+
+        this.isOpenPopup = Boolean(this.template);
     }
 }
