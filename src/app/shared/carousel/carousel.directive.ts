@@ -62,7 +62,6 @@ export class CarouselDirective<T> implements OnChanges, OnInit {
             back: () => {
                 this.back();
             },
-            // back: this.back.bind(this),
         };
     }
 
