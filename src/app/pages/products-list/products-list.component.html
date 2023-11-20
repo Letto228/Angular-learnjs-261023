@@ -17,13 +17,11 @@
 
 <ng-template let-value [ngIf]="products" [ngIfElse]="loaderTemplate">
     <!-- Раскомментировать div при выполнении ДЗ -->
-    <!-- <div appScrollWithLoading class="scroll-container" (loadData)="onLoad($event)"> -->
-    <app-card class="card" [product]="value[0] || null"></app-card>
-    <app-card class="card" [product]="value[1] || null"></app-card>
-    <app-card class="card" [product]="value[2] || null"></app-card>
-    <app-card class="card" [product]="value[3] || null"></app-card>
-    <app-card class="card" [product]="value[4] || null"></app-card>
-    <!-- </div> -->
+    <div appScrollWithLoading class="scroll-container" (loadData)="onLoad($event)">
+        <ng-template ngFor let-product [ngForOf]="products">
+            <app-card class="card" [product]="product || null"></app-card>
+        </ng-template>
+    </div>
 </ng-template>
 
 <ng-template #loaderTemplate>
