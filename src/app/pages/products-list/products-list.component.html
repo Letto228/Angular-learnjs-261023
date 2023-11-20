@@ -1,12 +1,32 @@
-<ng-template let-value [ngIf]="products" [ngIfElse]="loaderTemplate">
-    <div class="scroll-container">
-        <app-card class="card" [product]="value[0] || null"></app-card>
-        <app-card class="card" [product]="value[1] || null"></app-card>
-        <app-card class="card" [product]="value[2] || null"></app-card>
-        <app-card class="card" [product]="value[3] || null"></app-card>
-        <app-card class="card" [product]="value[4] || null"></app-card>
-    </div>
-</ng-template>
+<!-- <ng-template let-value [appIf]="products"> -->
+<!-- <ng-template
+    [ngIf]="products"
+    [ngIfElse]="loaderTemplate"
+    [ngIfThen]="loaderTemplate"
+    let-valueProp="ngIf"
+    let-value
+> -->
+<!-- <div
+    *ngIf="products; else loaderTemplate; let valueProp = ngIf; let value"
+    class="scroll-container"
+> -->
+<!-- <div
+    *ngIf="products; else loaderTemplate; ngIf as valueProp; $implicit as value"
+    class="scroll-container"
+> -->
+{{ data }}
+<div *ngIf="products as valueProp; else loaderTemplate; let value" class="scroll-container">
+    <app-card
+        *ngFor="let product of products; trackBy: trackById"
+        class="card"
+        [product]="product"
+    ></app-card>
+    <!-- <app-card class="card" [product]="value[1]"></app-card>
+    <app-card class="card" [product]="value[2]"></app-card>
+    <app-card class="card" [product]="value[3]"></app-card>
+    <app-card class="card" [product]="value[4]"></app-card> -->
+</div>
+<!-- </ng-template> -->
 
 <ng-template #loaderTemplate>
     <mat-spinner></mat-spinner>

@@ -1,5 +1,4 @@
-<div class="popup-host" [class.empty]="isViewportClear">
-    <div class="content-wrapper">
-        <ng-container #viewport></ng-container>
-    </div>
+<div class="content-wrapper">
+    <!-- <ng-template [ngTemplateOutlet]="template"></ng-template> -->
+    <ng-container *ngTemplateOutlet="template"></ng-container>
 </div>

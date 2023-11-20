@@ -1,15 +1,20 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 import {IProduct} from '../../../shared/products/product.interface';
 
 @Component({
     selector: 'app-card',
     templateUrl: './card.component.html',
     styleUrls: ['./card.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardComponent {
     @Input() product: IProduct | null = null;
 
     @Output() readonly buy = new EventEmitter<IProduct['_id']>();
+
+    // ngOnInit(): void {
+    // console.log('OnInit', this.product?._id);
+    // }
 
     onProductBuy(event: Event) {
         event.stopPropagation();

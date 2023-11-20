@@ -1,4 +1,5 @@
 import {Directive, Input, TemplateRef, ViewContainerRef} from '@angular/core';
+import {IIfContext} from './if-context.interface';
 
 @Directive({
     selector: '[appIf]',
@@ -11,7 +12,6 @@ export class IfDirective<T> {
             this.viewContainerRef.createEmbeddedView(this.templateRef, {
                 appIf: value,
                 $implicit: value,
-                // $implicit: 'Egor',
             });
 
             return;
@@ -24,6 +24,21 @@ export class IfDirective<T> {
 
     constructor(
         private readonly viewContainerRef: ViewContainerRef,
-        private readonly templateRef: TemplateRef<{appIf: T; $implicit: T}>,
+        private readonly templateRef: TemplateRef<IIfContext<T>>,
     ) {}
+
+    static ngTemplateContextGuard<T>(
+        _directive: IfDirective<T>,
+        context: IIfContext<T>,
+    ): context is IIfContext<T> {
+        return true;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    static ngTemplateGuard_appIf<T>(
+        _directive: IfDirective<T>,
+        inputValue: T | null | undefined,
+    ): inputValue is T {
+        return true;
+    }
 }
