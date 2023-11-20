@@ -10,13 +10,13 @@ import { IProduct } from '../../../shared/products/product.interface';
 export class CardComponent {
     @Input() product: IProduct | null = null;
 
-    @Output() readonly buyClick = new EventEmitter<IProduct['_id']>();
+    @Output() readonly buyClick = new EventEmitter<string>();
 
     onProductBuy(event: Event) {
         event.stopPropagation();
 
-        if(this.product !== null) {            
-            this.buyClick.emit(this.product?._id);
+        if(this.product) {            
+            this.buyClick.emit(this.product._id);
         }
     }
 
