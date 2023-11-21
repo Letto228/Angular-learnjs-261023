@@ -6,7 +6,7 @@ import {LoadDirection} from './load-direction';
     selector: '[appScrollWithLoading]',
 })
 export class ScrollWithLoadingDirective {
-    @Output() loadData = new Subject<LoadDirection>();
+    @Output() readonly loadData = new Subject<LoadDirection>();
 
     private prevScrollTop = -1;
     private readonly borderOffset = 100;
