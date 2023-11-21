@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {LoadDirection} from 'src/app/shared/appscrollwithloading/load-direction.enum';
 import {productsMock} from '../../shared/products/products.mock';
 import {IProduct} from '../../shared/products/product.interface';
 
@@ -21,5 +22,10 @@ export class ProductsListComponent implements OnInit {
         setTimeout(() => {
             this.productsStore = productsMock;
         }, 4000);
+    }
+
+    onLoad(loadDirection: LoadDirection) {
+        // eslint-disable-next-line no-console
+        console.log('Loading, LoadDirection is ', loadDirection);
     }
 }
