@@ -1,82 +1,43 @@
-import {Directive, ElementRef, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import {Directive, HostListener, Output} from '@angular/core';
+import {Subject} from 'rxjs';
 import {LoadDirection} from './load-direction';
 
 @Directive({
     selector: '[appScrollWithLoading]',
 })
-export class ScrollWithLoadingDirective implements OnInit, OnDestroy {
-    @Output() loadData = new EventEmitter<LoadDirection>();
+export class ScrollWithLoadingDirective {
+    @Output() loadData = new Subject<LoadDirection>();
 
-    private downIntersectionObserver: IntersectionObserver | undefined;
-    private upIntersectionObserver: IntersectionObserver | undefined;
+    private prevScrollTop = -1;
+    private readonly borderOffset = 100;
 
-    private downTargetElement: Element | undefined;
-    private upTargetElement: Element | undefined;
-    private hasIntersection = false;
+    @HostListener('scroll', ['$event.target'])
+    onScroll({scrollTop, clientHeight, scrollHeight}: HTMLElement) {
+        this.prevScrollTop = scrollTop;
+        setTimeout(() => {
+            if (this.isLoadUp(scrollTop, this.prevScrollTop)) {
+                this.loadData.next(LoadDirection.UP);
+            }
 
-    constructor(private readonly elementRef: ElementRef) {}
-
-    ngOnInit(): void {
-        this.prepareDownIntersectionObserver();
-        this.prepareUpIntersectionObserver();
+            if (this.isLoadDown(scrollTop, this.prevScrollTop, clientHeight, scrollHeight)) {
+                this.loadData.next(LoadDirection.DOWN);
+            }
+        }, 50);
     }
 
-    private prepareDownIntersectionObserver(): void {
-        this.downIntersectionObserver = new IntersectionObserver(
-            entries => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting && this.hasIntersection) {
-                        this.loadData.emit(LoadDirection.Up);
-                    }
+    private isLoadUp(scrollTop: number, prevScrollTop: number) {
+        return scrollTop < this.borderOffset && scrollTop > prevScrollTop;
+    }
 
-                    if (!this.hasIntersection && !entry.isIntersecting) {
-                        this.hasIntersection = true;
-                    }
-                });
-            },
-            {
-                root: this.elementRef.nativeElement,
-                rootMargin: '100px 0px 0px 0px',
-                threshold: 1,
-            },
+    private isLoadDown(
+        scrollTop: number,
+        prevScrollTop: number,
+        clientHeight: number,
+        scrollHeight: number,
+    ) {
+        return (
+            clientHeight + scrollTop >= scrollHeight - this.borderOffset &&
+            scrollTop < prevScrollTop
         );
-
-        this.downTargetElement = this.elementRef.nativeElement.firstElementChild;
-
-        if (this.downTargetElement) {
-            this.downIntersectionObserver.observe(this.downTargetElement);
-        }
-    }
-
-    private prepareUpIntersectionObserver(): void {
-        this.upIntersectionObserver = new IntersectionObserver(
-            entries => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        this.loadData.emit(LoadDirection.Down);
-                    }
-                });
-            },
-            {
-                root: this.elementRef.nativeElement,
-                rootMargin: '0px 0px 100px 0px',
-                threshold: 1,
-            },
-        );
-
-        this.upTargetElement = this.elementRef.nativeElement.lastElementChild;
-
-        if (this.upTargetElement) {
-            this.upIntersectionObserver.observe(this.upTargetElement);
-        }
-    }
-
-    ngOnDestroy(): void {
-        this.unObserve();
-    }
-
-    private unObserve(): void {
-        this.downIntersectionObserver?.disconnect();
-        this.upIntersectionObserver?.disconnect();
     }
 }

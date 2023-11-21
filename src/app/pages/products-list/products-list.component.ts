@@ -24,8 +24,8 @@ export class ProductsListComponent implements OnInit {
         }, 4000);
     }
 
-    onLoad(event: LoadDirection) {
+    onLoad(loadDirection: LoadDirection) {
         // eslint-disable-next-line no-console
-        console.log('Load direction: ', event);
+        console.log('Load direction: ', loadDirection);
     }
 }
