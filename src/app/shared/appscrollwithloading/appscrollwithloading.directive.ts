@@ -10,30 +10,28 @@ export class AppScrollWithLoadingDirective {
     private readonly offsetTriggerValue = 100;
 
     @Output()
-    loadData = new EventEmitter<LoadDirection>();
+    readonly loadData = new EventEmitter<LoadDirection>();
 
     @HostListener('scroll', ['$event.target.scrollTop', '$event.target.clientHeight'])
     scroll(scrollTop: number, clientHeight: number) {
+        const outOfViewPortTop: boolean = scrollTop + this.offsetTriggerValue > clientHeight;
+        const outOfViewPortBottom: boolean =
+            scrollTop - this.offsetTriggerValue < this.offsetTriggerValue;
+
         if (this.startDirection <= this.offsetTriggerValue) {
             this.startDirection = scrollTop;
 
             return;
         }
 
-        if (
-            scrollTop + this.offsetTriggerValue > clientHeight &&
-            this.loadDirection !== LoadDirection.scrollTop
-        ) {
+        if (outOfViewPortTop && this.loadDirection !== LoadDirection.scrollTop) {
             this.loadDirection = LoadDirection.scrollTop;
             this.loadData.emit(this.loadDirection);
 
             return;
         }
 
-        if (
-            scrollTop - this.offsetTriggerValue < this.offsetTriggerValue &&
-            this.loadDirection !== LoadDirection.scrollBottom
-        ) {
+        if (outOfViewPortBottom && this.loadDirection !== LoadDirection.scrollBottom) {
             this.loadDirection = LoadDirection.scrollBottom;
             this.loadData.emit(this.loadDirection);
         }

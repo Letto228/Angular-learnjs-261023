@@ -1,4 +1,4 @@
 export enum LoadDirection {
-    scrollBottom = 2,
-    scrollTop = 3,
+    scrollBottom = 'bottom',
+    scrollTop = 'top',
 }
