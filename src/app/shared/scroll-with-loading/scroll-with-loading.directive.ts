@@ -5,15 +5,26 @@ import {LoadDirection} from './load-direction';
     selector: '[appScrollWithLoading]',
 })
 export class ScrollWithLoadingDirective {
-    @Output() loadData = new EventEmitter<LoadDirection>();
+    @Output() readonly loadData = new EventEmitter<LoadDirection>();
+
+    private readonly offset = 100; // отступ в пикселях от верхнего и нижнего края
+    private lastScrollTop = 0;
 
     @HostListener('scroll', ['$event']) onScroll(event: Event) {
         const {scrollTop, scrollHeight, clientHeight} = event.target as HTMLElement;
 
-        if (scrollTop + clientHeight >= scrollHeight - 100) {
+        const needEmitSrollBottomEvent = scrollTop + clientHeight >= scrollHeight - this.offset;
+
+        if (needEmitSrollBottomEvent && this.lastScrollTop < scrollTop) {
             this.loadData.emit(LoadDirection.DOWN);
-        } else if (scrollTop <= 100) {
+        }
+
+        const needEmitSrollTopEvent = scrollTop <= this.offset;
+
+        if (needEmitSrollTopEvent && this.lastScrollTop > scrollTop) {
             this.loadData.emit(LoadDirection.UP);
         }
+
+        this.lastScrollTop = scrollTop;
     }
 }
