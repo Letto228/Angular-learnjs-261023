@@ -6,25 +6,29 @@ import {borderOffset} from './border-offset.const';
     selector: '[appScrollWithLoading]',
 })
 export class ScrollWithLoadingDirective {
-    @Output() loadData = new EventEmitter<LoadingDirection>();
+    @Output() readonly loadData = new EventEmitter<LoadingDirection>();
     private eventSent = false;
+    private previousScrollTop = 0;
 
     @HostListener('scroll', ['$event.target'])
-    scrollHandler(target: HTMLElement) {
-        const topSpace = target.scrollTop;
-        const bottomSpace = target.scrollHeight - target.clientHeight - target.scrollTop;
+    scrollHandler({scrollHeight, clientHeight, scrollTop}: HTMLElement) {
+        const bottomSpace = scrollHeight - clientHeight - scrollTop;
+        const centerSpace = scrollTop > borderOffset && bottomSpace > borderOffset;
+        const scrollDelta = scrollTop - this.previousScrollTop;
 
-        if (!this.eventSent && topSpace <= borderOffset) {
+        this.previousScrollTop = scrollTop;
+
+        if (!this.eventSent && scrollTop <= borderOffset && scrollDelta < 0) {
             this.loadData.emit(LoadingDirection.Top);
             this.eventSent = true;
         }
 
-        if (!this.eventSent && bottomSpace <= borderOffset) {
+        if (!this.eventSent && bottomSpace <= borderOffset && scrollDelta > 0) {
             this.loadData.emit(LoadingDirection.Bottom);
             this.eventSent = true;
         }
 
-        if (this.eventSent === true && topSpace > borderOffset && bottomSpace > borderOffset) {
+        if (this.eventSent && centerSpace) {
             this.eventSent = false;
         }
     }
