@@ -1,6 +1,6 @@
-import {Directive, ElementRef, HostListener, Input, Output, EventEmitter} from '@angular/core';
+import {Directive, ElementRef, HostListener, Input, Output} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {Observable, Subject, distinctUntilChanged} from 'rxjs';
+import {Subject, distinctUntilChanged} from 'rxjs';
 import {LoadDirection} from './load-direction';
 
 @Directive({
@@ -8,32 +8,25 @@ import {LoadDirection} from './load-direction';
 })
 export class ScrollWithLoadingDirective {
     @Input('appScrollWithLoading') borderOffset = 100;
-    @Output() loadData: EventEmitter<LoadDirection> = new EventEmitter();
+    private readonly element: HTMLElement = this.elementRef.nativeElement;
+    private readonly loadDirection$ = new Subject<LoadDirection>();
+    @Output()
+    loadData = this.loadDirection$.pipe(distinctUntilChanged(), takeUntilDestroyed());
 
-    private readonly element: HTMLElement;
-    private readonly loadDirectionSubject: Subject<LoadDirection>;
-    private readonly loadDirection$: Observable<LoadDirection>;
+    private prevDirection = LoadDirection.Top;
 
-    constructor(private readonly elementRef: ElementRef<HTMLElement>) {
-        this.element = this.elementRef.nativeElement;
-        this.loadDirectionSubject = new Subject<LoadDirection>();
-        this.loadDirection$ = this.loadDirectionSubject.asObservable();
-
-        this.loadDirection$
-            .pipe(distinctUntilChanged(), takeUntilDestroyed())
-            .subscribe(direction => {
-                this.loadData.emit(direction);
-            });
-    }
+    constructor(private readonly elementRef: ElementRef<HTMLElement>) {}
 
     @HostListener('scroll')
     onElementScroll() {
-        if (this.isTopReached()) {
-            this.loadDirectionSubject.next(LoadDirection.Top);
+        if (this.prevDirection === LoadDirection.Bottom && this.isTopReached()) {
+            this.loadDirection$.next(LoadDirection.Top);
+            this.prevDirection = LoadDirection.Top;
         }
 
-        if (this.isBottomReached()) {
-            this.loadDirectionSubject.next(LoadDirection.Bottom);
+        if (this.prevDirection === LoadDirection.Top && this.isBottomReached()) {
+            this.loadDirection$.next(LoadDirection.Bottom);
+            this.prevDirection = LoadDirection.Bottom;
         }
     }
 
@@ -44,8 +37,8 @@ export class ScrollWithLoadingDirective {
     }
 
     private isBottomReached() {
-        const scrollBottom =
-            this.element.scrollHeight - this.element.clientHeight - this.element.scrollTop;
+        const {scrollHeight, clientHeight, scrollTop} = this.element;
+        const scrollBottom = scrollHeight - clientHeight - scrollTop;
 
         return scrollBottom < this.borderOffset;
     }
