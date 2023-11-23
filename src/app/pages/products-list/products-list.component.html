@@ -1,23 +1,6 @@
-<!-- <ng-template let-value [appIf]="products"> -->
-<!-- <ng-template
-    [ngIf]="products"
-    [ngIfElse]="loaderTemplate"
-    [ngIfThen]="loaderTemplate"
-    let-valueProp="ngIf"
-    let-value
-> -->
-<!-- <div
-    *ngIf="products; else loaderTemplate; let valueProp = ngIf; let value"
-    class="scroll-container"
-> -->
-<!-- <div
-    *ngIf="products; else loaderTemplate; ngIf as valueProp; $implicit as value"
-    class="scroll-container"
-> -->
-<!-- {{ data }} -->
 <div *ngIf="products as valueProp; else loaderTemplate; let value" class="scroll-container">
     <!-- Раскомментрировать для ДЗ -->
-    <!-- <ng-container
+    <ng-container
         *appPagination="
             let productsGroup of products;
             chankSize: 4;
@@ -27,24 +10,28 @@
             let back = back;
             let selectIndex = selectIndex
         "
-    > -->
-    <div class="cards">
-        <app-card
-            *ngFor="let product of products; trackBy: trackById"
-            class="card"
-            [product]="product"
-        ></app-card>
-    </div>
-    <div class="pagination">
-        <!-- Add pagination control -->
-    </div>
-    <!-- </ng-container> -->
-    <!-- <app-card class="card" [product]="value[1]"></app-card>
-    <app-card class="card" [product]="value[2]"></app-card>
-    <app-card class="card" [product]="value[3]"></app-card>
-    <app-card class="card" [product]="value[4]"></app-card> -->
+    >
+        <div class="cards">
+            <app-card
+                *ngFor="let product of productsGroup; trackBy: trackById"
+                class="card"
+                [product]="product"
+            ></app-card>
+        </div>
+        <div *ngIf="pageIndexes.length > 1" class="pagination">
+            <!-- Add pagination control -->
+            <button (click)="back()">&#8592;</button>
+            <button
+                *ngFor="let index of pageIndexes"
+                [class.active]="index === activeIndex"
+                (click)="selectIndex(index)"
+            >
+                {{ index + 1 }}
+            </button>
+            <button (click)="next()">&#8594;</button>
+        </div>
+    </ng-container>
 </div>
-<!-- </ng-template> -->
 
 <ng-template #loaderTemplate>
     <mat-spinner></mat-spinner>
