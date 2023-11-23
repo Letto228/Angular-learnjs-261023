@@ -14,6 +14,13 @@ export class ProductsListComponent implements OnInit {
 
     readonly products$ = this.productsStoreService.products$;
 
+    // for easy
+    name = 'Мышь';
+
+    // for hard
+    readonly propertyName = 'feedbacksCount' as const; // keyof IProduct
+    searchPropertyValue = 2;
+
     // constructor(
     //     @Inject(ChangeDetectorRef) private readonly changeDetectorRef: ChangeDetectorRef,
     //     @Inject(ElementRef) private readonly elementRef: ElementRef,
@@ -28,15 +35,14 @@ export class ProductsListComponent implements OnInit {
     constructor(
         private readonly productsStoreService: ProductsStoreService,
         @Inject('ProductsStoreService')
-        private readonly productsStoreServiceStr: ProductsStoreService,
-        @Inject('name') private readonly name: string,
+        private readonly productsStoreServiceStr: ProductsStoreService, // @Inject('name') private readonly name: string,
     ) {
         // eslint-disable-next-line no-console
         console.log(this.productsStoreServiceStr, this.productsStoreService);
         // eslint-disable-next-line no-console
         console.log(this.productsStoreServiceStr === this.productsStoreService);
         // eslint-disable-next-line no-console
-        console.log(this.name);
+        // console.log(this.name);
     }
 
     ngOnInit(): void {
