@@ -23,17 +23,21 @@ export class AppScrollWithLoadingDirective implements OnInit, OnDestroy {
             const {scrollHeight, scrollTop, clientHeight} = scrollEvent.target;
             const bottomOffset = scrollHeight - (clientHeight + scrollTop);
 
-            if (
-                Number(this.previousScrollOffsets.top) > ScrollOffsets.top &&
-                scrollTop < ScrollOffsets.top
-            ) {
+            const isScrollUp =
+                this.previousScrollOffsets.top !== null &&
+                this.previousScrollOffsets.top > ScrollOffsets.top &&
+                scrollTop < ScrollOffsets.top;
+
+            const isScrollDown =
+                this.previousScrollOffsets.bottom !== null &&
+                this.previousScrollOffsets.bottom > ScrollOffsets.bottom &&
+                bottomOffset < ScrollOffsets.bottom;
+
+            if (isScrollUp) {
                 this.loadData.emit(LoadDirection.up);
             }
 
-            if (
-                Number(this.previousScrollOffsets.bottom) > ScrollOffsets.bottom &&
-                bottomOffset < ScrollOffsets.bottom
-            ) {
+            if (isScrollDown) {
                 this.loadData.emit(LoadDirection.down);
             }
 
