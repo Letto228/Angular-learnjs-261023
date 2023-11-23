@@ -17,28 +17,48 @@
 <!-- {{ data }} -->
 <div *ngIf="products as valueProp; else loaderTemplate; let value" class="scroll-container">
     <!-- Раскомментрировать для ДЗ -->
-    <!-- <ng-container
+    <ng-container
         *appPagination="
             let productsGroup of products;
-            chankSize: 4;
+            let chankSize = chank;
             let pageIndexes = pageIndexes;
             let activeIndex = index;
             let next = next;
             let back = back;
-            let selectIndex = selectIndex
+            let selectIndex = selectIndex;
+            let selectChank = selectChank
         "
-    > -->
-    <div class="cards">
-        <app-card
-            *ngFor="let product of products; trackBy: trackById"
-            class="card"
-            [product]="product"
-        ></app-card>
-    </div>
-    <div class="pagination">
-        <!-- Add pagination control -->
-    </div>
-    <!-- </ng-container> -->
+    >
+        <div class="cards">
+            <app-card
+                *ngFor="let product of productsGroup; trackBy: trackById"
+                class="card"
+                [product]="product"
+            ></app-card>
+        </div>
+        <div class="pagination">
+            <input
+                #chankSizeInput
+                type="number"
+                placeholder="Chank Size"
+                (keyup)="selectChank(chankSizeInput.value)"
+            />
+
+            <button mat-icon-button [matMenuTriggerFor]="menu">Select Page</button>
+
+            <mat-menu #menu="matMenu">
+                <span
+                    *ngFor="let pageIndex of pageIndexes"
+                    mat-menu-item
+                    (click)="selectIndex(pageIndex - 1)"
+                >
+                    {{ pageIndex }}
+                </span>
+            </mat-menu>
+            <button (click)="next()">Next</button>
+            <button (click)="back()">Back</button>
+        </div>
+    </ng-container>
     <!-- <app-card class="card" [product]="value[1]"></app-card>
     <app-card class="card" [product]="value[2]"></app-card>
     <app-card class="card" [product]="value[3]"></app-card>
