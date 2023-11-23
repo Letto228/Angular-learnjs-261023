@@ -18,41 +18,43 @@ export class AppScrollWithLoadingDirective implements OnInit, OnDestroy {
 
     constructor(private readonly elementRef: ElementRef) {}
 
-    private onElementScroll(scrollEvent: Event) {
-        if (scrollEvent.target instanceof HTMLElement) {
-            const {scrollHeight, scrollTop, clientHeight} = scrollEvent.target;
-            const bottomOffset = scrollHeight - (clientHeight + scrollTop);
+    private onElementScroll(scrollElement: HTMLElement) {
+        const {scrollHeight, scrollTop, clientHeight} = scrollElement;
+        const bottomOffset = scrollHeight - (clientHeight + scrollTop);
 
-            const isScrollUp =
-                this.previousScrollOffsets.top !== null &&
-                this.previousScrollOffsets.top > ScrollOffsets.top &&
-                scrollTop < ScrollOffsets.top;
+        const isScrollUp =
+            this.previousScrollOffsets.top !== null &&
+            this.previousScrollOffsets.top > ScrollOffsets.top &&
+            scrollTop < ScrollOffsets.top;
 
-            const isScrollDown =
-                this.previousScrollOffsets.bottom !== null &&
-                this.previousScrollOffsets.bottom > ScrollOffsets.bottom &&
-                bottomOffset < ScrollOffsets.bottom;
+        const isScrollDown =
+            this.previousScrollOffsets.bottom !== null &&
+            this.previousScrollOffsets.bottom > ScrollOffsets.bottom &&
+            bottomOffset < ScrollOffsets.bottom;
 
-            if (isScrollUp) {
-                this.loadData.emit(LoadDirection.up);
-            }
-
-            if (isScrollDown) {
-                this.loadData.emit(LoadDirection.down);
-            }
-
-            this.previousScrollOffsets = {
-                top: scrollTop,
-                bottom: bottomOffset,
-            };
+        if (isScrollUp) {
+            this.loadData.emit(LoadDirection.up);
         }
+
+        if (isScrollDown) {
+            this.loadData.emit(LoadDirection.down);
+        }
+
+        this.previousScrollOffsets = {
+            top: scrollTop,
+            bottom: bottomOffset,
+        };
     }
 
     ngOnInit() {
         if (this.elementRef.nativeElement instanceof HTMLElement) {
             this.subscription.add(
                 fromEvent(this.elementRef.nativeElement, 'scroll').subscribe({
-                    next: event => this.onElementScroll(event),
+                    next: event => {
+                        if (event.target instanceof HTMLElement) {
+                            this.onElementScroll(event.target);
+                        }
+                    },
                 }),
             );
         }
