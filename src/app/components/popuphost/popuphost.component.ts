@@ -40,15 +40,11 @@ export class PopuphostComponent implements OnChanges {
     }
 
     private updateView() {
-        if (this.template) {
-            this.borderStyle = 'b-popup';
-            this.container?.clear();
-            this.container?.createEmbeddedView(this.template);
-        }
+        this.borderStyle = this.template ? 'b-popup' : '';
+        this.container?.clear();
 
-        if (!this.template) {
-            this.borderStyle = '';
-            this.container?.clear();
+        if (this.template) {
+            this.container?.createEmbeddedView(this.template);
         }
     }
 }
