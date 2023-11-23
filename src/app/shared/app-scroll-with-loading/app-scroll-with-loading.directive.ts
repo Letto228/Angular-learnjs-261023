@@ -1,15 +1,6 @@
 import {Directive, Output, EventEmitter, ElementRef, OnDestroy, OnInit} from '@angular/core';
 import {Subscription, fromEvent} from 'rxjs';
-
-export enum LoadDirection {
-    up = 'up',
-    down = 'down',
-}
-
-enum ScrollOffsets {
-    top = 100,
-    bottom = 100,
-}
+import {LoadDirection, ScrollOffsets} from './constants';
 
 @Directive({
     selector: '[appScrollWithLoading]',
