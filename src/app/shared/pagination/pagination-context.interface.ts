@@ -1,5 +1,6 @@
 export interface IPaginationContext<T> {
     $implicit: T[];
+    appPaginationOf: T[] | null | undefined;
     activeIndex: number;
     pageIndexes: number[];
     index: number;

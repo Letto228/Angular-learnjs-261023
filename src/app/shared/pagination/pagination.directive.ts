@@ -6,13 +6,14 @@ import {
     TemplateRef,
     ViewContainerRef,
 } from '@angular/core';
+import {chunk} from 'lodash';
 import {IPaginationContext} from './pagination-context.interface';
 
 @Directive({
     selector: '[appPagination]',
 })
 export class PaginationDirective<T> implements OnChanges {
-    @Input() appPaginationOf: T[] = [];
+    @Input() appPaginationOf: T[] | null | undefined = [];
     @Input() appPaginationChankSize = 1;
 
     private chanks: T[][] = [];
@@ -27,41 +28,17 @@ export class PaginationDirective<T> implements OnChanges {
     ngOnChanges({appPaginationOf, appPaginationChankSize}: SimpleChanges) {
         if (appPaginationOf || appPaginationChankSize) {
             this.currentIndex = 0;
-            this.calculateChanksData();
+            this.updateChanksData();
             this.updateView();
         }
     }
 
-    private calculateChanksData() {
-        const pageIndexes: number[] = [];
-        const chanks: T[][] = [];
-
+    private updateChanksData() {
         const canCalculate = this.appPaginationOf?.length && this.appPaginationChankSize;
-
-        if (canCalculate) {
-            let chank: T[] = [];
-            let pageIndex = 0;
-
-            for (let index = 0; index < this.appPaginationOf.length; index++) {
-                const item = this.appPaginationOf[index];
-                const needAddNewChank = index && index % this.appPaginationChankSize === 0;
-
-                if (needAddNewChank) {
-                    chanks.push(chank);
-                    pageIndexes.push(pageIndex);
-
-                    chank = [];
-                    pageIndex++;
-                }
-
-                chank.push(item);
-            }
-
-            if (chank.length) {
-                chanks.push(chank);
-                pageIndexes.push(pageIndex);
-            }
-        }
+        const chanks: T[][] = canCalculate
+            ? chunk(this.appPaginationOf, this.appPaginationChankSize)
+            : [];
+        const pageIndexes = [...chanks.keys()];
 
         this.chanks = chanks;
         this.pageIndexes = pageIndexes;
@@ -70,7 +47,7 @@ export class PaginationDirective<T> implements OnChanges {
     private updateView() {
         this.viewContainerRef.clear();
 
-        const shouldShowItems = this.chanks?.length && this.appPaginationChankSize;
+        const shouldShowItems = this.chanks.length && this.appPaginationChankSize;
 
         if (shouldShowItems) {
             this.viewContainerRef.createEmbeddedView(this.templateRef, this.getCurrentContext());
@@ -80,6 +57,7 @@ export class PaginationDirective<T> implements OnChanges {
     private getCurrentContext(): IPaginationContext<T> {
         return {
             $implicit: this.chanks[this.currentIndex],
+            appPaginationOf: this.appPaginationOf,
             index: this.currentIndex,
             activeIndex: this.currentIndex,
             pageIndexes: this.pageIndexes,
