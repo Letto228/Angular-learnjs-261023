@@ -1,7 +1,11 @@
 <mat-card class="card">
     <mat-card-header>
         <mat-card-title>{{ product?.name }}</mat-card-title>
-        <mat-card-subtitle>{{ product?.price }} $</mat-card-subtitle>
+        <!-- <mat-card-subtitle>{{ getCurrency(product?.price) }}</mat-card-subtitle> -->
+        <mat-card-subtitle>{{ product?.price | currency : 'USD' : '0-0.0' }}</mat-card-subtitle>
+        <!-- <mat-card-subtitle>{{ CurrencyPipe.transform(product?.price, 'USD', '0-0.0') }}</mat-card-subtitle> -->
+        <!-- <mat-card-subtitle>{{ (product?.price | currency : 'USD' : '0-0.0') | json }}</mat-card-subtitle> -->
+        <!-- <mat-card-subtitle>{{ JsonPipe.transform(CurrencyPipe.transform(product?.price, 'USD', '0-0.0')) }}</mat-card-subtitle> -->
     </mat-card-header>
     <div
         *appCarousel="let imageOptions of product?.images; let next = next; let back = back"
