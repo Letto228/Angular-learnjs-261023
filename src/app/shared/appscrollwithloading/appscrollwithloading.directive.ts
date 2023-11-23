@@ -5,33 +5,37 @@ import {LoadDirection} from './load-direction.enum';
     selector: '[appScrollWithLoading]',
 })
 export class AppScrollWithLoadingDirective {
-    private loadDirection: LoadDirection = LoadDirection.scrollBottom;
-    private startDirection = 0;
+    private loadDirection: LoadDirection = LoadDirection.scrollTop;
+    private readonly startDirection = 0;
     private readonly offsetTriggerValue = 100;
 
     @Output()
     readonly loadData = new EventEmitter<LoadDirection>();
 
-    @HostListener('scroll', ['$event.target.scrollTop', '$event.target.clientHeight'])
-    scroll(scrollTop: number, clientHeight: number) {
-        const outOfViewPortTop: boolean = scrollTop + this.offsetTriggerValue > clientHeight;
+    @HostListener('scroll', [
+        '$event.target.scrollTop',
+        '$event.target.clientHeight',
+        '$event.target.scrollHeight',
+    ])
+    scroll(scrollTop: number, clientHeight: number, scrollHeight: number) {
+        const outOfViewPortTop: boolean = scrollTop < this.offsetTriggerValue;
         const outOfViewPortBottom: boolean =
-            scrollTop - this.offsetTriggerValue < this.offsetTriggerValue;
+            scrollHeight > scrollTop && clientHeight - this.offsetTriggerValue < scrollTop;
 
-        if (this.startDirection <= this.offsetTriggerValue) {
-            this.startDirection = scrollTop;
+        if (!outOfViewPortTop && !outOfViewPortBottom) {
+            this.loadDirection = LoadDirection.scrollActive;
 
             return;
         }
 
-        if (outOfViewPortTop && this.loadDirection !== LoadDirection.scrollTop) {
+        if (outOfViewPortTop && this.loadDirection === LoadDirection.scrollActive) {
             this.loadDirection = LoadDirection.scrollTop;
             this.loadData.emit(this.loadDirection);
 
             return;
         }
 
-        if (outOfViewPortBottom && this.loadDirection !== LoadDirection.scrollBottom) {
+        if (outOfViewPortBottom && this.loadDirection === LoadDirection.scrollActive) {
             this.loadDirection = LoadDirection.scrollBottom;
             this.loadData.emit(this.loadDirection);
         }
