@@ -12,10 +12,6 @@ export class CardComponent {
 
     @Output() readonly buy = new EventEmitter<IProduct['_id']>();
 
-    // ngOnInit(): void {
-    // console.log('OnInit', this.product?._id);
-    // }
-
     onProductBuy(event: Event) {
         event.stopPropagation();
 

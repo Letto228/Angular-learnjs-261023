@@ -12,13 +12,6 @@ export class HeaderComponent {
 
     @Output() readonly menuClick = new EventEmitter<void>();
 
-    get data(): string {
-        // eslint-disable-next-line no-console
-        console.log('Data calculated from HeaderComponent');
-
-        return 'Yes, data';
-    }
-
     onMenuClick(_event: MouseEvent) {
         this.menuClick.emit();
     }
