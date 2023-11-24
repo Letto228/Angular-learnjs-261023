@@ -23,6 +23,7 @@ export class PaginationDirective<T> implements OnInit, OnDestroy, OnChanges {
     private readonly destroy$ = new Subject<void>();
 
     private chanks: T[][] = [];
+    private pageIndexes: number[] = [];
 
     constructor(
         private readonly viewContainerRef: ViewContainerRef,
@@ -60,7 +61,7 @@ export class PaginationDirective<T> implements OnInit, OnDestroy, OnChanges {
         return {
             $implicit: this.chanks[currentIndex],
             index: currentIndex,
-            pageIndexes: this.chanks.map((chank, index) => index),
+            pageIndexes: this.pageIndexes,
             next: () => {
                 this.next();
             },
@@ -80,7 +81,10 @@ export class PaginationDirective<T> implements OnInit, OnDestroy, OnChanges {
     private updateView() {
         if (this.appPaginationOf?.length) {
             this.chanks = chunk(this.appPaginationOf, this.appPaginationChankSize);
+            this.pageIndexes = this.chanks.map((chank, index) => index);
             this.currentIndex$.next(0);
+
+            return;
         }
 
         this.viewContainerRef.clear();
@@ -96,7 +100,7 @@ export class PaginationDirective<T> implements OnInit, OnDestroy, OnChanges {
     private back() {
         const previousIndex = this.currentIndex$.value - 1;
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const lastIndex = this.chanks!.length - 1;
+        const lastIndex = this.chanks.length - 1;
         const newIndex = previousIndex < 0 ? lastIndex : previousIndex;
 
         this.currentIndex$.next(newIndex);
