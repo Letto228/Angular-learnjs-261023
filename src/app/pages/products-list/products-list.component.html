@@ -17,7 +17,7 @@
 <!-- {{ data }} -->
 <div *ngIf="products as valueProp; else loaderTemplate; let value" class="scroll-container">
     <!-- Раскомментрировать для ДЗ -->
-    <!-- <ng-container
+    <ng-container
         *appPagination="
             let productsGroup of products;
             chankSize: 4;
@@ -27,18 +27,28 @@
             let back = back;
             let selectIndex = selectIndex
         "
-    > -->
-    <div class="cards">
-        <app-card
-            *ngFor="let product of products; trackBy: trackById"
-            class="card"
-            [product]="product"
-        ></app-card>
-    </div>
-    <div class="pagination">
-        <!-- Add pagination control -->
-    </div>
-    <!-- </ng-container> -->
+    >
+        <div class="cards">
+            <app-card
+                *ngFor="let product of productsGroup; trackBy: trackById"
+                class="card"
+                [product]="product"
+            ></app-card>
+        </div>
+        <div *ngIf="pageIndexes.length > 1" class="pagination">
+            <!-- Add pagination control -->
+            <span class="page__index" (click)="back()">&lt;</span>
+            <span
+                *ngFor="let currentIndex of pageIndexes"
+                class="page__index"
+                [class.page__index__current]="currentIndex === activeIndex"
+                (click)="selectIndex(currentIndex)"
+            >
+                {{ currentIndex + 1 }}
+            </span>
+            <span class="page__index" (click)="next()">&gt;</span>
+        </div>
+    </ng-container>
     <!-- <app-card class="card" [product]="value[1]"></app-card>
     <app-card class="card" [product]="value[2]"></app-card>
     <app-card class="card" [product]="value[3]"></app-card>

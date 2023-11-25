@@ -38,3 +38,13 @@
     align-items: center;
     width: 100%;
 }
+
+.page__index {
+    font-size: 18px;
+    margin: 0 8px;
+    cursor: pointer;
+}
+
+.page__index__current {
+    font-weight: 800;
+}
