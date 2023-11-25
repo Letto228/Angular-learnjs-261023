@@ -1,4 +1,4 @@
-export const enum LoadDirection {
-    Forward,
-    Back,
+export enum LoadDirection {
+    Forward = 'Forward',
+    Back = 'Back',
 }

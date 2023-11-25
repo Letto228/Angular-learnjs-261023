@@ -10,34 +10,38 @@ export class ScrollWithLoadingDirective {
     constructor(private readonly elementRef: ElementRef<HTMLElement>) {}
 
     private readonly indent = 100;
-    private loadDirection = LoadDirection.Forward;
     private previosScrollValue = 0;
 
     @HostListener('scroll')
     onScroll() {
-        const scrollTop = this.elementRef.nativeElement.scrollTop;
-        const scrollHeight = this.elementRef.nativeElement.scrollHeight;
-        const offsetHeight = this.elementRef.nativeElement.offsetHeight;
+        const {scrollTop, scrollHeight, offsetHeight} = this.elementRef.nativeElement;
+        let loadDirection = LoadDirection.Forward;
 
         if (scrollTop > this.previosScrollValue) {
-            this.loadDirection = LoadDirection.Forward;
+            loadDirection = LoadDirection.Forward;
         } else {
-            this.loadDirection = LoadDirection.Back;
+            loadDirection = LoadDirection.Back;
         }
 
         this.previosScrollValue = scrollTop;
 
+        const bottomCoordinateOfElement = scrollTop + offsetHeight;
+        const bottomBoundingCoordinate = scrollHeight - this.indent;
+
         if (
-            scrollTop + offsetHeight + this.indent > scrollHeight &&
-            this.loadDirection === LoadDirection.Forward
+            bottomCoordinateOfElement > bottomBoundingCoordinate &&
+            loadDirection === LoadDirection.Forward
         ) {
-            this.loadData.emit(this.loadDirection);
+            this.loadData.emit(loadDirection);
 
             return;
         }
 
-        if (scrollTop < this.indent && this.loadDirection === LoadDirection.Back) {
-            this.loadData.emit(this.loadDirection);
+        const isTopBounding = scrollTop < this.indent;
+        const isDirectionBack = loadDirection === LoadDirection.Back;
+
+        if (isTopBounding && isDirectionBack) {
+            this.loadData.emit(loadDirection);
         }
     }
 }
