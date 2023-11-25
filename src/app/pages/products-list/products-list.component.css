@@ -9,6 +9,9 @@
     box-sizing: border-box;
     overflow: auto;
 }
+.active {
+    background-color: cornflowerblue;
+}
 
 .scroll-container {
     display: flex;
