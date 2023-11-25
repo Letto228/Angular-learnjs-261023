@@ -15,9 +15,9 @@
     class="scroll-container"
 > -->
 <!-- {{ data }} -->
-<div *ngIf="products as valueProp; else loaderTemplate; let value" class="scroll-container">
+<div *ngIf="products; else loaderTemplate; let value" class="scroll-container">
     <!-- Раскомментрировать для ДЗ -->
-    <!-- <ng-container
+     <ng-container
         *appPagination="
             let productsGroup of products;
             chankSize: 4;
@@ -25,20 +25,30 @@
             let activeIndex = index;
             let next = next;
             let back = back;
-            let selectIndex = selectIndex
+            let go = go;
+            let selectIndex = selectIndex;
         "
-    > -->
-    <div class="cards">
-        <app-card
-            *ngFor="let product of products; trackBy: trackById"
-            class="card"
-            [product]="product"
-        ></app-card>
-    </div>
-    <div class="pagination">
-        <!-- Add pagination control -->
-    </div>
-    <!-- </ng-container> -->
+    >
+        <div class="cards">
+            <app-card
+                *ngFor="let product of productsGroup; trackBy: trackById"
+                class="card"
+                [product]="product"
+            ></app-card>
+        </div>
+        <div class="pagination" *ngIf="pageIndexes">
+            <button mat-icon-button (click)="back()">
+                <mat-icon>chevron_left</mat-icon>
+            </button>
+            <button mat-button  *ngFor="let pageIndex of pageIndexes; let index=index" ngClass="{{activeIndex == index ? 'active' : ''}}" (click)="go(index)">
+                {{ index + 1 }}
+            </button>
+            <button mat-icon-button (click)="next()">
+                <mat-icon>chevron_right</mat-icon>
+            </button>
+            <!-- Add pagination control -->
+        </div>
+     </ng-container>
     <!-- <app-card class="card" [product]="value[1]"></app-card>
     <app-card class="card" [product]="value[2]"></app-card>
     <app-card class="card" [product]="value[3]"></app-card>
