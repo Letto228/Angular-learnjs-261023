@@ -21,6 +21,12 @@ export class ProductsListComponent implements OnInit {
     readonly propertyName = 'feedbacksCount' as const; // keyof IProduct
     searchPropertyValue = 2;
 
+    // readonly propertyName = 'name' as const; // keyof IProduct
+    // searchPropertyValue = 'черный';
+
+    // readonly propertyName = 'rating' as const; // keyof IProduct
+    // searchPropertyValue = 4.5;
+
     // constructor(
     //     @Inject(ChangeDetectorRef) private readonly changeDetectorRef: ChangeDetectorRef,
     //     @Inject(ElementRef) private readonly elementRef: ElementRef,
