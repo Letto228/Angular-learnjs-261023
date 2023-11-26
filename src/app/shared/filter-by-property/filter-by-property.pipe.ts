@@ -4,10 +4,10 @@ import {Pipe, PipeTransform} from '@angular/core';
     name: 'filterByProperty',
 })
 export class FilterByPropertyPipe implements PipeTransform {
-    transform<T extends object, K extends keyof T, V extends T[K]>(
+    transform<T extends object, K extends keyof T>(
         items: T[],
         propertyName: K,
-        searchValue: V,
+        searchValue: T[K],
     ): T[] {
         return items.filter(item => {
             const propertyValue = item[propertyName];
