@@ -1,5 +1,7 @@
 import {Directive, EventEmitter, HostListener, Output} from '@angular/core';
-import { LoadDirection } from './load-direction';
+import { LoadDirection } from './constants/load-direction';
+import { scrollReachBottom } from './utils/is-scroll-reach.bottom';
+import { scrollReachTop } from './utils/is-scroll-reach-top';
 
 @Directive({
     selector: '[appScrollWithLoading]',
@@ -21,31 +23,15 @@ export class ScrollWithLoadingDirective {
         const prevScrollTop = this.prevScrollTop;
         this.prevScrollTop = scrollTop;
 
-        const MessageBottom = this.scrollReachBottom(scrollTop, clientHeight, scrollHeight, prevScrollTop);
-        if (MessageBottom) {
-            this.loadData.emit(LoadDirection.Bottom)            
+        const messageBottom = scrollReachBottom(scrollTop, clientHeight, scrollHeight, prevScrollTop);
+        if (messageBottom) {
+            this.loadData.emit(LoadDirection.Bottom);
+            
+            return;
         }
-        const MessageTop = this.scrollReachTop(scrollTop, prevScrollTop);
-        if (MessageTop) {
-            this.loadData.emit(LoadDirection.Top)
-        }
-        
-    }
-
-    //  Функция, высчитывающая сколько осталось от нижней границы видимого окна до нижней границы документа
-    scrollReachBottom(
-        scrollTop: number,
-        clienHeight: number,
-        scrollHeight: number,
-        prevScrollTop: number
-    ):boolean {
-        return scrollHeight - clienHeight - scrollTop < 100 && scrollTop > prevScrollTop;
-    }
-
-    scrollReachTop(
-        scrollTop: number,
-        prevScrollTop: number
-    ):boolean {
-        return scrollTop < 100 && scrollTop < prevScrollTop;
+        const messageTop = scrollReachTop(scrollTop, prevScrollTop);
+        if (messageTop) {
+            this.loadData.emit(LoadDirection.Top);
+        }   
     }
 }

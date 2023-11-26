@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {productsMock} from '../../shared/products/products.mock';
 import {IProduct} from '../../shared/products/product.interface';
-import { LoadDirection } from '../../shared/scroll-with-loading/load-direction';
+import { LoadDirection } from '../../shared/scroll-with-loading/constants/load-direction';
 
 @Component({
     selector: 'app-products-list',
