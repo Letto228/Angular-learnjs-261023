@@ -8,6 +8,7 @@ import {
     SimpleChanges,
     ViewContainerRef,
 } from '@angular/core';
+import {splitArrayIntoChunks} from 'src/app/utils';
 
 type PaginationDirectiveContext<T> = {
     $implicit: T[];
@@ -17,18 +18,6 @@ type PaginationDirectiveContext<T> = {
     next: VoidFunction;
     back: VoidFunction;
     selectIndex: (index: number) => void;
-};
-
-const splitArrayIntoChunks = <T>(value: T[], chunkSize: number): T[][] => {
-    const result = [];
-
-    while (value.length) {
-        const chunk = value.splice(0, chunkSize);
-
-        result.push(chunk);
-    }
-
-    return result;
 };
 
 @Directive({
