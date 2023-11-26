@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {LoadDirection} from 'src/app/shared/app-scroll-with-loading/app-scroll-with-loading.directive';
+import {LoadDirection} from '../../shared/app-scroll-with-loading/constants';
 import {productsMock} from '../../shared/products/products.mock';
 import {IProduct} from '../../shared/products/product.interface';
 
