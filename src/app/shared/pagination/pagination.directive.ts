@@ -36,7 +36,7 @@ const splitArrayIntoChunks = <T>(value: T[], chunkSize: number): T[][] => {
 })
 export class PaginationDirective<T> implements OnChanges {
     @Input()
-    appPaginationOf: T[] = [];
+    appPaginationOf: T[] | null | undefined = [];
 
     @Input()
     appPaginationChankSize = 1;
@@ -61,7 +61,7 @@ export class PaginationDirective<T> implements OnChanges {
         this.index = 0;
 
         this.paginationChunks = splitArrayIntoChunks(
-            this.appPaginationOf,
+            this.appPaginationOf ?? [],
             this.appPaginationChankSize,
         );
 
