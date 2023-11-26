@@ -57,7 +57,7 @@ export class PaginationDirective<T> implements OnChanges {
         this.pageIndexes = Array.from(this.paginationChunks.keys());
     }
 
-    next() {
+    private next() {
         const nextIndex = this.index + 1;
 
         if (this.pageIndexes.includes(nextIndex)) {
@@ -66,7 +66,7 @@ export class PaginationDirective<T> implements OnChanges {
         }
     }
 
-    back() {
+    private back() {
         const prevIndex = this.index - 1;
 
         if (this.pageIndexes.includes(prevIndex)) {
