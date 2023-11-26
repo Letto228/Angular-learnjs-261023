@@ -1,25 +1,21 @@
-import {Directive, Output, EventEmitter, ElementRef, OnDestroy, OnInit} from '@angular/core';
-import {Subscription, fromEvent} from 'rxjs';
+import {Directive, Output, EventEmitter, HostListener} from '@angular/core';
 import {LoadDirection, ScrollOffsets} from './constants';
 
 @Directive({
     selector: '[appScrollWithLoading]',
 })
-export class AppScrollWithLoadingDirective implements OnInit, OnDestroy {
+export class AppScrollWithLoadingDirective {
     @Output()
     readonly loadData = new EventEmitter<LoadDirection>();
-
-    private readonly subscription = new Subscription();
 
     private previousScrollOffsets: {top: null | number; bottom: null | number} = {
         top: null,
         bottom: null,
     };
 
-    constructor(private readonly elementRef: ElementRef) {}
-
-    private onElementScroll(scrollElement: HTMLElement) {
-        const {scrollHeight, scrollTop, clientHeight} = scrollElement;
+    @HostListener('scroll', ['$event.target'])
+    private onScroll(targetElement: HTMLElement) {
+        const {scrollHeight, scrollTop, clientHeight} = targetElement;
         const bottomOffset = scrollHeight - (clientHeight + scrollTop);
 
         const isScrollUp =
@@ -44,23 +40,5 @@ export class AppScrollWithLoadingDirective implements OnInit, OnDestroy {
             top: scrollTop,
             bottom: bottomOffset,
         };
-    }
-
-    ngOnInit() {
-        if (this.elementRef.nativeElement instanceof HTMLElement) {
-            this.subscription.add(
-                fromEvent(this.elementRef.nativeElement, 'scroll').subscribe({
-                    next: event => {
-                        if (event.target instanceof HTMLElement) {
-                            this.onElementScroll(event.target);
-                        }
-                    },
-                }),
-            );
-        }
-    }
-
-    ngOnDestroy() {
-        this.subscription.unsubscribe();
     }
 }
