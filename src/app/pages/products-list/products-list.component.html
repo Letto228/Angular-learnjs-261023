@@ -40,9 +40,7 @@
             <button (click)="back()">Назад</button>
             <button
                 *ngFor="let pageIndex of pageIndexes"
-                [ngStyle]="{
-                    fontWeight: pageIndex === activeIndex ? 'bold' : 'unset'
-                }"
+                [class.activePaginationButton]="pageIndex === activeIndex"
                 (click)="selectIndex(pageIndex)"
             >
                 {{ pageIndex + 1 }}
