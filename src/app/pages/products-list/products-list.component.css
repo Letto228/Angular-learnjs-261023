@@ -38,3 +38,12 @@
     align-items: center;
     width: 100%;
 }
+
+.pagination__page-btn {
+    width: 33px;
+    height: 33px;
+}
+.pagination__page-btn_active {
+    font-weight: bold;
+    text-decoration: underline;
+}
