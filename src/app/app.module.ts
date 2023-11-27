@@ -1,4 +1,4 @@
-import {NgModule, inject} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -24,44 +24,6 @@ import {ProductsApiService} from './shared/products/products-api.service';
         MatListModule,
     ],
     bootstrap: [AppComponent],
-    providers: [
-        // {
-        //     provide: ProductsStoreService, // token
-        //     useClass: ProductsStoreService,
-        // },
-        ProductsStoreService,
-        ProductsApiService,
-        // {
-        //     provide: ProductsStoreService,
-        //     useFactory: () => new ProductsStoreService(),
-        // },
-        // {
-        //     provide: 'name',
-        //     useValue: 'Egor',
-        // },
-        {
-            provide: 'name',
-            useFactory: () => ['Anna', 'Jeka'],
-            multi: false,
-        },
-        {
-            provide: 'name',
-            useFactory: () => ['Egor', 'Alex'],
-            multi: false,
-        },
-        // {
-        //     provide: 'ProductsStoreService',
-        //     useExisting: ProductsStoreService,
-        // },
-        // {
-        //     provide: 'ProductsStoreService',
-        //     useFactory: (productsStoreService: ProductsStoreService) => productsStoreService,
-        //     deps: [ProductsStoreService],
-        // },
-        {
-            provide: 'ProductsStoreService',
-            useFactory: () => inject(ProductsStoreService),
-        },
-    ],
+    providers: [ProductsStoreService, ProductsApiService],
 })
 export class AppModule {}
