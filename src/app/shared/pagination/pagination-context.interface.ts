@@ -1,5 +1,6 @@
 export interface IPaginatonContext<T> {
     $implicit: T[];
+    appPaginationOf: T[];
     pageIndexes: number[];
     chankeSize: number;
     index: number;

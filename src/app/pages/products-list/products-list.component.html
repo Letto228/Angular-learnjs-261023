@@ -47,13 +47,14 @@
             <button mat-icon-button [matMenuTriggerFor]="menu">Select Page</button>
 
             <mat-menu #menu="matMenu">
-                <span
+                <button
                     *ngFor="let pageIndex of pageIndexes"
                     mat-menu-item
-                    (click)="selectIndex(pageIndex - 1)"
+                    [disabled]="activeIndex === pageIndex"
+                    (click)="selectIndex(pageIndex) + 1"
                 >
-                    {{ pageIndex }}
-                </span>
+                    {{ pageIndex + 1 }}
+                </button>
             </mat-menu>
             <button (click)="next()">Next</button>
             <button (click)="back()">Back</button>

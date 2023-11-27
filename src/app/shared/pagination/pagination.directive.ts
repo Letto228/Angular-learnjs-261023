@@ -1,35 +1,49 @@
 import {BehaviorSubject, map} from 'rxjs';
-import {Directive, Input, OnInit, TemplateRef, ViewContainerRef} from '@angular/core';
+import {
+    Directive,
+    Input,
+    OnChanges,
+    OnInit,
+    SimpleChanges,
+    TemplateRef,
+    ViewContainerRef,
+} from '@angular/core';
+import {chunk} from 'lodash';
 import {IPaginatonContext} from './pagination-context.interface';
 
 @Directive({
     selector: '[appPagination]',
 })
-export class PaginationDirective<T> implements OnInit {
+export class PaginationDirective<T> implements OnInit, OnChanges {
     @Input() appPaginationOf: T[] | undefined | null;
-    @Input() appPaginationChankSize: number | undefined | null;
+
+    private chunkedPages: T[][] = [];
 
     private readonly currentPageIndex = new BehaviorSubject<number>(0);
-    private pageIndexes = new Array<number>();
-
-    private currentPageProducts = new Array<T[]>();
+    private paginationChankSize = 3;
 
     constructor(
         private readonly viewContainerRef: ViewContainerRef,
-        private readonly templateRef: TemplateRef<IPaginatonContext<T>>, // todo change any
+        private readonly templateRef: TemplateRef<IPaginatonContext<T>>,
     ) {}
 
+    ngOnChanges({appPaginationOf}: SimpleChanges): void {
+        if (appPaginationOf) {
+            this.updateView();
+        }
+    }
+
     ngOnInit(): void {
-        this.splitProducts();
-        this.listenCurrentIndex();
+        this.updateView();
     }
 
     private getCurrentContext(index: number): IPaginatonContext<T> {
         return {
-            $implicit: this.currentPageProducts[index],
-            pageIndexes: this.pageIndexes,
+            $implicit: this.chunkedPages[index],
+            pageIndexes: this.chunkedPages.map((_, index) => index),
+            appPaginationOf: this.appPaginationOf as T[],
             index: this.currentPageIndex.value,
-            chankeSize: this.appPaginationChankSize!,
+            chankeSize: this.paginationChankSize!,
             next: () => {
                 this.next();
             },
@@ -40,11 +54,16 @@ export class PaginationDirective<T> implements OnInit {
                 this.currentPageIndex.next(index);
             },
             selectChank: chankSize => {
-                this.appPaginationChankSize = chankSize;
-                this.splitProducts();
+                this.paginationChankSize = chankSize;
                 this.currentPageIndex.next(0);
+                this.updateView();
             },
         };
+    }
+
+    private updateView() {
+        this.chunkedPages = chunk(this.appPaginationOf, this.paginationChankSize);
+        this.listenCurrentIndex();
     }
 
     private listenCurrentIndex() {
@@ -56,36 +75,16 @@ export class PaginationDirective<T> implements OnInit {
             });
     }
 
-    private splitProducts() {
-        this.currentPageProducts = new Array<T[]>();
-        this.pageIndexes = [1];
-        let productPage: T[] = [];
-
-        this.appPaginationOf?.forEach(p => {
-            if (productPage.length >= this.appPaginationChankSize!) {
-                this.currentPageProducts.push(productPage);
-                this.pageIndexes.push(this.pageIndexes.length + 1);
-                productPage = [];
-            }
-
-            productPage?.push(p);
-        });
-
-        if (productPage.length > 0) {
-            this.currentPageProducts.push(productPage);
-        }
-    }
-
     next() {
         const nextIndex = this.currentPageIndex.value + 1;
-        const newIndex = nextIndex < this.currentPageProducts.length ? nextIndex : 0;
+        const newIndex = nextIndex < this.chunkedPages.length ? nextIndex : 0;
 
         this.currentPageIndex.next(newIndex);
     }
 
     back() {
         const nextIndex = this.currentPageIndex.value - 1;
-        const newIndex = nextIndex <= 0 ? this.currentPageProducts.length - 1 : nextIndex;
+        const newIndex = nextIndex <= 0 ? this.chunkedPages.length - 1 : nextIndex;
 
         this.currentPageIndex.next(newIndex);
     }
