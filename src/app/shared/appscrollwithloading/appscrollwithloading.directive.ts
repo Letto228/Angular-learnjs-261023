@@ -6,7 +6,7 @@ import {LoadDirection} from './load-direction.enum';
 })
 export class AppScrollWithLoadingDirective {
     private loadDirection: LoadDirection = LoadDirection.scrollTop;
-    private readonly startDirection = 0;
+    private readonly prevScrollTop = -1;
     private readonly offsetTriggerValue = 100;
 
     @Output()
@@ -18,24 +18,22 @@ export class AppScrollWithLoadingDirective {
         '$event.target.scrollHeight',
     ])
     scroll(scrollTop: number, clientHeight: number, scrollHeight: number) {
-        const outOfViewPortTop: boolean = scrollTop < this.offsetTriggerValue;
-        const outOfViewPortBottom: boolean =
-            scrollHeight > scrollTop && clientHeight - this.offsetTriggerValue < scrollTop;
+        const outOfViewPortTop =
+            scrollTop < this.offsetTriggerValue && this.loadDirection !== LoadDirection.scrollTop;
 
-        if (!outOfViewPortTop && !outOfViewPortBottom) {
-            this.loadDirection = LoadDirection.scrollActive;
+        const lowerScrollPosition = scrollHeight - clientHeight;
+        const outOfViewPortBottom =
+            lowerScrollPosition - scrollTop < this.offsetTriggerValue &&
+            this.loadDirection !== LoadDirection.scrollBottom;
 
-            return;
-        }
-
-        if (outOfViewPortTop && this.loadDirection === LoadDirection.scrollActive) {
+        if (outOfViewPortTop) {
             this.loadDirection = LoadDirection.scrollTop;
             this.loadData.emit(this.loadDirection);
 
             return;
         }
 
-        if (outOfViewPortBottom && this.loadDirection === LoadDirection.scrollActive) {
+        if (outOfViewPortBottom) {
             this.loadDirection = LoadDirection.scrollBottom;
             this.loadData.emit(this.loadDirection);
         }
