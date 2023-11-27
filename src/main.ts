@@ -5,3 +5,7 @@ import {AppModule} from './app/app.module';
 platformBrowserDynamic()
     .bootstrapModule(AppModule)
     .catch(err => console.error(err));
+
+// platformBrowserDynamic()
+//     .bootstrapModule(AppLastModule)
+//     .catch(err => console.error(err));

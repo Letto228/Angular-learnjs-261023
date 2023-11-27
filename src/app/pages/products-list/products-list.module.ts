@@ -24,5 +24,8 @@ import {FilterByPropertyModule} from '../../shared/filter-by-property/filter-by-
         FilterByPropertyModule,
     ],
     exports: [ProductsListComponent],
+    // providers: [
+    //     ...AnyImportsModule.providers,
+    // ]
 })
 export class ProductsListModule {}

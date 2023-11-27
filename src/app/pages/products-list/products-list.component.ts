@@ -1,4 +1,11 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Inject,
+    OnInit,
+    Optional,
+    SkipSelf,
+} from '@angular/core';
 import {IProduct} from '../../shared/products/product.interface';
 import {ProductsStoreService} from '../../shared/products/products-store.service';
 
@@ -11,7 +18,13 @@ import {ProductsStoreService} from '../../shared/products/products-store.service
 export class ProductsListComponent implements OnInit {
     readonly products$ = this.productsStoreService.products$;
 
-    constructor(private readonly productsStoreService: ProductsStoreService) {}
+    constructor(
+        private readonly productsStoreService: ProductsStoreService,
+        @Inject('123') @Optional() @SkipSelf() private readonly parentElementRef: any | null,
+    ) {
+        // eslint-disable-next-line no-console
+        console.log(this.parentElementRef);
+    }
 
     ngOnInit(): void {
         this.productsStoreService.loadProducts();
