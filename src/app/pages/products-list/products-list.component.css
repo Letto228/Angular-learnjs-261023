@@ -40,6 +40,8 @@
 }
 
 .page__index {
+    border: none;
+    background: none;
     font-size: 18px;
     margin: 0 8px;
     cursor: pointer;
@@ -47,4 +49,6 @@
 
 .page__index__current {
     font-weight: 800;
+    background-color: rgb(235, 235, 235);
+    border-radius: 4px;
 }

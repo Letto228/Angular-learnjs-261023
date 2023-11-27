@@ -8,6 +8,7 @@ import {
     OnInit,
 } from '@angular/core';
 import {BehaviorSubject, map} from 'rxjs';
+import {chunk} from 'lodash';
 import {IPaginationContext} from './pagination-context.interface';
 
 @Directive({
@@ -35,27 +36,14 @@ export class PaginationDirective<T> implements OnChanges, OnInit {
         this.listenCurrentIndex();
     }
 
-    private separationByPages() {
-        let elementIndex = 0;
-        let chankIndex = 0;
-
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        while (elementIndex < this.appPaginationOf!.length) {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            this.arrayByPages[chankIndex++] = this.appPaginationOf!.slice(
-                elementIndex,
-                elementIndex + this.appPaginationChankSize,
-            );
-            elementIndex += this.appPaginationChankSize;
-        }
-    }
-
     private updateView() {
         const shouldShowItems = this.appPaginationOf?.length;
 
         if (shouldShowItems) {
-            this.separationByPages();
+            this.arrayByPages = chunk(this.appPaginationOf, this.appPaginationChankSize);
             this.currentIndex$.next(0);
+
+            return;
         }
 
         this.viewContainerRef.clear();
@@ -75,6 +63,7 @@ export class PaginationDirective<T> implements OnChanges, OnInit {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             $implicit: this.arrayByPages![currentIndex],
             index: currentIndex,
+            appPaginationOf: this.appPaginationOf as T[],
             pageIndexes: this.getPageIndexes(),
             next: () => {
                 this.next();

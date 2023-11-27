@@ -37,16 +37,16 @@
         </div>
         <div *ngIf="pageIndexes.length > 1" class="pagination">
             <!-- Add pagination control -->
-            <span class="page__index" (click)="back()">&lt;</span>
-            <span
+            <button class="page__index" (click)="back()">&lt;</button>
+            <button
                 *ngFor="let currentIndex of pageIndexes"
                 class="page__index"
                 [class.page__index__current]="currentIndex === activeIndex"
                 (click)="selectIndex(currentIndex)"
             >
                 {{ currentIndex + 1 }}
-            </span>
-            <span class="page__index" (click)="next()">&gt;</span>
+            </button>
+            <button class="page__index" (click)="next()">&gt;</button>
         </div>
     </ng-container>
     <!-- <app-card class="card" [product]="value[1]"></app-card>
