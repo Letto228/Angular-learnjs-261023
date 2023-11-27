@@ -14,6 +14,7 @@ type PaginationDirectiveContext<T> = {
     $implicit: T[];
     index: number;
     pageIndexes: number[];
+    appPaginationOf: T[] | null | undefined;
 
     next: VoidFunction;
     back: VoidFunction;
@@ -96,6 +97,7 @@ export class PaginationDirective<T> implements OnChanges {
             $implicit,
             index: this.index,
             pageIndexes: this.pageIndexes,
+            appPaginationOf: this.appPaginationOf,
             next: () => this.next(),
             back: () => this.back(),
             selectIndex: (index: number) => this.setIndex(index),
