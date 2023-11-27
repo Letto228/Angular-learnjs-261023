@@ -1,6 +1,4 @@
-import {Directive, ElementRef, HostListener, Input, Output} from '@angular/core';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {Subject, distinctUntilChanged} from 'rxjs';
+import {Directive, ElementRef, EventEmitter, HostListener, Input, Output} from '@angular/core';
 import {LoadDirection} from './load-direction';
 
 @Directive({
@@ -9,25 +7,22 @@ import {LoadDirection} from './load-direction';
 export class ScrollWithLoadingDirective {
     @Input('appScrollWithLoading') borderOffset = 100;
     private readonly element: HTMLElement = this.elementRef.nativeElement;
-    private readonly loadDirection$ = new Subject<LoadDirection>();
-    @Output()
-    loadData = this.loadDirection$.pipe(distinctUntilChanged(), takeUntilDestroyed());
-
-    private prevDirection = LoadDirection.Top;
+    @Output() loadData = new EventEmitter<LoadDirection>();
+    private isMiddleReachedBefore = false;
 
     constructor(private readonly elementRef: ElementRef<HTMLElement>) {}
 
     @HostListener('scroll')
     onElementScroll() {
-        if (this.prevDirection === LoadDirection.Bottom && this.isTopReached()) {
-            this.loadDirection$.next(LoadDirection.Top);
-            this.prevDirection = LoadDirection.Top;
+        if (this.isMiddleReachedBefore && this.isTopReached()) {
+            this.loadData.emit(LoadDirection.Top);
         }
 
-        if (this.prevDirection === LoadDirection.Top && this.isBottomReached()) {
-            this.loadDirection$.next(LoadDirection.Bottom);
-            this.prevDirection = LoadDirection.Bottom;
+        if (this.isMiddleReachedBefore && this.isBottomReached()) {
+            this.loadData.emit(LoadDirection.Bottom);
         }
+
+        this.isMiddleReachedBefore = this.isMiddleReached();
     }
 
     private isTopReached() {
@@ -41,5 +36,9 @@ export class ScrollWithLoadingDirective {
         const scrollBottom = scrollHeight - clientHeight - scrollTop;
 
         return scrollBottom < this.borderOffset;
+    }
+
+    private isMiddleReached() {
+        return !this.isBottomReached() && !this.isTopReached();
     }
 }
