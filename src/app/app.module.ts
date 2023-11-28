@@ -10,6 +10,7 @@ import {HeaderModule} from './components/header/header.module';
 import {ProductsListModule} from './pages/products-list/products-list.module';
 import {SidenavModule} from './components/sidenav/sidenav.module';
 import {BaseUrlInterceptor} from './shared/base-url/base-url.interceptor';
+import {PopupHostModule} from './components/popup-host/popup-host.module';
 
 // export const baseUrlToken = {name: 'baseUrl'};
 
@@ -25,6 +26,7 @@ import {BaseUrlInterceptor} from './shared/base-url/base-url.interceptor';
         SidenavModule,
         MatListModule,
         HttpClientModule,
+        PopupHostModule,
     ],
     bootstrap: [AppComponent],
     providers: [
