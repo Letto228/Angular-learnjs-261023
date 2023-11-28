@@ -3,24 +3,23 @@ import {
     ChangeDetectorRef,
     Component,
     HostBinding,
-    OnDestroy,
     OnInit,
 } from '@angular/core';
-import type {Subscription} from 'rxjs';
+import {takeUntil} from 'rxjs';
 import {PopupService} from './popup.service';
 import type {IPopupTemplateData} from './popup-template-data.interface';
+import {DestroyService} from '../../shared/destroy/destroy.service';
 
 @Component({
     selector: 'app-popup-host',
     templateUrl: './popup-host.component.html',
     styleUrls: ['./popup-host.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DestroyService],
 })
-export class PopupHostComponent implements OnInit, OnDestroy {
+export class PopupHostComponent implements OnInit {
     template: IPopupTemplateData['template'] = null;
     templateContext: IPopupTemplateData['context'] = null;
-
-    private templateDataSubscribe: Subscription | null = null;
 
     @HostBinding('class.empty')
     get isTemplateNullable(): boolean {
@@ -28,6 +27,7 @@ export class PopupHostComponent implements OnInit, OnDestroy {
     }
 
     constructor(
+        private readonly destroy$: DestroyService,
         private readonly popupService: PopupService,
         private readonly changeDetector: ChangeDetectorRef,
     ) {}
@@ -36,12 +36,8 @@ export class PopupHostComponent implements OnInit, OnDestroy {
         this.listenTemplateData();
     }
 
-    ngOnDestroy() {
-        this.templateDataSubscribe?.unsubscribe();
-    }
-
     private listenTemplateData() {
-        this.templateDataSubscribe = this.popupService.templateData$.subscribe(templateData => {
+        this.popupService.templateData$.pipe(takeUntil(this.destroy$)).subscribe(templateData => {
             this.templateContext = templateData.context;
             this.template = templateData.template;
 
