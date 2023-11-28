@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Direction} from 'src/app/shared/scroll-loading/scroll-loading.const';
 import {productsMock} from '../../shared/products/products.mock';
 import {IProduct} from '../../shared/products/product.interface';
 
@@ -21,5 +22,10 @@ export class ProductsListComponent implements OnInit {
         setTimeout(() => {
             this.productsStore = productsMock;
         }, 4000);
+    }
+
+    onLoad(event: Direction) {
+        /* eslint no-console:0 */
+        console.log('event', event);
     }
 }
