@@ -7,6 +7,7 @@ import {
     TemplateRef,
 } from '@angular/core';
 import {ApplicationConfig} from '../../shared/application-config/application-config.interface';
+import {PopupService} from '../popup-host/popup.service';
 
 @Component({
     selector: 'app-header',
@@ -19,15 +20,17 @@ export class HeaderComponent {
 
     @Output() readonly menuClick = new EventEmitter<void>();
 
+    constructor(private readonly popupService: PopupService) {}
+
     onMenuClick(_event: MouseEvent) {
         this.menuClick.emit();
     }
 
-    openPopup(_template: TemplateRef<{$implicit: string}>) {
-        // this.popupService.openPopup(template, context);
+    openPopup(template: TemplateRef<{$implicit: string}>) {
+        this.popupService.openPopup(template, {$implicit: 'Popup title from context'});
     }
 
     closePopup() {
-        // this.popupService.closePopup();
+        this.popupService.closePopup();
     }
 }
