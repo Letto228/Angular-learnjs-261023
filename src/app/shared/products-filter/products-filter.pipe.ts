@@ -1,32 +1,24 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type Entity = Record<string, any>;
-
-export type Filter<T extends Entity, K extends keyof T> = {
-    field: K;
-    match: T[K];
-};
-
 @Pipe({
     name: 'productsFilter',
 })
 export class ProductsFilterPipe implements PipeTransform {
-    transform<T extends Entity, K extends keyof T>(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    transform<T extends Record<string, any>, K extends keyof T>(
         entities?: T[],
-        filter?: Filter<T, K>,
+        field?: K,
+        match?: T[K],
     ): T[] | null {
         if (!entities) {
             return null;
         }
 
-        if (!filter) {
+        if (!field) {
             return entities;
         }
 
         const filtered: T[] = [];
-        const field = filter.field;
-        const match = filter.match;
 
         entities.forEach(entity => {
             if (
