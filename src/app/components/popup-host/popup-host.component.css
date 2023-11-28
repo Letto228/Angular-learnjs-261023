@@ -16,7 +16,14 @@
 }
 
 .content-wrapper {
-    padding: 20px;
+    padding: 32px 24px;
     border-radius: 8px;
     background-color: #fff;
+    position: relative;
+}
+
+.close-container {
+    position: absolute;
+    right: 0;
+    top: 0;
 }

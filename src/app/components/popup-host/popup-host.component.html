@@ -1,3 +1,8 @@
 <div class="content-wrapper">
-    <ng-container *ngTemplateOutlet="template"></ng-container>
+    <div class="close-container">
+        <button mat-icon-button matTooltip="Basic" (click)="closePopup()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <ng-container *ngTemplateOutlet="template; context: context"></ng-container>
 </div>
