@@ -27,8 +27,8 @@ export class PopupHostComponent implements OnInit {
     }
 
     constructor(
+        readonly popupService: PopupService,
         private readonly destroy$: DestroyService,
-        private readonly popupService: PopupService,
         private readonly changeDetector: ChangeDetectorRef,
     ) {}
 

@@ -1,3 +1,8 @@
 <div class="content-wrapper">
+    <div class="close">
+        <button mat-icon-button (click)="popupService.closePopup()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
     <ng-container *ngTemplateOutlet="template; context: templateContext"></ng-container>
 </div>

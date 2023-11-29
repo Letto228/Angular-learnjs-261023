@@ -11,11 +11,18 @@
     z-index: 1;
 }
 
+.close {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
 :host(.empty) {
     display: none;
 }
 
 .content-wrapper {
+    position: relative;
     padding: 20px;
     border-radius: 8px;
     background-color: #fff;
