@@ -6,7 +6,7 @@ import type {IPopupTemplateData} from './popup-template-data.interface';
     providedIn: 'root',
 })
 export class PopupService {
-    templateData$ = new BehaviorSubject<IPopupTemplateData>({
+    readonly templateData$ = new BehaviorSubject<IPopupTemplateData>({
         template: null,
         context: null,
     });
