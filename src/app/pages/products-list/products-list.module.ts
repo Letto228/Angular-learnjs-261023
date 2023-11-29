@@ -6,8 +6,9 @@ import {MatIconModule} from '@angular/material/icon';
 import {ProductsListComponent} from './products-list.component';
 import {CardModule} from './card/card.module';
 import {IfModule} from '../../shared/if/if.module';
-import {PaginationModule} from '../../shared/pagination/pagination.module';
 import {MyAsyncModule} from '../../shared/my-async/my-async.module';
+import {FilterModule} from '../../shared/filter/filter.module';
+import {PaginationModule} from '../../shared/pagination/pagination.module';
 
 @NgModule({
     declarations: [ProductsListComponent],
@@ -20,6 +21,7 @@ import {MyAsyncModule} from '../../shared/my-async/my-async.module';
         MatIconModule,
         PaginationModule,
         MyAsyncModule,
+        FilterModule,
     ],
     exports: [ProductsListComponent],
 })
