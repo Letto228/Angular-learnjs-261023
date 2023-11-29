@@ -1,3 +1,8 @@
-<div class="content-wrapper">
-    <ng-container *ngTemplateOutlet="template"></ng-container>
+<div *ngIf="template$ | async as template" class="host">
+    <div class="content-wrapper">
+        <button class="btn-close" (click)="close()">&#10006;</button>
+        <ng-container
+            *ngTemplateOutlet="template.templateRef; context: template.templateContext"
+        ></ng-container>
+    </div>
 </div>

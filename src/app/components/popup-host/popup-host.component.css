@@ -1,4 +1,4 @@
-:host {
+.host {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -11,12 +11,15 @@
     z-index: 1;
 }
 
-:host(.empty) {
-    display: none;
-}
-
 .content-wrapper {
     padding: 20px;
     border-radius: 8px;
     background-color: #fff;
+    position: relative;
+}
+
+.btn-close {
+    position: absolute;
+    top: 0;
+    right: 0;
 }
