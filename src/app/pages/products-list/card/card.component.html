@@ -9,11 +9,11 @@
         *appCarousel="let imageOptions of product?.images; let next = next; let back = back"
         class="galerey"
     >
-        <button mat-icon-button (click)="back()">
+        <button mat-icon-button (click)="back(); $event.stopPropagation()">
             <mat-icon>chevron_left</mat-icon>
         </button>
         <img mat-card-image alt="Product photo" [src]="imageOptions.url" />
-        <button mat-icon-button (click)="next()">
+        <button mat-icon-button (click)="next(); $event.stopPropagation()">
             <mat-icon>chevron_right</mat-icon>
         </button>
     </div>
