@@ -41,6 +41,8 @@ export class CarouselDirective<T> implements OnChanges, OnInit {
 
         if (shouldShowItems) {
             this.currentIndex$.next(0);
+
+            return;
         }
 
         this.viewContainerRef.clear();
