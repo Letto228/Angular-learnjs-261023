@@ -2,7 +2,7 @@
     <!-- easy -->
     <!-- <ng-container
 		*appPagination="
-			let productsGroup of (products | productsFilter : name);
+			let productsGroup of (products | filterByProperty : 'name' : name);
 			chankSize: 4;
 			let pageIndexes = pageIndexes;
 			let activeIndex = index;

@@ -13,6 +13,19 @@ export class FilterbypropertyPipe implements PipeTransform {
             return items;
         }
 
+        if (typeof searchValue === 'string') {
+            return items.filter(item => {
+                const itemProperty = (item[searchingProperty] as string).toLowerCase();
+                const value = (searchValue as string).toLowerCase();
+
+                if (itemProperty.includes(value)) {
+                    return item;
+                }
+
+                return null;
+            });
+        }
+
         return items.filter(item => item[searchingProperty] === searchValue);
     }
 }
