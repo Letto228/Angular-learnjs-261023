@@ -1,12 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    ElementRef,
-    EventEmitter,
-    Input,
-    Output,
-    SkipSelf,
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 import {IProduct} from '../../../shared/products/product.interface';
 
 @Component({
@@ -19,11 +11,6 @@ export class CardComponent {
     @Input() product: IProduct | null = null;
 
     @Output() readonly buy = new EventEmitter<IProduct['_id']>();
-
-    constructor(@SkipSelf() private readonly parentElementRef: ElementRef) {
-        // eslint-disable-next-line no-console
-        console.log(this.parentElementRef);
-    }
 
     onProductBuy(event: Event) {
         event.stopPropagation();
