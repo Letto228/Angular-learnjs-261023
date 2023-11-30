@@ -38,3 +38,8 @@
     align-items: center;
     width: 100%;
 }
+
+.active {
+    background-color: rgb(28, 73, 155);
+    color: white;
+}

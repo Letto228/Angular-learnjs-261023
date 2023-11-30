@@ -17,34 +17,53 @@
 <!-- {{ data }} -->
 <div *ngIf="products as valueProp; else loaderTemplate; let value" class="scroll-container">
     <!-- Раскомментрировать для ДЗ -->
-    <!-- <ng-container
+    <ng-container
         *appPagination="
             let productsGroup of products;
-            chankSize: 4;
+            chankSize: 3;
             let pageIndexes = pageIndexes;
             let activeIndex = index;
             let next = next;
             let back = back;
-            let selectIndex = selectIndex
+            let select = select
         "
-    > -->
-    <div class="cards">
-        <app-card
-            *ngFor="let product of products; trackBy: trackById"
-            class="card"
-            [product]="product"
-        ></app-card>
-    </div>
-    <div class="pagination">
-        <!-- Add pagination control -->
-    </div>
-    <!-- </ng-container> -->
+    >
+        <div class="cards">
+            <app-card
+                *ngFor="let product of productsGroup; trackBy: trackById"
+                class="card"
+                [product]="product"
+            ></app-card>
+        </div>
+
+        <div class="pagination">
+            <!-- Add pagination control -->
+            <button mat-icon-button (click)="back()">
+                <mat-icon>chevron_left</mat-icon>
+            </button>
+            <div class="pagination__page-number-container">
+                <button
+                    *ngFor="let index of pageIndexes"
+                    mat-icon-button
+                    class="pagination__page-number"
+                    [class.active]="activeIndex === index"
+                    (click)="select(index)"
+                >
+                    {{ index + 1 }}
+                </button>
+            </div>
+            <button mat-icon-button (click)="next()">
+                <mat-icon>chevron_right</mat-icon>
+            </button>
+        </div>
+    </ng-container>
     <!-- <app-card class="card" [product]="value[1]"></app-card>
     <app-card class="card" [product]="value[2]"></app-card>
     <app-card class="card" [product]="value[3]"></app-card>
     <app-card class="card" [product]="value[4]"></app-card> -->
+    <!-- </div> -->
+    <!-- </ng-template> -->
 </div>
-<!-- </ng-template> -->
 
 <ng-template #loaderTemplate>
     <mat-spinner></mat-spinner>
