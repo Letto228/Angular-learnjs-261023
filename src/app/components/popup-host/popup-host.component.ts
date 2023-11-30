@@ -1,13 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    HostBinding,
-    OnDestroy,
-    TemplateRef,
-} from '@angular/core';
-import {Subscription} from 'rxjs';
-import {IPopup} from 'src/app/shared/popup/popup.interface';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {PopupService} from 'src/app/shared/popup/popup.service';
 
 @Component({
@@ -16,39 +7,14 @@ import {PopupService} from 'src/app/shared/popup/popup.service';
     styleUrls: ['./popup-host.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PopupHostComponent implements OnDestroy {
-    @HostBinding('class.empty')
-    get isTemplateNullable(): boolean {
-        return !this.template;
+export class PopupHostComponent {
+    get popup$() {
+        return this.popupService.popup$;
     }
 
-    template: TemplateRef<unknown> | null = null;
-    context: unknown | null = null;
-
-    readonly popupServiceSubscription: Subscription;
-
-    constructor(
-        private readonly popupService: PopupService,
-        private readonly changeDetectionRef: ChangeDetectorRef,
-    ) {
-        this.popupServiceSubscription = popupService.popupTemplate.subscribe(data =>
-            this.updateTemplate(data),
-        );
-    }
+    constructor(private readonly popupService: PopupService) {}
 
     closePopup() {
         this.popupService.closePopup();
-    }
-
-    private updateTemplate(data: IPopup | null) {
-        this.template = data?.template || null;
-        this.context = data?.context;
-        this.changeDetectionRef.markForCheck();
-    }
-
-    ngOnDestroy() {
-        if (this.popupServiceSubscription) {
-            this.popupServiceSubscription.unsubscribe();
-        }
     }
 }

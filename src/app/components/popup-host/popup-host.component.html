@@ -1,6 +1,8 @@
-<div class="content-wrapper">
-    <button mat-icon-button matTooltip="Basic" class="close-button" (click)="closePopup()">
-        <mat-icon>close</mat-icon>
-    </button>
-    <ng-container *ngTemplateOutlet="template; context: context"></ng-container>
+<div *ngIf="popup$ | async as popup" class="popup-host">
+    <div class="content-wrapper">
+        <button mat-icon-button matTooltip="Basic" class="close-button" (click)="closePopup()">
+            <mat-icon>close</mat-icon>
+        </button>
+        <ng-container *ngTemplateOutlet="popup.template; context: popup.context"></ng-container>
+    </div>
 </div>

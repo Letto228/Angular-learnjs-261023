@@ -6,13 +6,14 @@ import {IPopup} from './popup.interface';
     providedIn: 'root',
 })
 export class PopupService {
-    readonly popupTemplate = new BehaviorSubject<IPopup | null>(null);
+    private readonly popup = new BehaviorSubject<IPopup | null>(null);
+    readonly popup$ = this.popup.asObservable();
 
     openPopup(popup: IPopup) {
-        this.popupTemplate.next(popup);
+        this.popup.next(popup);
     }
 
     closePopup() {
-        this.popupTemplate.next(null);
+        this.popup.next(null);
     }
 }
