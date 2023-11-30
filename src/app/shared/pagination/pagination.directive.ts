@@ -42,7 +42,9 @@ export class PaginationDirective<T> implements OnChanges, OnInit {
 
         if (shouldShowItems) {
             this.viewContainerRef.clear();
-        }
+
+            return;
+        }        
 
         this.groupedItems = chunk(this.appPaginationOf, this.appPaginationChankSize)
         this.currentIndex$.next(0);
