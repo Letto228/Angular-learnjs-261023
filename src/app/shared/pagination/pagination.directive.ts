@@ -31,8 +31,8 @@ export class PaginationDirective<T> implements OnChanges, OnInit, OnDestroy {
         private readonly templateRef: TemplateRef<IPaginationContext<T>>,
     ) {}
 
-    ngOnChanges({appPaginationOf}: SimpleChanges): void {
-        if (appPaginationOf) {
+    ngOnChanges({appPaginationOf, appPaginationChankSize}: SimpleChanges): void {
+        if (appPaginationOf || appPaginationChankSize) {
             this.updateView();
         }
     }
@@ -74,6 +74,7 @@ export class PaginationDirective<T> implements OnChanges, OnInit, OnDestroy {
         return {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             $implicit: this.chunks![currentIndex],
+            appPaginationOf: this.appPaginationOf,
             pageIndexes: this.pageIndexes,
             index: currentIndex,
             selectIndex: (index: number) => {
