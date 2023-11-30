@@ -8,6 +8,7 @@ import {
     ViewContainerRef,
 } from '@angular/core';
 import {BehaviorSubject, map} from 'rxjs';
+import {chunk} from 'lodash';
 import {IPaginationContext} from './pagination-context.interface';
 
 @Directive({
@@ -37,16 +38,13 @@ export class PaginationDirective<T> implements OnChanges, OnInit {
     }
 
     private updateView() {
-        const shouldShowItems = this.appPaginationOf?.length;
+        const shouldShowItems = !this.appPaginationOf?.length;    
 
         if (shouldShowItems) {
             this.viewContainerRef.clear();
         }
 
-        for (let i = 0; i < this.appPaginationOf!.length; i += this.appPaginationChankSize) {
-            const chunk = this.appPaginationOf!.slice(i, i + this.appPaginationChankSize);
-            this.groupedItems.push(chunk);
-        }
+        this.groupedItems = chunk(this.appPaginationOf, this.appPaginationChankSize)
         this.currentIndex$.next(0);
     }
 
