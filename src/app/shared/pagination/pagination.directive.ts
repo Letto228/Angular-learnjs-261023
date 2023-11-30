@@ -3,7 +3,6 @@ import {
     Directive,
     Input,
     OnChanges,
-    OnInit,
     SimpleChanges,
     TemplateRef,
     ViewContainerRef,
@@ -14,7 +13,7 @@ import {IPaginatonContext} from './pagination-context.interface';
 @Directive({
     selector: '[appPagination]',
 })
-export class PaginationDirective<T> implements OnInit, OnChanges {
+export class PaginationDirective<T> implements OnChanges {
     @Input() appPaginationOf: T[] | undefined | null;
 
     private chunkedPages: T[][] = [];
@@ -31,10 +30,6 @@ export class PaginationDirective<T> implements OnInit, OnChanges {
         if (appPaginationOf) {
             this.updateView();
         }
-    }
-
-    ngOnInit(): void {
-        this.updateView();
     }
 
     private getCurrentContext(index: number): IPaginatonContext<T> {
@@ -75,14 +70,14 @@ export class PaginationDirective<T> implements OnInit, OnChanges {
             });
     }
 
-    next() {
+    private next() {
         const nextIndex = this.currentPageIndex.value + 1;
         const newIndex = nextIndex < this.chunkedPages.length ? nextIndex : 0;
 
         this.currentPageIndex.next(newIndex);
     }
 
-    back() {
+    private back() {
         const nextIndex = this.currentPageIndex.value - 1;
         const newIndex = nextIndex <= 0 ? this.chunkedPages.length - 1 : nextIndex;
 
