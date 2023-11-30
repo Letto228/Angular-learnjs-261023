@@ -41,7 +41,7 @@ export class PopupHostComponent implements OnDestroy {
     }
 
     private updateTemplate(data: IPopup | null) {
-        this.template = data?.template ? data?.template : null;
+        this.template = data?.template || null;
         this.context = data?.context;
         this.changeDetectionRef.markForCheck();
     }
