@@ -6,10 +6,12 @@ import {ITemplateData} from './template-data.interface';
     providedIn: 'root',
 })
 export class PopupService {
-    templateRefData$ = new BehaviorSubject<ITemplateData>({
+    private readonly templateRefData$ = new BehaviorSubject<ITemplateData>({
         templateRef: null,
         context: null,
     });
+
+    readonly templateRef$ = this.templateRefData$.asObservable();
 
     openPopup(templateRef: TemplateRef<{$implicit: string}>, context: {$implicit: string}) {
         this.templateRefData$.next({templateRef, context});

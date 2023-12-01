@@ -1,3 +1,10 @@
-<div class="content-wrapper">
-    <ng-container *ngTemplateOutlet="template; context: templateContext"></ng-container>
+<div *ngIf="templateData$ | async as templateData">
+    <button mat-mini-fab class="close-button" (click)="onPopupClose()">
+        <mat-icon>close</mat-icon>
+    </button>
+    <div class="content-wrapper">
+        <ng-container
+            *ngTemplateOutlet="templateData.templateRef; context: templateData.context"
+        ></ng-container>
+    </div>
 </div>
