@@ -11,7 +11,6 @@ import {ProductsListModule} from './pages/products-list/products-list.module';
 import {SidenavModule} from './components/sidenav/sidenav.module';
 import {BaseUrlInterceptor} from './shared/base-url/base-url.interceptor';
 import {PopupHostModule} from './components/popup-host/popup-host.module';
-import {PopupService} from './shared/popup/popup.service';
 
 // export const baseUrlToken = {name: 'baseUrl'};
 
@@ -42,7 +41,6 @@ import {PopupService} from './shared/popup/popup.service';
             multi: true,
             useClass: BaseUrlInterceptor,
         },
-        PopupService,
         // {
         //     provide: HTTP_INTERCEPTORS,
         //     multi: true,
