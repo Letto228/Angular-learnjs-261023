@@ -16,11 +16,21 @@ const routes: Routes = [
         redirectTo: 'products-list',
     },
     {
-        path: 'products-list', // ['products-list']
-        component: ProductsListComponent,
+        path: 'products-list',
+        children: [
+            {
+                path: '',
+                pathMatch: 'full',
+                component: ProductsListComponent,
+            },
+            {
+                path: ':subCategoryId',
+                component: ProductsListComponent,
+            },
+        ],
     },
     {
-        path: 'product/:id', // ['product', 'id']
+        path: 'product/:id',
         component: ProductComponent,
         children: [
             {
