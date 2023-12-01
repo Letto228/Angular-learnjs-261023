@@ -19,7 +19,11 @@ export class PopupHostComponent implements OnInit {
     }
 
     listeningPopUp() {
-        this.template = this.popupService.tmplt$;
+        this.template = this.popupService.tmplt;
+    }
+
+    closePopUp() {
+        this.popupService.closePopup();
     }
 
     @HostBinding('class.empty')
