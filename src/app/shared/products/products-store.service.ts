@@ -28,6 +28,8 @@ export class ProductsStoreService {
             this.activeLoadProductsSubscription.unsubscribe();
         }
 
+        this.productsStore$.next(null);
+
         this.activeLoadProductsSubscription = this.productsApiService
             .getProducts$(subcategoryId)
             .subscribe(products => {
