@@ -12,7 +12,6 @@ export class ProductsFilterPipe implements PipeTransform {
         const nameLowerCase = property.toLowerCase();
 
         return items.filter(item => {
-            console.log(item);
             // @ts-ignore
             return (item['name'] as string).toLowerCase().includes(nameLowerCase);
         });
