@@ -10,30 +10,29 @@ export class ProductsFilterPipe implements PipeTransform {
         fieldName?: K,
         match?: T[K],
         caseSensitive?: boolean,
-    ): T[] | null {
+    ): T[] {
         if (!fieldName) {
             return entities;
         }
 
-        const filtered: T[] = [];
+        const searchString =
+            // eslint-disable-next-line no-nested-ternary
+            typeof match !== 'string' ? null : caseSensitive ? match : match.toLocaleLowerCase();
 
-        entities.forEach(entity => {
-            if (typeof entity[fieldName] === 'string') {
-                const fieldValue = caseSensitive
-                    ? <string>entity[fieldName]
-                    : (<string>entity[fieldName]).toLocaleLowerCase();
-                const searchValue = caseSensitive
-                    ? <string>match
-                    : (<string>match).toLocaleLowerCase();
+        return entities.filter(entity => {
+            const fieldValue = entity[fieldName];
 
-                if (fieldValue.includes(searchValue)) {
-                    filtered.push(entity);
-                }
-            } else if (entity[fieldName] === match) {
-                filtered.push(entity);
+            if (searchString) {
+                return caseSensitive
+                    ? fieldValue.includes(searchString)
+                    : fieldValue.toLocaleLowerCase().includes(searchString);
             }
-        });
 
-        return filtered;
+            if (fieldValue === match) {
+                return true;
+            }
+
+            return false;
+        });
     }
 }
