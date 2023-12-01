@@ -6,15 +6,11 @@ import {Pipe, PipeTransform} from '@angular/core';
 export class ProductsFilterPipe implements PipeTransform {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     transform<T extends Record<string, any>, K extends keyof T>(
-        entities?: T[],
+        entities: T[],
         fieldName?: K,
         match?: T[K],
         caseSensitive?: boolean,
     ): T[] | null {
-        if (!entities) {
-            return null;
-        }
-
         if (!fieldName) {
             return entities;
         }
