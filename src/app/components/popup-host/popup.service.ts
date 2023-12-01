@@ -6,16 +6,17 @@ import type {IPopupTemplateData} from './popup-template-data.interface';
     providedIn: 'root',
 })
 export class PopupService {
-    readonly templateData$ = new BehaviorSubject<IPopupTemplateData>({
-        template: null,
-        context: null,
-    });
+    private readonly templateDataStore$ = new BehaviorSubject<IPopupTemplateData<object> | null>(
+        null,
+    );
 
-    openPopup<T>(template: TemplateRef<T>, context: T | null = null) {
-        this.templateData$.next({template, context});
+    readonly templateData$ = this.templateDataStore$.asObservable();
+
+    openPopup<T extends object>(template: TemplateRef<T>, context: T | null = null) {
+        this.templateDataStore$.next({template, context});
     }
 
     closePopup() {
-        this.templateData$.next({template: null, context: null});
+        this.templateDataStore$.next(null);
     }
 }

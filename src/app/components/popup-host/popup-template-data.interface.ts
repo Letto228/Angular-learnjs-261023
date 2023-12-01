@@ -1,6 +1,6 @@
 import type {TemplateRef} from '@angular/core';
 
-export interface IPopupTemplateData {
-    template: TemplateRef<unknown> | null;
-    context: unknown | null;
+export interface IPopupTemplateData<T extends object> {
+    template: TemplateRef<T> | null;
+    context: T | null;
 }

@@ -1,8 +1,14 @@
-<div class="content-wrapper">
-    <div class="close">
-        <button mat-icon-button (click)="popupService.closePopup()">
+<div
+    *ngIf="templateData$ | async as templateData"
+    class="backdrop"
+    [class.empty]="!templateData.template"
+>
+    <div class="content-wrapper">
+        <button mat-icon-button class="close" (click)="close()">
             <mat-icon>close</mat-icon>
         </button>
+        <ng-container
+            *ngTemplateOutlet="templateData.template; context: templateData.context"
+        ></ng-container>
     </div>
-    <ng-container *ngTemplateOutlet="template; context: templateContext"></ng-container>
 </div>
