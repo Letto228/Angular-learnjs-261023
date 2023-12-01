@@ -23,13 +23,13 @@ export class ProductsStoreService {
         return this.currentProductStore$.asObservable();
     }
 
-    loadProducts() {
+    loadProducts(subcategoryId?: string | null) {
         if (this.activeLoadProductsSubscription) {
             this.activeLoadProductsSubscription.unsubscribe();
         }
 
         this.activeLoadProductsSubscription = this.productsApiService
-            .getProducts$()
+            .getProducts$(subcategoryId)
             .subscribe(products => {
                 this.productsStore$.next(products);
 
