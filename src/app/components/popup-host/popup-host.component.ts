@@ -1,11 +1,6 @@
-import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    HostBinding,
-    OnInit,
-    TemplateRef,
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, HostBinding, OnInit} from '@angular/core';
+import {PopUpContext} from 'src/app/shared/popup/popupcontext.interface';
+import {BehaviorSubject} from 'rxjs';
 import {PopupService} from '../../shared/popup/popup.service';
 
 @Component({
@@ -15,26 +10,20 @@ import {PopupService} from '../../shared/popup/popup.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PopupHostComponent implements OnInit {
-    template: TemplateRef<any> | null = null;
+    template?: BehaviorSubject<PopUpContext<string> | null> | null;
 
-    constructor(
-        private readonly popupService: PopupService,
-        private readonly changeDetector: ChangeDetectorRef,
-    ) {}
+    constructor(private readonly popupService: PopupService) {}
 
     ngOnInit() {
         this.listeningPopUp();
     }
 
     listeningPopUp() {
-        this.popupService.tmplt$.subscribe(data => {
-            this.template = data || null;
-            this.changeDetector.markForCheck();
-        });
+        this.template = this.popupService.tmplt$;
     }
 
     @HostBinding('class.empty')
     get isTemplateNullable(): boolean {
-        return !this.template;
+        return !this.template?.value;
     }
 }

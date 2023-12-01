@@ -1,3 +1,17 @@
-<div class="content-wrapper">
+<!-- <ng-container *ngIf="popupService.tmplt$ | async as tmpl"> -->
+<!-- <div class="content-wrapper">
     <ng-container *ngTemplateOutlet="template"></ng-container>
+</div> -->
+<!-- </ng-container> -->
+
+<ng-container *ngIf="template | async as tmpl">
+    <div class="content-wrapper">
+        <ng-container *ngTemplateOutlet="tmpl.template; context: tmpl.$implicit"></ng-container>
+    </div>
+</ng-container>
+
+<!-- <ng-container *ngIf="listeningPopUp().tmplt$ | async as tmpl">
+<div class="content-wrapper">
+    <ng-container *ngTemplateOutlet="tmpl"></ng-container>
 </div>
+</ng-container> -->

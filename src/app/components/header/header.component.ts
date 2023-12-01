@@ -26,8 +26,10 @@ export class HeaderComponent {
         this.menuClick.emit();
     }
 
-    openPopup(_template: TemplateRef<{$implicit: string}>) {
-        this.popupService.openPopup(_template);
+    openPopup(_template: TemplateRef<string>) {
+        const context = 'Some context';
+
+        this.popupService.openPopup({template: _template, $implicit: context});
     }
 
     closePopup() {

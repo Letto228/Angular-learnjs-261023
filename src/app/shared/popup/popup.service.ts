@@ -1,15 +1,15 @@
 import {BehaviorSubject} from 'rxjs';
-import {Injectable, TemplateRef} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {PopUpContext} from './popupcontext.interface';
 
 @Injectable({
     providedIn: 'root',
 })
 export class PopupService {
-    tmplt$ = new BehaviorSubject<TemplateRef<PopUpContext<string>> | null>(null);
+    tmplt$ = new BehaviorSubject<PopUpContext<string> | null>(null);
 
-    openPopup(templateRef: TemplateRef<PopUpContext<string>>) {
-        this.tmplt$.next(templateRef);
+    openPopup(popUpContext: PopUpContext<string>) {
+        this.tmplt$.next(popUpContext);
     }
 
     closePopup() {
