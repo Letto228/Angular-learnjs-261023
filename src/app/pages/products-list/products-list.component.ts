@@ -1,5 +1,6 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {map, switchMap, tap} from 'rxjs';
 import {IProduct} from '../../shared/products/product.interface';
 import {ProductsStoreService} from '../../shared/products/products-store.service';
 
@@ -9,17 +10,22 @@ import {ProductsStoreService} from '../../shared/products/products-store.service
     styleUrls: ['./products-list.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductsListComponent implements OnInit {
-    readonly products$ = this.productsStoreService.products$;
+export class ProductsListComponent {
+    readonly products$ = this.activatedRoute.paramMap.pipe(
+        map(paramMap => paramMap.get('subCategoryId')),
+        tap(subCategoryId => {
+            // eslint-disable-next-line no-console
+            // console.log('tap', subCategoryId);
+            this.productsStoreService.loadProducts(subCategoryId);
+        }),
+        switchMap(() => this.productsStoreService.products$),
+    );
 
     constructor(
         private readonly productsStoreService: ProductsStoreService,
         private readonly router: Router,
+        private readonly activatedRoute: ActivatedRoute,
     ) {}
-
-    ngOnInit(): void {
-        this.productsStoreService.loadProducts();
-    }
 
     trackById(_index: number, {_id}: IProduct) {
         return _id;

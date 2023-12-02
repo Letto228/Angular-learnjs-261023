@@ -20,6 +20,10 @@ const routes: Routes = [
         component: ProductsListComponent,
     },
     {
+        path: 'products-list/:subCategoryId', // ['products-list']
+        component: ProductsListComponent,
+    },
+    {
         path: 'product/:id', // ['product', 'id']
         component: ProductComponent,
         children: [
