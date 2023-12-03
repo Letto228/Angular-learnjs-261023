@@ -8,6 +8,7 @@ import {NotFoundComponent} from './pages/not-found/not-found.component';
 import {NotFoundModule} from './pages/not-found/not-found.module';
 import {TypeComponent} from './pages/product/type/type.component';
 import {DescriptionComponent} from './pages/product/description/description.component';
+import {productListMatcher} from './pages/products-list/product-list.matcher';
 
 const routes: Routes = [
     {
@@ -16,18 +17,8 @@ const routes: Routes = [
         redirectTo: 'products-list',
     },
     {
-        path: 'products-list',
-        children: [
-            {
-                path: '',
-                pathMatch: 'full',
-                component: ProductsListComponent,
-            },
-            {
-                path: ':subCategoryId',
-                component: ProductsListComponent,
-            },
-        ],
+        matcher: productListMatcher,
+        component: ProductsListComponent,
     },
     {
         path: 'product/:id',
