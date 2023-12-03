@@ -1,6 +1,6 @@
 import {UrlSegment} from '@angular/router';
 
-export const productListMatcher = (url: UrlSegment[]) => {
+export const productsListMatcher = (url: UrlSegment[]) => {
     if (url[0]?.path !== 'products-list') {
         return null;
     }
