@@ -16,8 +16,19 @@ const routes: Routes = [
         redirectTo: 'products-list',
     },
     {
-        path: 'products-list', // ['products-list']
-        component: ProductsListComponent,
+        // Не удалось сделать так что бы ProductsListComponent не пересоздовался (product-list -> product-list/:id). ":id?" не заработал.
+
+        path: `products-list`, // ['products-list'],
+        children: [
+            {
+                path: ':id',
+                component: ProductsListComponent,
+            },
+            {
+                path: '',
+                component: ProductsListComponent,
+            },
+        ],
     },
     {
         path: 'product/:id', // ['product', 'id']

@@ -6,12 +6,15 @@
             </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="sub-catigories-container">
-            <!-- add redirect by click on "products-list" page with subCategory._id parametrs -->
             <button
                 *ngFor="let subCategory of category.subCategories"
+                #rla="routerLinkActive"
                 mat-button
                 hideToggle
+                routerLinkActive
                 class="sub-catigory"
+                [disabled]="rla.isActive"
+                [routerLink]="['products-list', subCategory._id]"
             >
                 {{ subCategory.name }}
             </button>
