@@ -1,5 +1,4 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {Router} from '@angular/router';
 import {ICategory} from '../../../shared/categories/category.interface';
 
 @Component({
@@ -10,10 +9,4 @@ import {ICategory} from '../../../shared/categories/category.interface';
 })
 export class CategoriesSelectComponent {
     @Input() categories!: ICategory[] | null;
-
-    constructor(private readonly router: Router) {}
-
-    onSubCategoryClick(subCategoryId: string) {
-        this.router.navigate(['products-list', subCategoryId]);
-    }
 }
