@@ -5,16 +5,16 @@ import {Pipe, PipeTransform} from '@angular/core';
     name: 'filterByProperty',
 })
 export class FilterByPropertyPipe implements PipeTransform {
-    transform<
-        T extends any[],
-        P extends T[0] extends Record<string, any> ? keyof T[0] : never,
-        V extends T[0] extends Record<string, any>
-            ? P extends keyof T[0]
-                ? T[0][P]
-                : never
-            : never,
-    >(array: T, property: P, value: V) {
+    transform<T extends Array<Record<string, any>>, P extends keyof T[0], V extends T[0][P]>(
+        array: T,
+        property: P,
+        value: V,
+    ) {
         return array.filter(item => {
+            if (typeof property !== 'string') {
+                return false;
+            }
+
             const itemValue = item[property];
 
             if (typeof itemValue === 'string' && typeof value === 'string') {
