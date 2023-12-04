@@ -46,6 +46,10 @@ export class AppModule {}
  *
  *                       RootInjector(AppModuleInjector)
  *
+ *                      /                               \
+ *
+ *       ProductsListModuleInjector                ProductModuleInjector
+ *
  * ------------------------------------------------------------------------
  *
  *                            AppElementInjector
@@ -54,8 +58,12 @@ export class AppModule {}
  *
  *                           SidenavElementInjector
  *
- *                                   |
+ *                        /                               \
  *
- *                        ProductsListElementInjector
+ *          ProductsListElementInjector             ProdutElementInjectore
  *
+ *                        |
+ *
+ *              CardElementInjector ...
+ *      (so many 1 component = 1 element injector)
  */
