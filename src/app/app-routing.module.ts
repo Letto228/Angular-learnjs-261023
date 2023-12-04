@@ -16,7 +16,7 @@ const routes: Routes = [
         redirectTo: 'products-list',
     },
     {
-        path: 'products-list', // ['products-list']
+        path: 'products-list',
         children: [
             {
                 path: '',
@@ -29,7 +29,7 @@ const routes: Routes = [
         ],
     },
     {
-        path: 'product/:id', // ['product', 'id']
+        path: 'product/:id',
         component: ProductComponent,
         children: [
             {
@@ -58,21 +58,3 @@ const routes: Routes = [
     exports: [RouterModule],
 })
 export class AppRoutingModule {}
-
-// url === http://localhost:4200/product/id/type
-// urlSegments === product/id/type
-
-// search indexes: 0 -> 1 -> 2 -> ...
-// current url segments: ['product', ':id']
-
-/**
- *                  ____________    undefined   _______________
- *       __________/              /           \                \_________
- *      /                        /             \                         \
- *     |                        |               |                         |
- *    ['']         ['products-list']         ['product', ':id']         ['**']
- *                                              /           \
- *                                             /             \
- *                                            |               |
- *                                  ['description']        ['type']
- */
