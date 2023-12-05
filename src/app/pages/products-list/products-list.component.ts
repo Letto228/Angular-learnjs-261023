@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {map, tap} from 'rxjs';
 import {IProduct} from '../../shared/products/product.interface';
 import {ProductsStoreService} from '../../shared/products/products-store.service';
 
@@ -14,11 +15,21 @@ export class ProductsListComponent implements OnInit {
 
     constructor(
         private readonly productsStoreService: ProductsStoreService,
+        private readonly activatedRoute: ActivatedRoute,
         private readonly router: Router,
     ) {}
 
     ngOnInit(): void {
         this.productsStoreService.loadProducts();
+
+        this.activatedRoute.paramMap
+            .pipe(
+                map(param => param.get('id')),
+                tap(catId => {
+                    this.productsStoreService.loadProducts(catId);
+                }),
+            )
+            .subscribe();
     }
 
     trackById(_index: number, {_id}: IProduct) {
