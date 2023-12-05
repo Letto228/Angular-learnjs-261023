@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {ICategory} from '../../../shared/categories/category.interface';
-import {CategoriesStoreService} from '../../../shared/categories/categories-store.service';
 
 @Component({
     selector: 'app-categories-select',
@@ -12,11 +11,7 @@ import {CategoriesStoreService} from '../../../shared/categories/categories-stor
 export class CategoriesSelectComponent {
     @Input() categories!: ICategory[] | null;
 
-    constructor(
-        private readonly router: Router,
-        private readonly activatedRoute: ActivatedRoute,
-        private readonly categoriesStoreService: CategoriesStoreService,
-    ) {}
+    constructor(private readonly router: Router, private readonly activatedRoute: ActivatedRoute) {}
 
     navigateToSubCategory(id: string) {
         this.router.navigate(['productCategory/', id], {
