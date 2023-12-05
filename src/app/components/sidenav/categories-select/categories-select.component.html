@@ -14,7 +14,7 @@
                 routerLinkActive
                 class="sub-catigory"
                 [disabled]="routerLinkActive.isActive"
-                [routerLink]="['products-list', subCategory._id]"
+                [routerLink]="['/products-list', subCategory._id]"
             >
                 {{ subCategory.name }}
             </button>
