@@ -8,12 +8,12 @@
         <div class="sub-catigories-container">
             <button
                 *ngFor="let subCategory of category.subCategories"
-                #rla="routerLinkActive"
+                #routerLinkActive="routerLinkActive"
                 mat-button
                 hideToggle
                 routerLinkActive
                 class="sub-catigory"
-                [disabled]="rla.isActive"
+                [disabled]="routerLinkActive.isActive"
                 [routerLink]="['products-list', subCategory._id]"
             >
                 {{ subCategory.name }}
