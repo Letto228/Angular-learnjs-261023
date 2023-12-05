@@ -7,32 +7,32 @@ export class ProductsFilterPipe implements PipeTransform {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     transform<T extends Record<string, any>, K extends keyof T>(
         entities: T[],
-        fieldName?: K,
-        match?: T[K],
-        caseSensitive?: boolean,
+        propertyName?: K,
+        searchPropertyValue?: T[K],
+        isCaseSensitive?: boolean,
     ): T[] {
-        if (!fieldName) {
+        if (!propertyName) {
             return entities;
         }
 
-        const searchString =
-            // eslint-disable-next-line no-nested-ternary
-            typeof match !== 'string' ? null : caseSensitive ? match : match.toLocaleLowerCase();
+        // eslint-disable-next-line vars-on-top, no-var
+        var searchString =
+            typeof searchPropertyValue === 'string' ? searchPropertyValue : undefined;
+
+        if (searchString) {
+            searchString = isCaseSensitive ? searchString : searchString.toLocaleLowerCase();
+        }
 
         return entities.filter(entity => {
-            const fieldValue = entity[fieldName];
+            const propertyValue = entity[propertyName];
 
             if (searchString) {
-                return caseSensitive
-                    ? fieldValue.includes(searchString)
-                    : fieldValue.toLocaleLowerCase().includes(searchString);
+                return isCaseSensitive
+                    ? propertyValue.includes(searchString)
+                    : propertyValue.toLocaleLowerCase().includes(searchString);
             }
 
-            if (fieldValue === match) {
-                return true;
-            }
-
-            return false;
+            return propertyValue === searchPropertyValue;
         });
     }
 }

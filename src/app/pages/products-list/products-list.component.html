@@ -26,7 +26,7 @@
     > -->
     <ng-container
         *appPagination="
-            let productsGroup of products | productsFilter : 'name' : 'мышь';
+            let productsGroup of products | productsFilter : propertyName : searchPropertyValue;
             chankSize: 4;
             let pageIndexes = pageIndexes;
             let activeIndex = index;

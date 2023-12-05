@@ -17,9 +17,17 @@ export class ProductsListComponent implements OnInit {
     // for easy
     name = 'Мышь';
 
+    /*     propertyName = undefined;
+    searchPropertyValue = undefined; */
+
+    propertyName: keyof IProduct = 'name';
+    // propertyName = 'name' as const; // Кажется универсальней, но легче ошибиться.
+    searchPropertyValue = 'Черный';
+
+    /*
     // for hard
     readonly propertyName = 'feedbacksCount' as const; // keyof IProduct
-    searchPropertyValue = 2;
+    searchPropertyValue = 2; */
 
     // constructor(
     //     @Inject(ChangeDetectorRef) private readonly changeDetectorRef: ChangeDetectorRef,
