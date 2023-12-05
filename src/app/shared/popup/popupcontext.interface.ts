@@ -1,6 +1,6 @@
 import {TemplateRef} from '@angular/core';
 
-export interface PopUpContext<T> {
+export interface PopUpContext<T extends object> {
     template: TemplateRef<T>;
-    $implicit: T;
+    context: T;
 }

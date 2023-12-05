@@ -1,6 +1,6 @@
-<ng-container *ngIf="template | async as tmpl">
+<ng-container *ngIf="template$ | async as tmpl">
     <div class="content-wrapper">
-        <ng-container *ngTemplateOutlet="tmpl.template; context: tmpl.$implicit"></ng-container>
+        <ng-container *ngTemplateOutlet="tmpl.template; context: tmpl.context"></ng-container>
     </div>
 </ng-container>
 

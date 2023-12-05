@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, HostBinding, OnInit} from '@angular/core';
 import {PopUpContext} from 'src/app/shared/popup/popupcontext.interface';
-import {BehaviorSubject} from 'rxjs';
+import {Observable} from 'rxjs';
 import {PopupService} from '../../shared/popup/popup.service';
 
 @Component({
@@ -10,7 +10,7 @@ import {PopupService} from '../../shared/popup/popup.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PopupHostComponent implements OnInit {
-    template?: BehaviorSubject<PopUpContext<string> | null> | null;
+    template$?: Observable<PopUpContext<object> | null>;
 
     constructor(private readonly popupService: PopupService) {}
 
@@ -19,7 +19,7 @@ export class PopupHostComponent implements OnInit {
     }
 
     listeningPopUp() {
-        this.template = this.popupService.tmplt;
+        this.template$ = this.popupService.tmplt.pipe();
     }
 
     closePopUp() {
@@ -28,6 +28,14 @@ export class PopupHostComponent implements OnInit {
 
     @HostBinding('class.empty')
     get isTemplateNullable(): boolean {
-        return !this.template?.value;
+        let popUpOpen;
+
+        this.popupService.tmplt.subscribe({
+            next(value) {
+                popUpOpen = value;
+            },
+        });
+
+        return !popUpOpen;
     }
 }

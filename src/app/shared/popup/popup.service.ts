@@ -1,4 +1,4 @@
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {PopUpContext} from './popupcontext.interface';
 
@@ -6,17 +6,17 @@ import {PopUpContext} from './popupcontext.interface';
     providedIn: 'root',
 })
 export class PopupService {
-    private readonly tmplt$ = new BehaviorSubject<PopUpContext<string> | null>(null);
+    private readonly tmplt$ = new BehaviorSubject<PopUpContext<object> | null>(null);
 
-    openPopup(popUpContext: PopUpContext<string>) {
-        this.tmplt$.next(popUpContext);
+    openPopup<T extends object>(popupContent: PopUpContext<T>) {
+        this.tmplt$.next(popupContent);
     }
 
     closePopup() {
         this.tmplt$.next(null);
     }
 
-    get tmplt(): BehaviorSubject<PopUpContext<string> | null> {
-        return this.tmplt$;
+    get tmplt(): Observable<PopUpContext<object> | null> {
+        return this.tmplt$.asObservable();
     }
 }
