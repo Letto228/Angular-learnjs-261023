@@ -28,10 +28,6 @@ export class ProductsListComponent implements OnInit {
             .subscribe(id => this.updateProductsList(id));
     }
 
-    updateProductsList(subCategoryId: string | null | undefined) {
-        this.productsStoreService.loadProducts(subCategoryId);
-    }
-
     trackById(_index: number, {_id}: IProduct) {
         return _id;
     }
@@ -40,5 +36,9 @@ export class ProductsListComponent implements OnInit {
         // this.router.navigate(['product', 'id']);
         this.router.navigate(['/product/id']);
         // this.router.navigateByUrl('/product/id');
+    }
+
+    private updateProductsList(subCategoryId: string | null | undefined) {
+        this.productsStoreService.loadProducts(subCategoryId);
     }
 }
