@@ -1,22 +1,41 @@
-:host {
+.popup-shadow {
     position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     background-color: rgba(0, 0, 0, 0.3);
     z-index: 1;
 }
 
-:host(.empty) {
-    display: none;
-}
-
 .content-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 300px;
+    min-height: 300px;
     padding: 20px;
     border-radius: 8px;
     background-color: #fff;
+    z-index: 2;
+}
+
+.close-popup {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    padding: 8px;
+}
+
+.close-popup:hover {
+    background-color: rgb(212, 212, 212);
 }
