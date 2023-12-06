@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ICategory} from '../../../shared/categories/category.interface';
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-categories-select',
@@ -9,4 +10,11 @@ import {ICategory} from '../../../shared/categories/category.interface';
 })
 export class CategoriesSelectComponent {
     @Input() categories!: ICategory[] | null;
+
+    constructor(private readonly router: Router) {
+    }
+
+    onClick(subCategory: string){
+        this.router.navigate([subCategory])
+    }
 }
