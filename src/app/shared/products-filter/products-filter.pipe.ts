@@ -4,15 +4,14 @@ import {Pipe, PipeTransform} from '@angular/core';
     name: 'productsFilter',
 })
 export class ProductsFilterPipe implements PipeTransform {
-    transform<T>(items: T[] | undefined | null, property: string): T[] | null | undefined {
+    transform<T extends {name: string}>(items: T[] | undefined | null, name: string): T[] | null | undefined {
         if (!items?.length) {
             return items;
         }
 
-        const nameLowerCase = property.toLowerCase();
+        const nameLowerCase = name.toLowerCase();
 
         return items.filter(item => {
-            // @ts-ignore
             return (item['name'] as string).toLowerCase().includes(nameLowerCase);
         });
     }
