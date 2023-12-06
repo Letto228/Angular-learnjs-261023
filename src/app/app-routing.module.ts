@@ -8,6 +8,7 @@ import {NotFoundComponent} from './pages/not-found/not-found.component';
 import {NotFoundModule} from './pages/not-found/not-found.module';
 import {TypeComponent} from './pages/product/type/type.component';
 import {DescriptionComponent} from './pages/product/description/description.component';
+import {productsListMatcher} from './matchers/products-list.matcher';
 
 const routes: Routes = [
     {
@@ -16,19 +17,8 @@ const routes: Routes = [
         redirectTo: 'products-list',
     },
     {
-        // Не удалось сделать так что бы ProductsListComponent не пересоздовался (product-list -> product-list/:id). ":id?" не заработал.
-
-        path: `products-list`, // ['products-list'],
-        children: [
-            {
-                path: ':id',
-                component: ProductsListComponent,
-            },
-            {
-                path: '',
-                component: ProductsListComponent,
-            },
-        ],
+        matcher: productsListMatcher, // ['products-list', 'id']
+        component: ProductsListComponent,
     },
     {
         path: 'product/:id', // ['product', 'id']
