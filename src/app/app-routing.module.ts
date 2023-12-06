@@ -39,6 +39,10 @@ const routes: Routes = [
         ],
     },
     {
+        path: ':id',
+        component: ProductsListComponent,
+    },
+    {
         path: '**',
         component: NotFoundComponent,
     },
