@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {map, tap} from 'rxjs';
+import {map, takeUntil, tap} from 'rxjs';
+import {DestroyService} from 'src/app/shared/destroy/destroy.service';
 import {IProduct} from '../../shared/products/product.interface';
 import {ProductsStoreService} from '../../shared/products/products-store.service';
 
@@ -17,16 +18,16 @@ export class ProductsListComponent implements OnInit {
         private readonly productsStoreService: ProductsStoreService,
         private readonly activatedRoute: ActivatedRoute,
         private readonly router: Router,
+        private readonly destroyService: DestroyService,
     ) {}
 
     ngOnInit(): void {
-        this.productsStoreService.loadProducts();
-
         this.activatedRoute.paramMap
             .pipe(
                 map(param => param.get('id')),
                 tap(catId => {
                     this.productsStoreService.loadProducts(catId);
+                    takeUntil(this.destroyService);
                 }),
             )
             .subscribe();
