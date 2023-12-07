@@ -6,16 +6,10 @@ const productsListRoutes: Routes = [
     {
         path: '',
         component: ProductsListComponent,
-        // resolve: {
-        //     products: productsResolver,
-        // },
     },
     {
         path: ':subCategoryId',
         component: ProductsListComponent,
-        // resolve: {
-        //     products: productsResolver,
-        // },
     },
 ];
 

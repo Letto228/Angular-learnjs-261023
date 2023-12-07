@@ -34,18 +34,12 @@ export class CounterInputComponent implements ControlValueAccessor {
     back() {
         this.counter -= this.step;
 
-        // eslint-disable-next-line no-console
-        console.log('back', this.counter);
-
         this.onChange(this.counter);
         this.onTouched();
     }
 
     next() {
         this.counter += this.step;
-
-        // eslint-disable-next-line no-console
-        console.log('next', this.counter);
 
         this.onChange(this.counter);
         this.onTouched();
@@ -54,15 +48,10 @@ export class CounterInputComponent implements ControlValueAccessor {
     writeValue(newCounter: number) {
         this.counter = newCounter;
 
-        // eslint-disable-next-line no-console
-        console.log('writeValue', newCounter);
-
         this.changeDetectorRef.markForCheck();
     }
 
     registerOnChange(fn: (newCounter: number) => void) {
-        // eslint-disable-next-line no-console
-        console.log(fn);
         this.onChange = fn;
     }
 

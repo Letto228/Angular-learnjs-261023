@@ -34,36 +34,3 @@ import {PopupHostModule} from './components/popup-host/popup-host.module';
     ],
 })
 export class AppModule {}
-
-/**
- *                              NullInjector
- *
- *                                   |
- *
- *                              PlatformInjector
- *
- *                                   |
- *
- *                       RootInjector(AppModuleInjector)
- *
- *                      /                               \
- *
- *       ProductsListModuleInjector                ProductModuleInjector
- *
- * ------------------------------------------------------------------------
- *
- *                            AppElementInjector
- *
- *                                   |
- *
- *                           SidenavElementInjector
- *
- *                        /                               \
- *
- *          ProductsListElementInjector             ProdutElementInjectore
- *
- *                        |
- *
- *              CardElementInjector ...
- *      (so many 1 component = 1 element injector)
- */

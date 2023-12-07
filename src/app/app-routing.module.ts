@@ -12,7 +12,6 @@ const routes: Routes = [
     },
     {
         path: 'products-list',
-        // children: productsListRoutes,
         loadChildren: () =>
             import('./pages/products-list/products-list.module').then(m => m.ProductsListModule),
         data: {
@@ -21,17 +20,10 @@ const routes: Routes = [
     },
     {
         path: 'product/:id',
-        // children: productRoutes,
         loadChildren: () => import('./pages/product/product.module').then(m => m.ProductModule),
         data: {
             needPreload: false,
         },
-        // canActivate: [(...args) => inject(GuardService).canActivate(args)],
-        // canActivate: [questionCanActivateGuard],
-        // canActivateChild: [questionCanActivateChildGuard],
-        // canDeactivate: [questionCanDeactivateGuard],
-        // canLoad: [() => question('Вы хотите загрузить данный модуль?')],
-        // canMatch: [questionCanMatchGuard],
     },
     {
         path: '**',
@@ -47,17 +39,3 @@ const routes: Routes = [
     exports: [RouterModule],
 })
 export class AppRoutingModule {}
-
-/**
- *                  ____________    undefined   _______________
- *       __________/              /           \                \_________
- *      /                        /             \                         \
- *     |                        |               |                         |
- *    ['']         ['products-list']         ['product', ':id']         ['**']
- *                /               \                   |
- *               |                 |                 ['']
- *                                              /           \
- *              ['']       [':subCategoryId']  /             \
- *                                            |               |
- *                                  ['description']        ['type']
- */
