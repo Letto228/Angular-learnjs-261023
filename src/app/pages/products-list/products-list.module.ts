@@ -4,7 +4,6 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {RouterModule} from '@angular/router';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ProductsListComponent} from './products-list.component';
 import {CardModule} from './card/card.module';
 import {IfModule} from '../../shared/if/if.module';
@@ -13,6 +12,7 @@ import {MyAsyncModule} from '../../shared/my-async/my-async.module';
 import {FilterByPropertyModule} from '../../shared/filter-by-property/filter-by-property.module';
 import {ProductsListRoutingModule} from './products-list-routing.module';
 import {CounterInputModule} from '../../shared/counter-input/counter-input.module';
+import {FilterModule} from './filter/reactive/filter.module';
 
 @NgModule({
     declarations: [ProductsListComponent],
@@ -29,8 +29,7 @@ import {CounterInputModule} from '../../shared/counter-input/counter-input.modul
         RouterModule,
         ProductsListRoutingModule,
         CounterInputModule,
-        ReactiveFormsModule,
-        FormsModule,
+        FilterModule,
     ],
     exports: [ProductsListComponent],
 })

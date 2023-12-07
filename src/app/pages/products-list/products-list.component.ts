@@ -4,6 +4,7 @@ import {map, switchMap, tap} from 'rxjs';
 import {FormControl} from '@angular/forms';
 import {IProduct} from '../../shared/products/product.interface';
 import {ProductsStoreService} from '../../shared/products/products-store.service';
+import {BrandsService} from '../../shared/brands/brands.service';
 
 @Component({
     selector: 'app-products-list',
@@ -20,6 +21,14 @@ export class ProductsListComponent {
         switchMap(() => this.productsStoreService.products$),
     );
 
+    readonly brands$ = this.activatedRoute.paramMap.pipe(
+        map(paramMap => paramMap.get('subCategoryId')),
+        tap(subCategoryId => {
+            this.brandsService.loadBrands(subCategoryId);
+        }),
+        switchMap(() => this.brandsService.brands$),
+    );
+
     readonly control = new FormControl(10);
 
     counter = 10;
@@ -30,6 +39,7 @@ export class ProductsListComponent {
         private readonly productsStoreService: ProductsStoreService,
         private readonly activatedRoute: ActivatedRoute,
         private readonly changeDetectorRef: ChangeDetectorRef,
+        private readonly brandsService: BrandsService,
     ) {
         setTimeout(() => {
             // this.control.setValue(100);

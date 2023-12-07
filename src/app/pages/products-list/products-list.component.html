@@ -2,9 +2,10 @@
 {{control.value}} -->
 
 <!-- <app-counter-input [ngModel]="counter" (ngModelChange)="counter = $event"></app-counter-input> -->
-<app-counter-input [(ngModel)]="counter"></app-counter-input>
-{{ counter }}
+<!-- <app-counter-input [(ngModel)]="counter"></app-counter-input>
+{{ counter }} -->
 
+<app-filter [brands]="brands$ | async"></app-filter>
 <div *ngIf="products$ | async as products; else loaderTemplate" class="scroll-container">
     <ng-container
         *appPagination="
@@ -48,5 +49,5 @@
 </div>
 
 <ng-template #loaderTemplate>
-    <mat-spinner></mat-spinner>
+    <mat-spinner class="loader"></mat-spinner>
 </ng-template>
