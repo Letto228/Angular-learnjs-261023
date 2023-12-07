@@ -25,3 +25,7 @@
     margin: 20px auto;
     width: 60px;
 }
+
+.ng-dirty::ng-deep p {
+    color: blue;
+}

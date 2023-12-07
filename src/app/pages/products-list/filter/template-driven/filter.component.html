@@ -1,25 +1,35 @@
-<form class="filter">
+<form #ngForm="ngForm" class="filter" (ngSubmit)="onSubmit(ngForm.value)">
     <mat-form-field appearance="fill">
         <mat-label>Search</mat-label>
-        <input matInput />
+        <!-- <input matInput appIsStringAsyncValidator required minlength="3" #model="ngModel" [(ngModel)]="name"/> -->
+        <input matInput ngModel name="name" />
     </mat-form-field>
 
-    <div *ngIf="brands; else loaderTemplateRef" formArrayName="brands" class="checkbox-container">
-        <mat-checkbox *ngFor="let brand of brands; let index = index">
+    <div *ngIf="brands; else loaderTemplateRef" ngModelGroup="brands" class="checkbox-container">
+        <mat-checkbox
+            *ngFor="let brand of brands; let index = index"
+            [ngModel]="false"
+            [name]="brand"
+        >
             {{ brand }}
         </mat-checkbox>
     </div>
-    <div formGroupName="priceRange" class="price-range">
+    <div ngModelGroup="priceRange" class="price-range">
         <div>
             Min
-            <app-counter-input></app-counter-input>
+            <app-counter-input name="min" [ngModel]="0"></app-counter-input>
         </div>
         <div>
             Max
-            <app-counter-input></app-counter-input>
+            <app-counter-input name="max" [ngModel]="999999"></app-counter-input>
         </div>
     </div>
+
+    <button type="submit">Submit</button>
 </form>
+<!-- {{name}}
+{{model.errors | json}} -->
+{{ ngForm.value | json }}
 
 <ng-template #loaderTemplateRef>
     <mat-spinner diameter="60" class="loader"></mat-spinner>
