@@ -7,9 +7,9 @@ export class ProductsFilterPipe implements PipeTransform {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     transform<T extends Record<string, any>, K extends keyof T>(
         entities: T[],
-        propertyName?: K,
-        searchPropertyValue?: T[K],
-        isCaseSensitive?: boolean,
+        propertyName: K | undefined | null,
+        searchPropertyValue: T[K] | undefined | null,
+        isCaseSensitive = false,
     ): T[] {
         if (!propertyName) {
             return entities;
