@@ -15,8 +15,7 @@ export class ProductsFilterPipe implements PipeTransform {
             return entities;
         }
 
-        // eslint-disable-next-line vars-on-top, no-var
-        var searchString =
+        let searchString =
             typeof searchPropertyValue === 'string' ? searchPropertyValue : undefined;
 
         if (searchString) {
