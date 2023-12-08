@@ -4,65 +4,31 @@ import {
     EventEmitter,
     Input,
     OnChanges,
+    OnInit,
     Output,
     SimpleChanges,
 } from '@angular/core';
 import {FormArray, FormBuilder, FormControl} from '@angular/forms';
+import {debounceTime, distinctUntilChanged, map, takeUntil} from 'rxjs';
+import {isEqual} from 'lodash';
 import {IProductsFilter} from '../products-filter.interface';
-
-// function isStringValidator(control: AbstractControl): ValidationErrors | null {
-//     const {value} = control;
-
-//     return Number(value) ? {isString: `Is not sting value - ${value}`} : null;
-// }
+import {IFilterFormValues} from '../filter-form-values.interface';
+import {DestroyService} from '../../../../shared/destroy/destroy.service';
 
 @Component({
     selector: 'app-filter',
     templateUrl: './filter.component.html',
     styleUrls: ['./filter.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DestroyService],
 })
-export class FilterComponent implements OnChanges {
+export class FilterComponent implements OnChanges, OnInit {
     @Input() brands: string[] | null = null;
 
     @Output() changeFilter = new EventEmitter<IProductsFilter>();
 
-    // control = new FormControl('', {
-    //     validators: [Validators.required, Validators.minLength(3)],
-    //     asyncValidators: [this.isStringAsyncValidator.bind(this)],
-    // });
-
-    // private isStringAsyncValidator(control: AbstractControl): Observable<ValidationErrors | null> {
-    //     console.log('isStringAsyncValidator');
-
-    //     return timer(3 * 1000).pipe(map(() => isStringValidator(control)));
-    // }
-
-    // errors$ = this.control.statusChanges.pipe(
-    //     map(() => this.control.errors),
-    //     startWith(this.control.errors),
-    //     // map(status => status === 'INVALID' ? this.control.errors : null),
-    // );
-
-    // constructor() {
-    //     this.control.valueChanges.pipe(startWith(this.control.value)).subscribe(console.log);
-    //     this.control.statusChanges.pipe(startWith(this.control.status)).subscribe(console.log);
-    // }
-
-    // readonly filterForm = new FormGroup({
-    //     name: new FormControl(''),
-    //     brands: new FormArray<FormControl<boolean>>([]),
-    //     priceRange: new FormGroup({
-    //         min: new FormControl(0),
-    //         max: new FormControl(999999),
-    //     }),
-    // });
-
     readonly filterForm = this.formBuilder.group({
-        // name: new FormControl(''),
         name: '',
-        // name: new FormControl('', {validators: [...]}),
-        // name: ['', {validators: [...]}],
         brands: this.formBuilder.array<FormControl<boolean>>([]),
         priceRange: this.formBuilder.group({
             min: 0,
@@ -70,28 +36,45 @@ export class FilterComponent implements OnChanges {
         }),
     });
 
-    // fileControl = new FormControl();
-
-    constructor(private readonly formBuilder: FormBuilder) {
-        //     console.log(this.filterForm.get('name'));
-        //     console.log(this.filterForm.get('priceRange')?.get('min'));
-        //     this.filterForm.get('name')?.valueChanges.subscribe(console.log);
-        this.filterForm.valueChanges.subscribe(({brands: brandsControlsValue, ...other}) => {
-            const sanitizedBrands = this.brands?.filter((_, index) => brandsControlsValue?.[index]);
-
-            // eslint-disable-next-line no-console
-            console.log({
-                ...other,
-                brands: sanitizedBrands,
-            });
-        });
-        //     this.fileControl.valueChanges.subscribe(console.log);
-    }
+    constructor(
+        private readonly formBuilder: FormBuilder,
+        private readonly destroy$: DestroyService,
+    ) {}
 
     ngOnChanges({brands}: SimpleChanges) {
         if (brands) {
             this.updateBrandsControl();
         }
+    }
+
+    ngOnInit(): void {
+        this.listenFilterFormChange();
+    }
+
+    listenFilterFormChange() {
+        this.filterForm.valueChanges
+            .pipe(
+                debounceTime(500),
+                distinctUntilChanged(isEqual),
+                map(filterFormValues => {
+                    return this.processFilterFormValues(filterFormValues);
+                }),
+                takeUntil(this.destroy$),
+            )
+            .subscribe(productsFilter => {
+                this.changeFilter.emit(productsFilter);
+            });
+    }
+
+    private processFilterFormValues(filterFormValues: IFilterFormValues) {
+        const sanitizedBrands = this.brands?.filter((_, index) => filterFormValues.brands?.[index]);
+
+        const productsFilter = {
+            ...filterFormValues,
+            brands: sanitizedBrands,
+        } as IProductsFilter;
+
+        return productsFilter;
     }
 
     private updateBrandsControl() {

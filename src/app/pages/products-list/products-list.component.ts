@@ -4,6 +4,7 @@ import {map, switchMap, tap} from 'rxjs';
 import {IProduct} from '../../shared/products/product.interface';
 import {ProductsStoreService} from '../../shared/products/products-store.service';
 import {BrandsService} from '../../shared/brands/brands.service';
+import {IProductsFilter} from './filter/products-filter.interface';
 
 @Component({
     selector: 'app-products-list',
@@ -19,6 +20,8 @@ export class ProductsListComponent {
         }),
         switchMap(() => this.productsStoreService.products$),
     );
+
+    productsFilter: IProductsFilter | null = null;
 
     readonly brands$ = this.activatedRoute.paramMap.pipe(
         map(paramMap => paramMap.get('subCategoryId')),
@@ -36,5 +39,9 @@ export class ProductsListComponent {
 
     trackById(_index: number, {_id}: IProduct) {
         return _id;
+    }
+
+    updateProductsFilter(productsFilter: IProductsFilter) {
+        this.productsFilter = productsFilter;
     }
 }
