@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {map, switchMap, tap} from 'rxjs';
 import {IProduct} from '../../shared/products/product.interface';
 import {ProductsStoreService} from '../../shared/products/products-store.service';
 
@@ -10,11 +11,18 @@ import {ProductsStoreService} from '../../shared/products/products-store.service
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductsListComponent implements OnInit {
-    readonly products$ = this.productsStoreService.products$;
+    readonly products$ = this.activatedRoute.paramMap.pipe(
+        map(paramMap => paramMap.get('subCategoryId')),
+        tap(subCategoryId => {
+            this.productsStoreService.loadProducts(subCategoryId);
+        }),
+        switchMap(() => this.productsStoreService.products$),
+    );
 
     constructor(
         private readonly productsStoreService: ProductsStoreService,
         private readonly router: Router,
+        private readonly activatedRoute: ActivatedRoute,
     ) {}
 
     ngOnInit(): void {

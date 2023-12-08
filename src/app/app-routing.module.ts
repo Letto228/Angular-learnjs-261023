@@ -8,6 +8,7 @@ import {NotFoundComponent} from './pages/not-found/not-found.component';
 import {NotFoundModule} from './pages/not-found/not-found.module';
 import {TypeComponent} from './pages/product/type/type.component';
 import {DescriptionComponent} from './pages/product/description/description.component';
+import {CategoriesSelectModule} from './components/sidenav/categories-select/categories-select.module';
 
 const routes: Routes = [
     {
@@ -17,7 +18,17 @@ const routes: Routes = [
     },
     {
         path: 'products-list', // ['products-list']
-        component: ProductsListComponent,
+        children: [
+            {
+                path: '',
+                pathMatch: 'full',
+                component: ProductsListComponent,
+            },
+            {
+                path: ':subCategoryId',
+                component: ProductsListComponent,
+            },
+        ],
     },
     {
         path: 'product/:id', // ['product', 'id']
@@ -45,7 +56,13 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes), ProductsListModule, ProductModule, NotFoundModule],
+    imports: [
+        RouterModule.forRoot(routes),
+        ProductsListModule,
+        ProductModule,
+        NotFoundModule,
+        CategoriesSelectModule,
+    ],
     exports: [RouterModule],
 })
 export class AppRoutingModule {}
