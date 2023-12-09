@@ -1,4 +1,9 @@
-<app-filter [brands]="brands$ | async" (changeFilter)="updateProductsFilter($event)"></app-filter>
+<app-filter
+    *ngIf="productsFilter"
+    [brands]="brands$ | async"
+    [filter]="productsFilter"
+    (changeFilter)="updateProductsFilter($event)"
+></app-filter>
 <div *ngIf="products$ | async as products; else loaderTemplate" class="scroll-container">
     <ng-container
         *appPagination="

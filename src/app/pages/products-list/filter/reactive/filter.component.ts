@@ -12,8 +12,8 @@ import {FormArray, FormBuilder, FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, map, takeUntil} from 'rxjs';
 import {isEqual} from 'lodash';
 import {IProductsFilter} from '../products-filter.interface';
-import {IFilterFormValues} from '../filter-form-values.interface';
 import {DestroyService} from '../../../../shared/destroy/destroy.service';
+import {IFilterFormValues} from '../filter-form-values.interface';
 
 @Component({
     selector: 'app-filter',
@@ -24,7 +24,7 @@ import {DestroyService} from '../../../../shared/destroy/destroy.service';
 })
 export class FilterComponent implements OnChanges, OnInit {
     @Input() brands: string[] | null = null;
-
+    @Input() filter: IProductsFilter | null = null;
     @Output() changeFilter = new EventEmitter<IProductsFilter>();
 
     readonly filterForm = this.formBuilder.group({
@@ -41,14 +41,33 @@ export class FilterComponent implements OnChanges, OnInit {
         private readonly destroy$: DestroyService,
     ) {}
 
-    ngOnChanges({brands}: SimpleChanges) {
+    ngOnChanges({brands, filter}: SimpleChanges) {
         if (brands) {
             this.updateBrandsControl();
+        }
+
+        if (filter) {
+            this.updateFilterForm();
         }
     }
 
     ngOnInit(): void {
         this.listenFilterFormChange();
+    }
+
+    updateFilterForm() {
+        this.updateBrandsControl();
+
+        const name = this.filter?.name ?? '';
+        const priceRange = {
+            min: Number(this.filter?.priceRange?.min) || 0,
+            max: Number(this.filter?.priceRange?.max) || 999999,
+        };
+
+        this.filterForm.patchValue({
+            name,
+            priceRange,
+        });
     }
 
     listenFilterFormChange() {
@@ -78,8 +97,12 @@ export class FilterComponent implements OnChanges, OnInit {
     }
 
     private updateBrandsControl() {
+        const brandsFilter = this.filter?.brands ?? [];
+
         const brandsControls: Array<FormControl<boolean>> = this.brands
-            ? this.brands.map(() => new FormControl(false) as FormControl<boolean>)
+            ? this.brands.map(
+                  brand => new FormControl(brandsFilter.includes(brand)) as FormControl<boolean>,
+              )
             : [];
 
         const brandsForm = new FormArray<FormControl<boolean>>(brandsControls);
