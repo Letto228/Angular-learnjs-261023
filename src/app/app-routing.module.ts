@@ -17,8 +17,25 @@ const routes: Routes = [
     },
     {
         path: 'products-list', // ['products-list']
+        children: [
+            {
+                path: '',
+                component: ProductsListComponent,
+            },
+            {
+                path: ':id',
+                component: ProductsListComponent,
+            },
+        ],
+    },
+    {
+        path: 'products-list/:id', // ['products-list']
         component: ProductsListComponent,
     },
+    // {
+    //     path: 'productCategory/:id',
+    //     component: ProductsListComponent,
+    // },
     {
         path: 'product/:id', // ['product', 'id']
         component: ProductComponent,
