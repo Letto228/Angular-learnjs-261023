@@ -4,88 +4,49 @@ import {
     EventEmitter,
     Input,
     OnChanges,
+    OnInit,
     Output,
     SimpleChanges,
 } from '@angular/core';
 import {FormArray, FormBuilder, FormControl} from '@angular/forms';
+import {takeUntil} from 'rxjs';
 import {IProductsFilter} from '../products-filter.interface';
-
-// function isStringValidator(control: AbstractControl): ValidationErrors | null {
-//     const {value} = control;
-
-//     return Number(value) ? {isString: `Is not sting value - ${value}`} : null;
-// }
+import {IProductsQueryParams} from '../products-filter-query-params.interface';
+import {DestroyService} from '../../../../shared/destroy/destroy.service';
+import {ProductsFilterConstants} from '../products-filter-constants';
 
 @Component({
     selector: 'app-filter',
     templateUrl: './filter.component.html',
     styleUrls: ['./filter.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DestroyService],
 })
-export class FilterComponent implements OnChanges {
+export class FilterComponent implements OnChanges, OnInit {
     @Input() brands: string[] | null = null;
+    @Input() queryParams: IProductsQueryParams | undefined = undefined;
 
     @Output() changeFilter = new EventEmitter<IProductsFilter>();
 
-    // control = new FormControl('', {
-    //     validators: [Validators.required, Validators.minLength(3)],
-    //     asyncValidators: [this.isStringAsyncValidator.bind(this)],
-    // });
-
-    // private isStringAsyncValidator(control: AbstractControl): Observable<ValidationErrors | null> {
-    //     console.log('isStringAsyncValidator');
-
-    //     return timer(3 * 1000).pipe(map(() => isStringValidator(control)));
-    // }
-
-    // errors$ = this.control.statusChanges.pipe(
-    //     map(() => this.control.errors),
-    //     startWith(this.control.errors),
-    //     // map(status => status === 'INVALID' ? this.control.errors : null),
-    // );
-
-    // constructor() {
-    //     this.control.valueChanges.pipe(startWith(this.control.value)).subscribe(console.log);
-    //     this.control.statusChanges.pipe(startWith(this.control.status)).subscribe(console.log);
-    // }
-
-    // readonly filterForm = new FormGroup({
-    //     name: new FormControl(''),
-    //     brands: new FormArray<FormControl<boolean>>([]),
-    //     priceRange: new FormGroup({
-    //         min: new FormControl(0),
-    //         max: new FormControl(999999),
-    //     }),
-    // });
+    private brandsFromQueryParams: IProductsQueryParams['brands'] = [];
 
     readonly filterForm = this.formBuilder.group({
-        // name: new FormControl(''),
         name: '',
-        // name: new FormControl('', {validators: [...]}),
-        // name: ['', {validators: [...]}],
         brands: this.formBuilder.array<FormControl<boolean>>([]),
         priceRange: this.formBuilder.group({
-            min: 0,
-            max: 999999,
+            min: ProductsFilterConstants.min,
+            max: ProductsFilterConstants.max,
         }),
     });
 
-    // fileControl = new FormControl();
+    constructor(
+        private readonly formBuilder: FormBuilder,
+        private readonly destroy$: DestroyService,
+    ) {}
 
-    constructor(private readonly formBuilder: FormBuilder) {
-        //     console.log(this.filterForm.get('name'));
-        //     console.log(this.filterForm.get('priceRange')?.get('min'));
-        //     this.filterForm.get('name')?.valueChanges.subscribe(console.log);
-        this.filterForm.valueChanges.subscribe(({brands: brandsControlsValue, ...other}) => {
-            const sanitizedBrands = this.brands?.filter((_, index) => brandsControlsValue?.[index]);
-
-            // eslint-disable-next-line no-console
-            console.log({
-                ...other,
-                brands: sanitizedBrands,
-            });
-        });
-        //     this.fileControl.valueChanges.subscribe(console.log);
+    ngOnInit(): void {
+        this.listenFormValueChanges();
+        this.updateFilter();
     }
 
     ngOnChanges({brands}: SimpleChanges) {
@@ -94,13 +55,53 @@ export class FilterComponent implements OnChanges {
         }
     }
 
+    private listenFormValueChanges() {
+        this.filterForm.valueChanges
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(({brands: brandsControlsValue, ...other}) => {
+                const sanitizedBrands = this.brands?.filter(
+                    (_, index) => brandsControlsValue?.[index],
+                );
+
+                this.changeFilter.emit({
+                    name: other.name,
+                    brands: sanitizedBrands,
+                    priceRange: {
+                        min: other.priceRange?.min,
+                        max: other.priceRange?.max,
+                    },
+                });
+            });
+    }
+
     private updateBrandsControl() {
         const brandsControls: Array<FormControl<boolean>> = this.brands
-            ? this.brands.map(() => new FormControl(false) as FormControl<boolean>)
+            ? this.brands.map(
+                  brand =>
+                      new FormControl(
+                          this.brandsFromQueryParams
+                              ? this.brandsFromQueryParams.includes(brand)
+                              : false,
+                      ) as FormControl<boolean>,
+              )
             : [];
 
         const brandsForm = new FormArray<FormControl<boolean>>(brandsControls);
 
         this.filterForm.setControl('brands', brandsForm);
+    }
+
+    private updateFilter() {
+        this.filterForm.controls.name?.setValue(this.queryParams?.name || '');
+
+        this.brandsFromQueryParams =
+            this.queryParams && this.queryParams.brands ? [...this.queryParams.brands] : [];
+
+        this.filterForm.controls.priceRange?.controls.min.setValue(
+            this.queryParams?.priceMin || ProductsFilterConstants.min,
+        );
+        this.filterForm.controls.priceRange?.controls.max.setValue(
+            this.queryParams?.priceMax || ProductsFilterConstants.max,
+        );
     }
 }

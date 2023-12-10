@@ -2,7 +2,7 @@
     <mat-form-field appearance="fill">
         <mat-label>Search</mat-label>
         <!-- <input matInput [formControl]="control" /> -->
-        <input matInput formControlName="name" />
+        <input matInput formControlName="name" value="filter?.name || ''" />
     </mat-form-field>
     <!-- <input type="file" [formControl]="fileControl"/> -->
 

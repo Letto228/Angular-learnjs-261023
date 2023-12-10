@@ -1,8 +1,8 @@
 export interface IProductsFilter {
-    name: string;
-    brands: string[];
+    name: string | null | undefined;
+    brands: string[] | undefined;
     priceRange: {
-        min: number;
-        max: number;
+        min: number | null | undefined;
+        max: number | null | undefined;
     };
 }
