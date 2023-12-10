@@ -16,7 +16,7 @@ import {DestroyService} from '../../shared/destroy/destroy.service';
     providers: [DestroyService],
 })
 export class ProductsListComponent implements OnInit {
-    productFilter: IProductsQueryParams | undefined;
+    productsQueryParams: IProductsQueryParams | undefined;
 
     readonly products$ = this.activatedRoute.paramMap.pipe(
         map(paramMap => paramMap.get('subCategoryId')),
@@ -43,7 +43,7 @@ export class ProductsListComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.subscribeOnQueryParamMap();
+        this.listenQueryParamMap();
     }
 
     trackById(_index: number, {_id}: IProduct) {
@@ -51,22 +51,24 @@ export class ProductsListComponent implements OnInit {
     }
 
     onChangeFilter(filter: IProductsFilter) {
-        // eslint-disable-next-line no-console
-        // console.log(filter);
-        this.productFilter = {
+        this.reloadAfterChangeQueryParams(filter);
+    }
+
+    private reloadAfterChangeQueryParams(filter: IProductsFilter) {
+        this.productsQueryParams = {
             name: filter.name,
             brands: filter.brands,
             priceMin: filter.priceRange.min,
             priceMax: filter.priceRange.max,
         };
         this.router.navigate(['products-list'], {
-            queryParams: this.productFilter,
+            queryParams: this.productsQueryParams,
         });
     }
 
-    private subscribeOnQueryParamMap() {
+    private listenQueryParamMap() {
         this.activatedRoute.queryParamMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
-            this.productFilter = {
+            this.productsQueryParams = {
                 name: params.get('name') || '',
                 brands: params.getAll('brands'),
                 priceMin: Number(params.get('priceMin')),

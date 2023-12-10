@@ -13,6 +13,7 @@ import {takeUntil} from 'rxjs';
 import {IProductsFilter} from '../products-filter.interface';
 import {IProductsQueryParams} from '../products-filter-query-params.interface';
 import {DestroyService} from '../../../../shared/destroy/destroy.service';
+import {ProductsFilterConstants} from '../products-filter-constants';
 
 @Component({
     selector: 'app-filter',
@@ -27,14 +28,14 @@ export class FilterComponent implements OnChanges, OnInit {
 
     @Output() changeFilter = new EventEmitter<IProductsFilter>();
 
-    private brandsFromQuerySelect: IProductsQueryParams['brands'] = [];
+    private brandsFromQueryParams: IProductsQueryParams['brands'] = [];
 
     readonly filterForm = this.formBuilder.group({
         name: '',
         brands: this.formBuilder.array<FormControl<boolean>>([]),
         priceRange: this.formBuilder.group({
-            min: 0,
-            max: 9999,
+            min: ProductsFilterConstants.min,
+            max: ProductsFilterConstants.max,
         }),
     });
 
@@ -44,7 +45,7 @@ export class FilterComponent implements OnChanges, OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.subscribeOnFormValueChanges();
+        this.listenFormValueChanges();
         this.updateFilter();
     }
 
@@ -54,7 +55,7 @@ export class FilterComponent implements OnChanges, OnInit {
         }
     }
 
-    private subscribeOnFormValueChanges() {
+    private listenFormValueChanges() {
         this.filterForm.valueChanges
             .pipe(takeUntil(this.destroy$))
             .subscribe(({brands: brandsControlsValue, ...other}) => {
@@ -78,8 +79,8 @@ export class FilterComponent implements OnChanges, OnInit {
             ? this.brands.map(
                   brand =>
                       new FormControl(
-                          this.brandsFromQuerySelect
-                              ? this.brandsFromQuerySelect.includes(brand)
+                          this.brandsFromQueryParams
+                              ? this.brandsFromQueryParams.includes(brand)
                               : false,
                       ) as FormControl<boolean>,
               )
@@ -93,12 +94,14 @@ export class FilterComponent implements OnChanges, OnInit {
     private updateFilter() {
         this.filterForm.controls.name?.setValue(this.queryParams?.name || '');
 
-        this.brandsFromQuerySelect =
+        this.brandsFromQueryParams =
             this.queryParams && this.queryParams.brands ? [...this.queryParams.brands] : [];
 
-        this.filterForm.controls.priceRange?.controls.min.setValue(this.queryParams?.priceMin || 0);
+        this.filterForm.controls.priceRange?.controls.min.setValue(
+            this.queryParams?.priceMin || ProductsFilterConstants.min,
+        );
         this.filterForm.controls.priceRange?.controls.max.setValue(
-            this.queryParams?.priceMax || 9999,
+            this.queryParams?.priceMax || ProductsFilterConstants.max,
         );
     }
 }
