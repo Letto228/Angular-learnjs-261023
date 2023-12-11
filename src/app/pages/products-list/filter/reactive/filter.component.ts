@@ -4,11 +4,15 @@ import {
     EventEmitter,
     Input,
     OnChanges,
+    OnInit,
     Output,
     SimpleChanges,
 } from '@angular/core';
 import {FormArray, FormBuilder, FormControl} from '@angular/forms';
+import {Observable, debounceTime, map, takeUntil} from 'rxjs';
 import {IProductsFilter} from '../products-filter.interface';
+import {DestroyService} from '../../../../shared/destroy/destroy.service';
+import {IProductsFilterForm} from '../products-filter-form.interface';
 
 // function isStringValidator(control: AbstractControl): ValidationErrors | null {
 //     const {value} = control;
@@ -21,48 +25,18 @@ import {IProductsFilter} from '../products-filter.interface';
     templateUrl: './filter.component.html',
     styleUrls: ['./filter.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DestroyService],
 })
-export class FilterComponent implements OnChanges {
+export class FilterComponent implements OnChanges, OnInit {
     @Input() brands: string[] | null = null;
+    @Input() initialFilter!: IProductsFilter;
 
     @Output() changeFilter = new EventEmitter<IProductsFilter>();
-
-    // control = new FormControl('', {
-    //     validators: [Validators.required, Validators.minLength(3)],
-    //     asyncValidators: [this.isStringAsyncValidator.bind(this)],
-    // });
-
-    // private isStringAsyncValidator(control: AbstractControl): Observable<ValidationErrors | null> {
-    //     console.log('isStringAsyncValidator');
-
-    //     return timer(3 * 1000).pipe(map(() => isStringValidator(control)));
-    // }
-
-    // errors$ = this.control.statusChanges.pipe(
-    //     map(() => this.control.errors),
-    //     startWith(this.control.errors),
-    //     // map(status => status === 'INVALID' ? this.control.errors : null),
-    // );
-
-    // constructor() {
-    //     this.control.valueChanges.pipe(startWith(this.control.value)).subscribe(console.log);
-    //     this.control.statusChanges.pipe(startWith(this.control.status)).subscribe(console.log);
-    // }
-
-    // readonly filterForm = new FormGroup({
-    //     name: new FormControl(''),
-    //     brands: new FormArray<FormControl<boolean>>([]),
-    //     priceRange: new FormGroup({
-    //         min: new FormControl(0),
-    //         max: new FormControl(999999),
-    //     }),
-    // });
+    // Output by stream
+    // @Output() readonly changeFilter: Observable<IProductsFilter>;
 
     readonly filterForm = this.formBuilder.group({
-        // name: new FormControl(''),
         name: '',
-        // name: new FormControl('', {validators: [...]}),
-        // name: ['', {validators: [...]}],
         brands: this.formBuilder.array<FormControl<boolean>>([]),
         priceRange: this.formBuilder.group({
             min: 0,
@@ -70,22 +44,17 @@ export class FilterComponent implements OnChanges {
         }),
     });
 
-    // fileControl = new FormControl();
+    constructor(
+        private readonly formBuilder: FormBuilder,
+        private readonly destroy$: DestroyService,
+    ) {
+        // Необходимо делать это в конструкторе, т.к. при создании потока нужна уже созданная форма (filterForm)
+        // this.changeFilter = this.getFilterStream$();
+    }
 
-    constructor(private readonly formBuilder: FormBuilder) {
-        //     console.log(this.filterForm.get('name'));
-        //     console.log(this.filterForm.get('priceRange')?.get('min'));
-        //     this.filterForm.get('name')?.valueChanges.subscribe(console.log);
-        this.filterForm.valueChanges.subscribe(({brands: brandsControlsValue, ...other}) => {
-            const sanitizedBrands = this.brands?.filter((_, index) => brandsControlsValue?.[index]);
-
-            // eslint-disable-next-line no-console
-            console.log({
-                ...other,
-                brands: sanitizedBrands,
-            });
-        });
-        //     this.fileControl.valueChanges.subscribe(console.log);
+    ngOnInit() {
+        this.listenFormChange();
+        this.updateInitialFormValue();
     }
 
     ngOnChanges({brands}: SimpleChanges) {
@@ -94,13 +63,58 @@ export class FilterComponent implements OnChanges {
         }
     }
 
+    private updateInitialFormValue() {
+        const {name, priceRange} = this.initialFilter;
+
+        this.filterForm.patchValue({name, priceRange});
+    }
+
     private updateBrandsControl() {
+        const savedBrands = this.initialFilter.brands;
+
         const brandsControls: Array<FormControl<boolean>> = this.brands
-            ? this.brands.map(() => new FormControl(false) as FormControl<boolean>)
+            ? this.brands.map(
+                  brand => new FormControl(savedBrands.includes(brand)) as FormControl<boolean>,
+              )
             : [];
 
         const brandsForm = new FormArray<FormControl<boolean>>(brandsControls);
 
         this.filterForm.setControl('brands', brandsForm);
     }
+
+    private listenFormChange() {
+        const changeFormValue$ = this.filterForm.valueChanges as Observable<IProductsFilterForm>;
+
+        changeFormValue$
+            .pipe(
+                debounceTime(300),
+                map(formValue => ({
+                    ...formValue,
+                    brands: this.getSelectedBrands(formValue.brands),
+                })),
+                takeUntil(this.destroy$),
+            )
+            .subscribe(filter => {
+                this.changeFilter.emit(filter);
+            });
+    }
+
+    private getSelectedBrands(brandSelection: boolean[]): IProductsFilter['brands'] {
+        return this.brands ? this.brands.filter((_brand, index) => brandSelection[index]) : [];
+    }
+
+    // Output by stream
+    // private getFilterStream$(): Observable<IProductsFilter> {
+    //     return this.filterForm.valueChanges.pipe(
+    //         map(
+    //             ({brands, name, ...otherValues}) =>
+    //                 ({
+    //                     ...otherValues,
+    //                     name,
+    //                     brands: this.getBrandsListFromArray(brands as boolean[]),
+    //                 } as IProductsFilter),
+    //         ),
+    //     );
+    // }
 }
