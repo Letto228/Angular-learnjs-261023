@@ -82,6 +82,17 @@ module.exports = {
     },
     overrides: [
         {
+            files: ['*.js'],
+            rules: {
+                'prettier/prettier': [
+                    'error',
+                    {
+                        endOfLine: 'auto',
+                    },
+                ],
+            },
+        },
+        {
             files: ['*.ts'],
             parser: '@typescript-eslint/parser',
             parserOptions: {
@@ -111,6 +122,12 @@ module.exports = {
                 },
             },
             rules: {
+                'prettier/prettier': [
+                    'error',
+                    {
+                        endOfLine: 'auto',
+                    },
+                ],
                 'import/no-commonjs': 'off',
                 'import/unambiguous': 'off',
                 'import/no-deprecated': 'warn',
