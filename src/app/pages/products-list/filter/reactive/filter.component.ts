@@ -8,7 +8,10 @@ import {
     SimpleChanges,
 } from '@angular/core';
 import {FormArray, FormBuilder, FormControl} from '@angular/forms';
+import {debounceTime, map, takeUntil} from 'rxjs';
+import {DestroyService} from 'src/app/shared/destroy/destroy.service';
 import {IProductsFilter} from '../products-filter.interface';
+import {IProductsFilterForm} from '../products-filter-form.interface';
 
 // function isStringValidator(control: AbstractControl): ValidationErrors | null {
 //     const {value} = control;
@@ -21,9 +24,11 @@ import {IProductsFilter} from '../products-filter.interface';
     templateUrl: './filter.component.html',
     styleUrls: ['./filter.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DestroyService],
 })
 export class FilterComponent implements OnChanges {
     @Input() brands: string[] | null = null;
+    @Input() filter!: IProductsFilter;
 
     @Output() changeFilter = new EventEmitter<IProductsFilter>();
 
@@ -72,11 +77,14 @@ export class FilterComponent implements OnChanges {
 
     // fileControl = new FormControl();
 
-    constructor(private readonly formBuilder: FormBuilder) {
+    constructor(
+        private readonly formBuilder: FormBuilder,
+        private readonly destroyService$: DestroyService,
+    ) {
         //     console.log(this.filterForm.get('name'));
         //     console.log(this.filterForm.get('priceRange')?.get('min'));
         //     this.filterForm.get('name')?.valueChanges.subscribe(console.log);
-        this.filterForm.valueChanges.subscribe(({brands: brandsControlsValue, ...other}) => {
+        /*       this.filterForm.valueChanges.subscribe(({brands: brandsControlsValue, ...other}) => {
             const sanitizedBrands = this.brands?.filter((_, index) => brandsControlsValue?.[index]);
 
             // eslint-disable-next-line no-console
@@ -84,19 +92,65 @@ export class FilterComponent implements OnChanges {
                 ...other,
                 brands: sanitizedBrands,
             });
-        });
+            this.changeFilter.emit({
+                ...other,
+                brands: sanitizedBrands,
+            });
+        }); */
         //     this.fileControl.valueChanges.subscribe(console.log);
     }
 
     ngOnChanges({brands}: SimpleChanges) {
         if (brands) {
-            this.updateBrandsControl();
+            this.updateFormValues(this.filter);
+            this.filterForm.valueChanges
+                .pipe(
+                    debounceTime(500),
+                    map(values => this.parseFormValues(values as IProductsFilterForm)),
+                    takeUntil(this.destroyService$),
+                )
+                .subscribe(filter => {
+                    this.changeFilter.emit(filter);
+                });
         }
     }
 
-    private updateBrandsControl() {
+    private updateFormValues(filter: IProductsFilter) {
+        this.filterForm.get('name')?.setValue(filter.name || null);
+
+        this.updateBrandsControls();
+    }
+
+    private parseFormValues(values: IProductsFilterForm): IProductsFilter {
+        const filter: IProductsFilter = {};
+
+        if (values.name) {
+            filter.name = values.name;
+        }
+
+        const brands: string[] = [];
+
+        this.filterForm.controls.brands.controls.forEach((formControl, index) => {
+            if (formControl.value && this.brands && this.brands[index]) {
+                brands.push(this.brands[index]);
+            }
+        });
+
+        if (brands.length > 0) {
+            filter.brands = brands;
+        }
+
+        return filter;
+    }
+
+    private updateBrandsControls() {
         const brandsControls: Array<FormControl<boolean>> = this.brands
-            ? this.brands.map(() => new FormControl(false) as FormControl<boolean>)
+            ? this.brands.map(
+                  brandName =>
+                      new FormControl(
+                          this.filter.brands?.includes(brandName),
+                      ) as FormControl<boolean>,
+              )
             : [];
 
         const brandsForm = new FormArray<FormControl<boolean>>(brandsControls);
