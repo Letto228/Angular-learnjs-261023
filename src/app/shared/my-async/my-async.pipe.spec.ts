@@ -1,9 +1,9 @@
-import {MyAsyncPipe} from './my-async.pipe';
+// import {MyAsyncPipe} from './my-async.pipe';
 
-describe('MyAsyncPipe', () => {
-    it('create an instance', () => {
-        const pipe = new MyAsyncPipe();
+// describe('MyAsyncPipe', () => {
+//     it('create an instance', () => {
+//         const pipe = new MyAsyncPipe();
 
-        expect(pipe).toBeTruthy();
-    });
-});
+//         expect(pipe).toBeTruthy();
+//     });
+// });

@@ -1,7 +1,9 @@
 import {BehaviorSubject, Observable, Subscription, filter} from 'rxjs';
 import {Injectable} from '@angular/core';
+import {Store} from '@ngrx/store';
 import {IProduct} from './product.interface';
 import {ProductsApiService} from './products-api.service';
+import {IState} from '../../store/reducer';
 
 @Injectable({
     providedIn: 'root',
@@ -13,7 +15,10 @@ export class ProductsStoreService {
     private activeLoadProductsSubscription: Subscription | null = null;
     private activeLoadProductSubscription: Subscription | null = null;
 
-    constructor(private readonly productsApiService: ProductsApiService) {}
+    constructor(
+        private readonly productsApiService: ProductsApiService,
+        private readonly store$: Store<IState>,
+    ) {}
 
     get products$(): Observable<IProduct[] | null> {
         return this.productsStore$.asObservable();
@@ -34,6 +39,8 @@ export class ProductsStoreService {
             .getProducts$(subcategoryId)
             .subscribe(products => {
                 this.productsStore$.next(products);
+
+                // this.store$.dispatch(addProducts(products));
 
                 this.activeLoadProductsSubscription = null;
             });
