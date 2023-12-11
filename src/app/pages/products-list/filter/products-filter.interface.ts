@@ -1,7 +1,7 @@
 export interface IProductsFilter {
-    name: string;
-    brands: string[];
-    priceRange: {
+    name?: string;
+    brands?: string[];
+    priceRange?: {
         min: number;
         max: number;
     };
