@@ -3,12 +3,13 @@ import {
     Component,
     EventEmitter,
     Input,
-    OnChanges,
+    OnChanges, OnInit,
     Output,
     SimpleChanges,
 } from '@angular/core';
 import {FormArray, FormBuilder, FormControl} from '@angular/forms';
 import {IProductsFilter} from '../products-filter.interface';
+import {ActivatedRoute, Params, Router} from "@angular/router";
 
 // function isStringValidator(control: AbstractControl): ValidationErrors | null {
 //     const {value} = control;
@@ -22,8 +23,9 @@ import {IProductsFilter} from '../products-filter.interface';
     styleUrls: ['./filter.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FilterComponent implements OnChanges {
+export class FilterComponent implements OnChanges, OnInit {
     @Input() brands: string[] | null = null;
+    name:string  = ""
 
     @Output() changeFilter = new EventEmitter<IProductsFilter>();
 
@@ -72,20 +74,29 @@ export class FilterComponent implements OnChanges {
 
     // fileControl = new FormControl();
 
-    constructor(private readonly formBuilder: FormBuilder) {
+    constructor(private readonly formBuilder: FormBuilder,
+                private readonly router:ActivatedRoute,
+                private readonly route: Router) {
         //     console.log(this.filterForm.get('name'));
         //     console.log(this.filterForm.get('priceRange')?.get('min'));
         //     this.filterForm.get('name')?.valueChanges.subscribe(console.log);
-        this.filterForm.valueChanges.subscribe(({brands: brandsControlsValue, ...other}) => {
+        const self = this;
+        this.filterForm.valueChanges.subscribe((queryParams:Params) => {
+            const {brands: brandsControlsValue, name, ...other} = queryParams
             const sanitizedBrands = this.brands?.filter((_, index) => brandsControlsValue?.[index]);
+            this.name = name || "";
 
-            // eslint-disable-next-line no-console
-            console.log({
-                ...other,
-                brands: sanitizedBrands,
-            });
+            route.navigate([], {queryParams: name ? {name} : {}})
         });
-        //     this.fileControl.valueChanges.subscribe(console.log);
+    }
+
+    ngOnInit() {
+        const { queryParams } = this.router.snapshot;
+        const { name }= queryParams;
+        if(name){
+            const nameControl =  this.filterForm?.get('name') || null;
+            nameControl?.setValue(name);
+        }
     }
 
     ngOnChanges({brands}: SimpleChanges) {

@@ -6,6 +6,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {ReactiveFormsModule} from '@angular/forms';
 import {FilterComponent} from './filter.component';
 import {CounterInputModule} from '../../../../shared/counter-input/counter-input.module';
+import {RouterModule} from "@angular/router";
 
 @NgModule({
     declarations: [FilterComponent],
@@ -16,6 +17,7 @@ import {CounterInputModule} from '../../../../shared/counter-input/counter-input
         MatProgressSpinnerModule,
         CounterInputModule,
         ReactiveFormsModule,
+        RouterModule,
     ],
     exports: [FilterComponent],
 })
