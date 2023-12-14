@@ -1,50 +1,52 @@
-<app-filter
-    *ngIf="productsFilter"
-    [brands]="brands$ | async"
-    [filter]="productsFilter"
-    (changeFilter)="updateProductsFilter($event)"
-></app-filter>
-<div *ngIf="products$ | async as products; else loaderTemplate" class="scroll-container">
-    <ng-container
-        *appPagination="
-            let productsGroup of products | filterByProperty : 'name' : productsFilter?.name || '';
-            chankSize: 4;
-            let pageIndexes = pageIndexes;
-            let activeIndex = index;
-            let next = next;
-            let back = back;
-            let selectIndex = selectIndex
-        "
-    >
-        <div class="cards">
-            <app-card
-                *ngFor="let product of productsGroup; trackBy: trackById"
-                class="card"
-                [product]="product"
-                [routerLink]="['/product', product._id]"
-            ></app-card>
-        </div>
-        <div class="pagination">
-            <button mat-icon-button (click)="back()">
-                <mat-icon>chevron_left</mat-icon>
-            </button>
-            <div class="pagination__page-number-container">
-                <button
-                    *ngFor="let index of pageIndexes"
-                    mat-icon-button
-                    class="pagination__page-number"
-                    [class.pagination__page-number_active]="activeIndex === index"
-                    (click)="selectIndex(index)"
-                >
-                    {{ index + 1 }}
+<ng-container *ngIf="productsFilter$ | async as productsFilter">
+    <app-filter
+        [brands]="brands$ | async"
+        [filter]="productsFilter"
+        (changeFilter)="updateFilter($event)"
+    ></app-filter>
+    <div *ngIf="products$ | async as products; else loaderTemplate" class="scroll-container">
+        <ng-container
+            *appPagination="
+                let productsGroup of products
+                    | filterByProperty : 'name' : productsFilter.name || '';
+                chankSize: 4;
+                let pageIndexes = pageIndexes;
+                let activeIndex = index;
+                let next = next;
+                let back = back;
+                let selectIndex = selectIndex
+            "
+        >
+            <div class="cards">
+                <app-card
+                    *ngFor="let product of productsGroup; trackBy: trackById"
+                    class="card"
+                    [product]="product"
+                    [routerLink]="['/product', product._id]"
+                ></app-card>
+            </div>
+            <div class="pagination">
+                <button mat-icon-button (click)="back()">
+                    <mat-icon>chevron_left</mat-icon>
+                </button>
+                <div class="pagination__page-number-container">
+                    <button
+                        *ngFor="let index of pageIndexes"
+                        mat-icon-button
+                        class="pagination__page-number"
+                        [class.pagination__page-number_active]="activeIndex === index"
+                        (click)="selectIndex(index)"
+                    >
+                        {{ index + 1 }}
+                    </button>
+                </div>
+                <button mat-icon-button (click)="next()">
+                    <mat-icon>chevron_right</mat-icon>
                 </button>
             </div>
-            <button mat-icon-button (click)="next()">
-                <mat-icon>chevron_right</mat-icon>
-            </button>
-        </div>
-    </ng-container>
-</div>
+        </ng-container>
+    </div>
+</ng-container>
 
 <ng-template #loaderTemplate>
     <mat-spinner class="loader"></mat-spinner>

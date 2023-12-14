@@ -9,11 +9,11 @@ import {
     SimpleChanges,
 } from '@angular/core';
 import {FormArray, FormBuilder, FormControl} from '@angular/forms';
-import {debounceTime, distinctUntilChanged, map, takeUntil} from 'rxjs';
-import {isEqual} from 'lodash';
+import {debounceTime, map, takeUntil} from 'rxjs';
 import {IProductsFilter} from '../products-filter.interface';
 import {DestroyService} from '../../../../shared/destroy/destroy.service';
 import {IFilterFormValues} from '../filter-form-values.interface';
+import {DEFAULT_PRODUCTS_FILTER} from '../../default-products-filter.const';
 
 @Component({
     selector: 'app-filter',
@@ -28,11 +28,11 @@ export class FilterComponent implements OnChanges, OnInit {
     @Output() changeFilter = new EventEmitter<IProductsFilter>();
 
     readonly filterForm = this.formBuilder.group({
-        name: '',
+        name: DEFAULT_PRODUCTS_FILTER.name,
         brands: this.formBuilder.array<FormControl<boolean>>([]),
         priceRange: this.formBuilder.group({
-            min: 0,
-            max: 999999,
+            min: DEFAULT_PRODUCTS_FILTER.priceRange.min,
+            max: DEFAULT_PRODUCTS_FILTER.priceRange.max,
         }),
     });
 
@@ -42,7 +42,7 @@ export class FilterComponent implements OnChanges, OnInit {
     ) {}
 
     ngOnChanges({brands, filter}: SimpleChanges) {
-        if (brands) {
+        if (brands || filter) {
             this.updateBrandsControl();
         }
 
@@ -55,13 +55,13 @@ export class FilterComponent implements OnChanges, OnInit {
         this.listenFilterFormChange();
     }
 
-    updateFilterForm() {
-        this.updateBrandsControl();
+    private updateFilterForm() {
+        // console.log('updateFilterForm', this.filter);
 
-        const name = this.filter?.name ?? '';
+        const name = this.filter?.name ?? DEFAULT_PRODUCTS_FILTER.name;
         const priceRange = {
-            min: Number(this.filter?.priceRange?.min) || 0,
-            max: Number(this.filter?.priceRange?.max) || 999999,
+            min: Number(this.filter?.priceRange?.min) || DEFAULT_PRODUCTS_FILTER.priceRange.min,
+            max: Number(this.filter?.priceRange?.max) || DEFAULT_PRODUCTS_FILTER.priceRange.max,
         };
 
         this.filterForm.patchValue({
@@ -70,14 +70,13 @@ export class FilterComponent implements OnChanges, OnInit {
         });
     }
 
-    listenFilterFormChange() {
+    private listenFilterFormChange() {
         this.filterForm.valueChanges
             .pipe(
                 debounceTime(500),
-                distinctUntilChanged(isEqual),
-                map(filterFormValues => {
-                    return this.processFilterFormValues(filterFormValues);
-                }),
+                map(filterFormValues =>
+                    this.processFilterFormValues(filterFormValues as IFilterFormValues),
+                ),
                 takeUntil(this.destroy$),
             )
             .subscribe(productsFilter => {
@@ -85,19 +84,17 @@ export class FilterComponent implements OnChanges, OnInit {
             });
     }
 
-    private processFilterFormValues(filterFormValues: IFilterFormValues) {
+    private processFilterFormValues(filterFormValues: IFilterFormValues): IProductsFilter {
         const sanitizedBrands = this.brands?.filter((_, index) => filterFormValues.brands?.[index]);
 
-        const productsFilter = {
+        return {
             ...filterFormValues,
             brands: sanitizedBrands,
         } as IProductsFilter;
-
-        return productsFilter;
     }
 
     private updateBrandsControl() {
-        const brandsFilter = this.filter?.brands ?? [];
+        const brandsFilter = this.filter?.brands ?? DEFAULT_PRODUCTS_FILTER.brands;
 
         const brandsControls: Array<FormControl<boolean>> = this.brands
             ? this.brands.map(
