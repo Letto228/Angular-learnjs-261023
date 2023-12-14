@@ -1,4 +1,4 @@
-export interface IProductsFilterForm {
+export interface IFilterFormValues {
     name: string;
     brands: boolean[];
     priceRange: {
